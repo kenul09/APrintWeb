@@ -1,0 +1,81 @@
+/* 1. Global Reset & Performance Optimization */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #080808;
+  color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Partner Logo Box - AVTOMATİK VƏ MÜTLƏQ DAİRƏVİ SİSTEM */
+.partner-logo-box {
+  /* 🚀 Ölçünü bura bir dəfə yazırsan, hər şey buna uyğunlaşır */
+  width: 110px !important;
+  min-width: 110px !important; /* Flex daxilində sıxılmanı qadağan edir */
+  
+  /* 🚀 Sehirli sətir: Kvadrat formanı kilidləyir ki, dairə "oval" olmasın */
+  aspect-ratio: 1 / 1 !important;
+  
+  /* 🚀 TAM DAİRƏVİ FORM */
+  border-radius: 50% !important;
+  
+  /* 🚀 Glassmorphism & Border */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* 🚀 Mərkəzləmə */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* 🚀 ƏN VACİB: Şəklin kənarındakı ağ kvadrat küncləri mütləq gizlədir */
+  overflow: hidden !important;
+  position: relative;
+  
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.partner-logo-box:hover {
+  transform: translateY(-10px) scale(1.05);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 3. Loqo Şəkilləri - KVADRAT FONLARI SİLƏN SEHİRLİ HİSSƏ */
+.partner-logo-box img {
+  /* 🚀 Sehirli Addım: Şəkli dairədən bir az daha böyük edirik ki, 
+     loqonun öz daxili ağ küncləri dairənin hüdudlarından kənara çıxsın */
+  width: 115% !important; 
+  height: 115% !important;
+  
+  /* 🚀 'cover' mərkəzdən doldurur və artıq qalan ağlıqları 'overflow:hidden' kəsir */
+  object-fit: cover !important; 
+  
+  display: block;
+  filter: grayscale(1) opacity(0.65);
+  transition: all 0.4s ease;
+}
+
+.partner-logo-box:hover img {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.1); /* Hover olanda loqo daxildə canlansın */
+}
+
+/* Marquee track daxilindədirsə, formanı qorumaq üçün əlavə zəmanət */
+.marquee-track .partner-logo-box {
+  flex-shrink: 0 !important;
+}

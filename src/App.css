@@ -1,0 +1,102 @@
+/* 1. Global Reset & Performance */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: #080808;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 2. LOGO KONTEYNERİ (TAM DAİRƏ VƏZİYYƏTİ) */
+.marquee-logo-wrap { 
+  /* 🚀 Ölçülər kilidlənməlidir ki, dairə oval olmasın */
+  width: 110px !important; 
+  height: 110px !important; 
+  min-width: 110px !important; 
+  min-height: 110px !important;
+  
+  /* 🚀 TAM DAİRƏ FORMULASI */
+  border-radius: 50% !important; 
+  
+  /* 🚀 Mərkəzləmə */
+  display: flex !important; 
+  align-items: center !important; 
+  justify-content: center !important; 
+  
+  /* 🚀 ƏN VACİB: Şəklin kənarındakı ağ kvadrat küncləri qəti şəkildə kəsir */
+  overflow: hidden !important; 
+  
+  /* Vizual Stil */
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Flex sıxılmasını qadağan edir */
+  flex-shrink: 0;
+}
+
+/* 3. LOQO ŞƏKLİ (AĞ KVADRATLARI SİLƏN SEHİRLİ HİSSƏ) */
+.marquee-logo-wrap img { 
+  /* 🚀 Sehirli Addım: Şəkli dairədən bir az daha böyük edirik ki, 
+     loqonun öz daxili ağ küncləri dairənin hüdudlarından kənara çıxsın */
+  width: 115% !important; 
+  height: 115% !important; 
+  
+  /* 🚀 'cover' mərkəzdən doldurur, 'overflow:hidden' isə çölə çıxan ağlığı gizlədir */
+  object-fit: cover !important; 
+  
+  display: block !important;
+  filter: grayscale(100%) brightness(1.2) opacity(0.7);
+  transition: all 0.4s ease;
+}
+
+/* 4. HOVER EFFEKTİ */
+.marquee-pill:hover .marquee-logo-wrap {
+  transform: translateY(-8px) scale(1.08);
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: #a78bfa !important; /* Sənin bənövşəyi/yaşıl brend rəngin */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.marquee-pill:hover img { 
+  filter: grayscale(0%) brightness(1) opacity(1);
+  /* Hover olanda loqo daxildə bir az da canlansın */
+  transform: scale(1.1);
+}
+
+/* 5. LOQO ADI */
+.marquee-name {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  transition: 0.3s ease;
+}
+
+.marquee-pill:hover .marquee-name {
+  color: #fff;
+}
