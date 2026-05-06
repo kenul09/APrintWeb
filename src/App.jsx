@@ -9,7 +9,7 @@ import Contact from "./pages/contact";
 import Blog from "./pages/blog";
 import Portfolio from "./pages/portfolio";
 import Pricing from "./pages/pricing";
-import AdminLogin from "./admin/AdminLogin";
+import AdminLogin from "./admin/adminLogin";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/pages/Dashboard";
 import AdminProducts from "./admin/pages/AdminProducts";
