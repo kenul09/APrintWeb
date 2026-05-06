@@ -9,11 +9,11 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { to: "/products", label: t("nav.products") },
-    { to: "/portfolio", label: t("nav.portfolio") },
+    { to: "/products", label: t("Məhsullar") },
+    { to: "/portfolio", label: t("portfolio") },
     { to: "/blog", label: "Xidmətlərimiz" },
-    { to: "/about", label: t("nav.about") },
-    { to: "/contact", label: t("nav.contact") },
+    { to: "/about", label: t("haqqımızda") },
+    { to: "/contact", label: t("əlaqə") },
   ];
 
   const isActive = (to) =>
