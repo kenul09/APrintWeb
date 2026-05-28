@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import AuroraBackground from "./components/AuroraBackground";
@@ -31,8 +32,11 @@ function PublicLayout({ children }) {
 }
 
 export default function App() {
+  // ✅ Dil dəyişdikdə bütün App yenidən render olur
+  const { i18n } = useTranslation();
+
   return (
-    <Routes>
+    <Routes key={i18n.language}>
       <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
       <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
       <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
@@ -42,7 +46,6 @@ export default function App() {
       <Route path="/pricing" element={<PublicLayout><Pricing /></PublicLayout>} />
 
       <Route path="/admin/login" element={<AdminLogin />} />
-
       <Route
         path="/admin"
         element={

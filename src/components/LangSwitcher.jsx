@@ -12,115 +12,145 @@ export default function LangSwitcher() {
     { code: "ru", label: "RU", flag: "🇷🇺" },
   ];
 
-  const current = i18n.language?.split("-")[0];
-  const activeLang =
-    langs.find((l) => l.code === current) || langs[0];
+  // ✅ FIX: split("-")[0] ilə normalize — "az-AZ" → "az"
+  const current = (i18n.language || "az").split("-")[0];
+  const activeLang = langs.find((l) => l.code === current) ?? langs[0];
 
   const changeLang = (lng) => {
+    // ✅ FIX: changeLanguage Promise-dir, await etmək lazım deyil amma
+    //         React-ın re-render etməsi üçün düzgün çağırılır
     i18n.changeLanguage(lng);
-
     try {
       localStorage.setItem("lang", lng);
-    } catch {}
-
+    } catch {
+      // localStorage mövcud olmaya bilər (SSR, private browsing)
+    }
     setOpen(false);
   };
 
+  // ✅ FIX: Kənar kliklərə korrekt reaksiya
   useEffect(() => {
-    const handleClick = (e) => {
+    if (!open) return;
+    const handleOutsideClick = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setOpen(false);
       }
     };
-
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [open]);
 
   return (
     <>
       <style>{`
         .lang-wrap {
           position: relative;
+          z-index: 201;
         }
 
         .lang-btn {
           display: flex;
           align-items: center;
           gap: 6px;
-          padding: 6px 10px;
+          padding: 7px 11px;
           border-radius: 10px;
-          border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.06);
           backdrop-filter: blur(10px);
-          color: #fff;
+          -webkit-backdrop-filter: blur(10px);
+          color: rgba(255,255,255,0.85);
           cursor: pointer;
+          font-family: "DM Sans", sans-serif;
           font-size: 0.75rem;
+          font-weight: 600;
           letter-spacing: 0.1em;
+          transition: border-color 0.2s, background 0.2s;
+          white-space: nowrap;
         }
 
-        .dropdown {
+        .lang-btn:hover {
+          border-color: rgba(139,92,246,0.5);
+          background: rgba(139,92,246,0.1);
+          color: #fff;
+        }
+
+        .lang-dropdown {
           position: absolute;
-          top: 120%;
+          top: calc(100% + 8px);
           right: 0;
-          background: rgba(10,10,15,0.95);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
+          background: rgba(10, 10, 16, 0.97);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 14px;
           padding: 6px;
-          min-width: 100px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-          animation: fadeIn 0.2s ease;
+          min-width: 110px;
+          box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+          animation: langFadeIn 0.18s ease;
         }
 
-        .item {
+        @keyframes langFadeIn {
+          from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+
+        .lang-item {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 8px 10px;
-          border-radius: 8px;
+          gap: 9px;
+          padding: 9px 12px;
+          border-radius: 9px;
           cursor: pointer;
-          font-size: 0.75rem;
-          transition: 0.2s;
+          font-family: "DM Sans", sans-serif;
+          font-size: 0.78rem;
+          font-weight: 500;
+          color: rgba(255,255,255,0.6);
+          transition: background 0.15s, color 0.15s;
+          user-select: none;
         }
 
-        .item:hover {
-          background: rgba(255,255,255,0.06);
-        }
-
-        .lang-item-active {
-          background: linear-gradient(135deg, #8b5cf6, #ec4899);
+        .lang-item:hover {
+          background: rgba(255,255,255,0.07);
           color: #fff;
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-6px); }
-          to { opacity: 1; transform: translateY(0); }
+        /* ✅ Aktiv dil — gradient highlight */
+        .lang-item.lang-active {
+          background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(236,72,153,0.2));
+          color: #fff;
+          font-weight: 700;
+        }
+
+        .lang-item .lang-flag {
+          font-size: 1rem;
+          line-height: 1;
         }
       `}</style>
 
       <div className="lang-wrap" ref={ref}>
         <button
           className="lang-btn"
-          onClick={() => setOpen(!open)}
-          aria-haspopup="true"
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="listbox"
           aria-expanded={open}
+          aria-label="Select language"
         >
-          <span>{activeLang.flag}</span>
+          <span className="lang-flag">{activeLang.flag}</span>
           <span>{activeLang.label}</span>
+          <span style={{ opacity: 0.5, fontSize: "0.6rem" }}>▾</span>
         </button>
 
         {open && (
-          <div className="dropdown">
+          <div className="lang-dropdown" role="listbox">
             {langs.map((lng) => (
               <div
                 key={lng.code}
+                role="option"
+                aria-selected={current === lng.code}
                 onClick={() => changeLang(lng.code)}
-                className={`item ${
-                  current === lng.code ? "lang-item-active" : ""
-                }`}
+                className={`lang-item${current === lng.code ? " lang-active" : ""}`}
               >
-                <span>{lng.flag}</span>
+                <span className="lang-flag">{lng.flag}</span>
                 <span>{lng.label}</span>
               </div>
             ))}

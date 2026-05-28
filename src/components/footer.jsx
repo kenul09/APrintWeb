@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-/* ICONS */
 const InstagramIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -22,6 +22,11 @@ const WhatsAppIcon = () => (
 );
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  // ✅ Xidmətlər siyahısı — statik (çap terminləri dəyişmir)
+  const serviceItems = ["Flayer", "Banner", "Roll-up", "Vizit kart", "Stiker"];
+
   return (
     <>
       <style>{`
@@ -29,8 +34,8 @@ export default function Footer() {
           position: relative;
           z-index: 5;
           isolation: isolate;
-          background: linear-gradient(180deg, rgba(8, 8, 12, 0.96), #060608);
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          background: linear-gradient(180deg, rgba(8,8,12,0.96), #060608);
+          border-top: 1px solid rgba(255,255,255,0.06);
           padding: 72px 56px 32px;
           margin-top: auto;
         }
@@ -50,6 +55,7 @@ export default function Footer() {
         }
 
         .footer-brand {
+          font-family: "Bebas Neue", sans-serif;
           font-size: 1.4rem;
           text-decoration: none;
           display: inline-block;
@@ -57,11 +63,13 @@ export default function Footer() {
           background: linear-gradient(135deg, #8b5cf6, #ec4899);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: 0.05em;
         }
 
         .footer-description {
           font-size: 0.85rem;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.5);
           line-height: 1.8;
           margin-bottom: 24px;
         }
@@ -69,22 +77,24 @@ export default function Footer() {
         .footer-col-title {
           font-size: 0.65rem;
           letter-spacing: 0.2em;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.4);
           text-transform: uppercase;
           margin-bottom: 18px;
+          font-weight: 600;
         }
 
         .footer-link,
         .footer-text {
           display: block;
-          font-size: 0.8rem;
-          color: rgba(255,255,255,0.7);
+          font-size: 0.82rem;
+          color: rgba(255,255,255,0.6);
           margin-bottom: 12px;
+          font-weight: 300;
         }
 
         .footer-link {
           text-decoration: none;
-          transition: 0.2s;
+          transition: color 0.2s, transform 0.2s;
         }
 
         .footer-link:hover {
@@ -104,10 +114,11 @@ export default function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid rgba(255,255,255,0.12);
           background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.7);
-          transition: 0.25s;
+          color: rgba(255,255,255,0.6);
+          transition: border-color 0.25s, background 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+          text-decoration: none;
         }
 
         .social-btn:hover {
@@ -115,12 +126,12 @@ export default function Footer() {
           background: rgba(139,92,246,0.15);
           color: #a78bfa;
           transform: translateY(-3px);
-          box-shadow: 0 0 12px rgba(139,92,246,0.4);
+          box-shadow: 0 0 12px rgba(139,92,246,0.35);
         }
 
         .footer-divider {
           height: 1px;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.07);
           margin: 40px 0 20px;
         }
 
@@ -128,25 +139,24 @@ export default function Footer() {
           display: flex;
           justify-content: space-between;
           font-size: 0.75rem;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.35);
         }
 
         @media (max-width: 992px) {
           .footer {
             padding: 56px 24px 24px;
           }
-
           .footer-grid {
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 32px;
           }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
           .footer-grid {
             grid-template-columns: 1fr;
+            gap: 28px;
           }
-
           .footer-bottom {
             flex-direction: column;
             gap: 8px;
@@ -157,17 +167,15 @@ export default function Footer() {
       <footer className="footer" role="contentinfo">
         <div className="footer-container">
           <div className="footer-grid">
-            <div>
-              <Link to="/" className="footer-brand">
-                APRINT
-              </Link>
 
+            {/* Brand column */}
+            <div>
+              <Link to="/" className="footer-brand">APRINT</Link>
               <p className="footer-description">
                 Bakının ən peşəkar çap xidməti.
                 <br />
                 Brendinizi canlandırırıq.
               </p>
-
               <div className="social-list">
                 <a
                   href="https://instagram.com/a_print_poliqrafiya"
@@ -175,67 +183,63 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="social-btn"
                   aria-label="Instagram"
-                  title="Instagram"
                 >
                   <InstagramIcon />
                 </a>
-
                 <a
                   href="https://facebook.com/aprint.az"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-btn"
                   aria-label="Facebook"
-                  title="Facebook"
                 >
                   <FacebookIcon />
                 </a>
-
                 <a
                   href="https://wa.me/994557505533?text=Salam%20m%C9%99n%20sifari%C5%9F%20etm%C9%99k%20ist%C9%99yir%C9%99m"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-btn"
                   aria-label="WhatsApp"
-                  title="WhatsApp"
                 >
                   <WhatsAppIcon />
                 </a>
               </div>
             </div>
 
+            {/* Pages column — ✅ i18n keys */}
             <div>
-              <div className="footer-col-title">Səhifələr</div>
-              <Link to="/" className="footer-link">Ana səhifə</Link>
-              <Link to="/products" className="footer-link">Məhsullar</Link>
-              <Link to="/services" className="footer-link">Xidmətlər</Link>
-              <Link to="/portfolio" className="footer-link">Portfolio</Link>
-              <Link to="/blog" className="footer-link">Blog</Link>
-              <Link to="/about" className="footer-link">Haqqımızda</Link>
+              <div className="footer-col-title">{t("footer.pages")}</div>
+              <Link to="/" className="footer-link">{t("footer.home")}</Link>
+              <Link to="/products" className="footer-link">{t("nav.products")}</Link>
+              <Link to="/blog" className="footer-link">{t("footer.services")}</Link>
+              <Link to="/portfolio" className="footer-link">{t("nav.portfolio")}</Link>
+              <Link to="/about" className="footer-link">{t("nav.about")}</Link>
             </div>
 
+            {/* Services column — statik */}
             <div>
-              <div className="footer-col-title">Xidmətlər</div>
-              <span className="footer-text">Flayer</span>
-              <span className="footer-text">Banner</span>
-              <span className="footer-text">Roll-up</span>
-              <span className="footer-text">Vizit kart</span>
-              <span className="footer-text">Stiker</span>
+              <div className="footer-col-title">{t("footer.services")}</div>
+              {serviceItems.map((item) => (
+                <span key={item} className="footer-text">{item}</span>
+              ))}
             </div>
 
+            {/* Contact column — statik (telefon/email dəyişmir) */}
             <div>
-              <div className="footer-col-title">Əlaqə</div>
+              <div className="footer-col-title">{t("nav.contact")}</div>
               <span className="footer-text">📍 Bakı, Azərbaycan</span>
               <span className="footer-text">📞 +994 55 750 55 33</span>
               <span className="footer-text">📧 info@aprint.az</span>
               <span className="footer-text">🕐 09:00 — 21:00</span>
             </div>
+
           </div>
 
           <div className="footer-divider" />
 
           <div className="footer-bottom">
-            <span>© 2026 Aprint.az Bütün hüquqlar qorunur.</span>
+            <span>© 2026 Aprint.az — {t("footer.rights")}</span>
             <span>Bakı, Azərbaycan</span>
           </div>
         </div>
