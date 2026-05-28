@@ -1,4 +1,9 @@
-/* 1. Global Reset & Performance Optimization */
+/* =========================================================
+   APRINT — Global Styles
+   index.css
+   ========================================================= */
+
+/* 1. Reset & Box Model */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -11,71 +16,144 @@ html, body, #root {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: #080808;
-  color: #ffffff;
-  overflow-x: hidden;
+  background: #060608;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* 2. Partner Logo Box - AVTOMATİK VƏ MÜTLƏQ DAİRƏVİ SİSTEM */
-.partner-logo-box {
-  /* 🚀 Ölçünü bura bir dəfə yazırsan, hər şey buna uyğunlaşır */
-  width: 110px !important;
-  min-width: 110px !important; /* Flex daxilində sıxılmanı qadağan edir */
-  
-  /* 🚀 Sehirli sətir: Kvadrat formanı kilidləyir ki, dairə "oval" olmasın */
-  aspect-ratio: 1 / 1 !important;
-  
-  /* 🚀 TAM DAİRƏVİ FORM */
-  border-radius: 50% !important;
-  
-  /* 🚀 Glassmorphism & Border */
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  
-  /* 🚀 Mərkəzləmə */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  
-  /* 🚀 ƏN VACİB: Şəklin kənarındakı ağ kvadrat küncləri mütləq gizlədir */
-  overflow: hidden !important;
-  position: relative;
-  
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  cursor: pointer;
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* =========================================================
+   2. MARQUEE — Partner Logos
+   ✅ Tək mənbə (duplikat silindi)
+   ========================================================= */
+
+/* Pill container */
+.marquee-pill {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 56px;
+  height: 160px;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.3s;
   flex-shrink: 0;
 }
 
-.partner-logo-box:hover {
-  transform: translateY(-10px) scale(1.05);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+.marquee-pill:hover {
+  background: rgba(255,255,255,0.03);
 }
 
-/* 3. Loqo Şəkilləri - KVADRAT FONLARI SİLƏN SEHİRLİ HİSSƏ */
-.partner-logo-box img {
-  /* 🚀 Sehirli Addım: Şəkli dairədən bir az daha böyük edirik ki, 
-     loqonun öz daxili ağ küncləri dairənin hüdudlarından kənara çıxsın */
-  width: 115% !important; 
-  height: 115% !important;
-  
-  /* 🚀 'cover' mərkəzdən doldurur və artıq qalan ağlıqları 'overflow:hidden' kəsir */
-  object-fit: cover !important; 
-  
+/* ✅ Logo wrapper — TAM DAİRƏVİ, tək qaydalar */
+.marquee-logo-wrap {
+  width: 90px;
+  height: 90px;
+  min-width: 90px;           /* flex sıxılmasını qadağan edir */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;           /* köşe ağlıqlarını kəsir */
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.marquee-logo-wrap img {
+  width: 105%;
+  height: 105%;
+  object-fit: cover;          /* 'contain' ağ kenər buraxa bilər, cover kəsir */
   display: block;
-  filter: grayscale(1) opacity(0.65);
-  transition: all 0.4s ease;
+  filter: grayscale(1) brightness(1.15) opacity(0.7);
+  transition: filter 0.4s ease, transform 0.4s ease;
 }
 
-.partner-logo-box:hover img {
-  filter: grayscale(0) opacity(1);
-  transform: scale(1.1); /* Hover olanda loqo daxildə canlansın */
+/* Fallback hərflər (logo yüklənmədikdə) */
+.marquee-fallback {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
 }
 
-/* Marquee track daxilindədirsə, formanı qorumaq üçün əlavə zəmanət */
-.marquee-track .partner-logo-box {
-  flex-shrink: 0 !important;
+/* Shimmer yükləmə */
+.shimmer-load {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerAnim 1.4s infinite;
+}
+
+@keyframes shimmerAnim {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Hover effekti */
+.marquee-pill:hover .marquee-logo-wrap {
+  transform: translateY(-6px) scale(1.08);
+  border-color: rgba(167,139,250,0.6);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 12px 30px rgba(139,92,246,0.25);
+}
+
+.marquee-pill:hover .marquee-logo-wrap img {
+  filter: grayscale(0) brightness(1) opacity(1);
+  transform: scale(1.08);
+}
+
+/* Partner name */
+.marquee-name {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+.marquee-pill:hover .marquee-name {
+  color: #fff;
+}
+
+/* =========================================================
+   3. Scrollbar (opsional)
+   ========================================================= */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060608;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139,92,246,0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139,92,246,0.7);
 }
