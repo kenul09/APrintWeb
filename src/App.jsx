@@ -11,14 +11,14 @@ import Blog from "./pages/blog";
 import Portfolio from "./pages/portfolio";
 import Pricing from "./pages/pricing";
 import AdminLogin from "./admin/adminLogin";
-import AdminLayout from "./admin/AdminLayout";
-import Dashboard from "./admin/pages/Dashboard";
-import AdminProducts from "./admin/pages/AdminProducts";
-import AdminOrders from "./admin/pages/AdminOrders";
-import AdminCustomers from "./admin/pages/AdminCustomers";
-import AdminBlog from "./admin/pages/AdminBlog";
-import AdminMessages from "./admin/pages/AdminMessages";
-import ProtectedRoute from "./admin/ProtectedRoute";
+import AdminLayout from "./admin/adminLayout";
+import Dashboard from "./admin/pages/dashboard";
+import AdminProducts from "./admin/pages/adminProducts";
+import AdminOrders from "./admin/pages/adminOrders";
+import AdminCustomers from "./admin/pages/adminCustomers";
+import AdminBlog from "./admin/pages/adminBlog";
+import AdminMessages from "./admin/pages/adminMessages";
+import ProtectedRoute from "./admin/protectedRoute";
 
 function PublicLayout({ children }) {
   return (
