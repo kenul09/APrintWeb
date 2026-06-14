@@ -50,7 +50,7 @@ export default function App() {
         path="/admin"
         element={
           <ProtectedRoute>
-            <AdminLayout />
+            <adminLayout />
           </ProtectedRoute>
         }
       >
