@@ -1,0 +1,147 @@
+/* ── Page ── */
+.page {
+  padding: 40px 48px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Header ── */
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+  margin: 0 0 4px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+/* ── Table wrapper ── */
+.tableWrapper {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* ── Table ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.theadRow {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.th {
+  padding: 16px 24px;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.2s;
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.tr:hover {
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.td {
+  padding: 16px 24px;
+}
+
+.tdMuted {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.83rem;
+}
+
+.tdDate {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+}
+
+/* ── Name cell ── */
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customerName {
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: #fff;
+}
+
+/* ── Avatar ── */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.avatarPurple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.avatarPink   { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.avatarBlue   { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.avatarGreen  { background: linear-gradient(135deg, #10b981, #34d399); }
+.avatarAmber  { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+
+/* ── Orders badge ── */
+.ordersBadge {
+  background: rgba(139, 92, 246, 0.12);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 6px;
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ── Total ── */
+.total {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
