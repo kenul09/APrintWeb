@@ -1,0 +1,34 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 40px 48px;
+  color: white;
+  background: linear-gradient(
+    180deg,
+    #0f172a 0%,
+    #111827 50%,
+    #0b1120 100%
+  );
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  background: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #a78bfa,
+    #ec4899
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: rgba(255,255,255,.45);
+}
