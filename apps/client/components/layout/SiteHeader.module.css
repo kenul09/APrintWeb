@@ -39,7 +39,16 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
 }
 
 .link {
@@ -49,11 +58,28 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .link:hover,
 .link:focus-visible {
   color: #ffffff;
+}
+
+.link.active {
+  position: relative;
+}
+.link.active::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -10px;
+  height: 3px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  opacity: 0.95;
+  transform-origin: center;
 }
 
 @media (max-width: 720px) {
@@ -68,6 +94,7 @@
   .nav {
     gap: 0.9rem;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .brand {

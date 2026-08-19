@@ -6,8 +6,10 @@ import { partners } from "@/data/partners";
 import { typeWords } from "@/data/siteContent";
 import { useInView } from "@/hooks/useInView";
 import { useTypewriter } from "@/hooks/useTypewriter";
+import { useI18n } from '@/components/i18n/I18nProvider';
 
 export default function Home() {
+  const { t } = useI18n();
   const typed = useTypewriter(typeWords);
   const [statsRef, statsIn] = useInView();
   const [partnersRef, partnersIn] = useInView();
@@ -102,7 +104,7 @@ export default function Home() {
       <div className="home-wrap">
         <section className="hero-section">
           <h1 className="display-text" style={{ fontSize: "clamp(4rem, 12vw, 10rem)" }}>
-            Brendinizi
+            {t('hero.line1')}
           </h1>
           <h1
             className="display-text"
@@ -113,7 +115,7 @@ export default function Home() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            Canlandırın
+            {t('hero.line2')}
           </h1>
 
           <div style={{ marginTop: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
@@ -122,7 +124,7 @@ export default function Home() {
               <span className="cursor" />
             </div>
             <Link href="/products" className="btn-primary">
-              Məhsullar →
+              {t('hero.button')}
             </Link>
           </div>
         </section>
@@ -132,7 +134,7 @@ export default function Home() {
           className="stat-grid"
           style={{ opacity: statsIn ? 1 : 0, transition: "1s" }}
         >
-          {[ ["2000+", "Müştəri"], ["8+", "Məhsul"], ["24s", "Çatdırılma"], ["5.0★", "Reytinq"] ].map(([v, l]) => (
+          {[["2000+", t('stats.customers')], ["8+", t('stats.products')], ["24s", t('stats.delivery')], ["5.0★", t('stats.rating')]].map(([v, l]) => (
             <div key={l} className="stat-box">
               <div className="stat-val">{v}</div>
               <div style={{ color: "rgba(255,255,255,0.4)" }}>{l}</div>
@@ -147,9 +149,9 @@ export default function Home() {
         >
           <div style={{ padding: "0 56px", marginBottom: "40px" }}>
             <h2 style={{ fontFamily: "Oswald", letterSpacing: "0.2em", textTransform: "uppercase" }}>
-              Partnyorlarımız
+              {t('partners.title')}
             </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)" }}>Bizimlə işləyən brendlər</p>
+            <p style={{ color: "rgba(255,255,255,0.5)" }}>{t('partners.subtitle')}</p>
           </div>
 
           <div className="marquee-shell">

@@ -1,15 +1,26 @@
-import Link from "next/link";
-import styles from "./SiteHeader.module.css";
+"use client";
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/contact", label: "Contact" },
-];
+import Link from "next/link";
+import { useState } from 'react';
+import styles from "./SiteHeader.module.css";
+import { useI18n } from '@/components/i18n/I18nProvider';
+import LanguageSelector from './LanguageSelector';
+import AdminLoginButton from './AdminLoginButton';
+import { getAdminUrl } from '@/lib/adminUrl';
+import { usePathname } from 'next/navigation';
 
 export default function SiteHeader() {
+  const { t, lang, setLang } = useI18n();
+  const adminUrl = getAdminUrl();
+  const pathname = usePathname() || '/';
+  const navItems = [
+    { href: "/", label: t('nav.home') },
+    { href: "/about", label: t('nav.about') },
+    { href: "/products", label: t('nav.products') },
+    { href: "/portfolio", label: t('nav.portfolio') },
+    { href: "/contact", label: t('nav.contact') },
+  ];
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -18,11 +29,19 @@ export default function SiteHeader() {
         </Link>
 
         <nav className={styles.nav} aria-label="Main navigation">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={styles.link}>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+            return (
+              <Link key={item.href} href={item.href} className={`${styles.link} ${isActive?styles.active:''}`}>
+                {item.label}
+              </Link>
+            );
+          })}
+
+          <div className={styles.controls}>
+            <LanguageSelector />
+            <AdminLoginButton />
+          </div>
         </nav>
       </div>
     </header>

@@ -1,0 +1,19 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: #fff;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: box-shadow 160ms ease, transform 120ms ease, border-color 160ms ease;
+  background-image: linear-gradient(rgba(6,6,8,0.55), rgba(6,6,8,0.55)), linear-gradient(135deg, #8b5cf6, #ec4899);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+}
+.btn:hover { box-shadow: 0 8px 28px rgba(139,92,246,0.14); transform: translateY(-1px); }
+.lock { font-size: 14px; }
+.label { font-weight: 700; font-size: 0.95rem; }
+.disabled { opacity: 0.5; pointer-events: none; }
