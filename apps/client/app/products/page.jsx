@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { categoryGroups } from "@/data/products";
 import GroupCard from "@/components/products/GroupCard";
+import { useI18n } from '@/components/i18n/I18nProvider';
 export default function CategoriesCatalog() {
+  const { t } = useI18n();
   return (
     <section
       style={{
@@ -64,8 +66,8 @@ export default function CategoriesCatalog() {
               letterSpacing: "0.18em",
               textTransform: "uppercase",
             }}
-          >
-            İşlərimiz
+            >
+            {t('products.badge')}
           </div>
 
           <h1
@@ -80,7 +82,7 @@ export default function CategoriesCatalog() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            Portfolio
+            {t('products.title')}
           </h1>
 
           <p
@@ -92,8 +94,7 @@ export default function CategoriesCatalog() {
               maxWidth: 760,
             }}
           >
-            Müştərilərimiz üçün hazırladığımız vizit kart, flayer, menu, banner və digər
-            çap işlərindən seçilmiş nümunələri burada təqdim edirik.
+            {t('products.intro')}
           </p>
         </div>
 
