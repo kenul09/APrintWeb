@@ -1,0 +1,254 @@
+.pageShell {
+  background: #060608;
+  min-height: 100vh;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactWrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.contactHero {
+  padding: 120px 0 72px;
+}
+
+.inlineLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.inlineLabel span {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.heroTitle {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(4rem, 9vw, 7rem);
+  font-weight: 500;
+  line-height: 0.92;
+  margin-bottom: 20px;
+}
+
+.gradientText {
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+.heroText {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  max-width: 400px;
+  font-weight: 300;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 100px;
+  align-items: start;
+}
+
+.contactFormBox,
+.contactInfoBox,
+.whatsappBox {
+  padding: 44px;
+}
+
+.successWrap {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.successBadge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(236,72,153,0.2));
+  border: 1px solid rgba(139,92,246,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.successTitle {
+  font-family: "Oswald", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.successText {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.88rem;
+}
+
+.fieldWrap {
+  margin-bottom: 18px;
+}
+
+.fieldWrapMessage {
+  margin-bottom: 20px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.errorBox {
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  font-size: 0.82rem;
+}
+
+.submitButton {
+  width: 100%;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  font-family: "DM Sans", sans-serif;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.infoTitle {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 28px;
+  color: #fff;
+}
+
+.infoRow {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.infoIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.infoLabel {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.infoValue {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.whatsappTitle {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.whatsappText {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.83rem;
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.whatsappLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-family: "DM Sans", sans-serif;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@media (max-width: 900px) {
+  .contactGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .contactWrap {
+    padding: 0 20px;
+  }
+
+  .contactHero {
+    padding: 120px 0 56px;
+  }
+
+  .contactFormBox,
+  .contactInfoBox,
+  .whatsappBox {
+    padding: 28px;
+  }
+}
