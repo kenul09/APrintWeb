@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function AdminLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [focused, setFocused] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const aut = localStorage.getItem('admin_auth');
+      if (aut) navigate('/admin');
+    } catch (e) {}
+  }, [navigate]);
 
   const handleLogin = () => {
     if (form.email === 'admin@printshop.az' && form.password === 'admin123') {

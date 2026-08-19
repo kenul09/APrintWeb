@@ -5,16 +5,18 @@ import Image from "next/image";
 import { works } from "@/data/portfolioWorks";
 import { useInView } from "@/hooks/useInView";
 import WorkCard from "@/components/portfolio/WorkCard";
+import { useI18n } from '@/components/i18n/I18nProvider';
 export default function Portfolio() {
-  const [filter, setFilter] = useState("Hamısı");
+  const { t } = useI18n();
+  const [filter, setFilter] = useState(t('portfolio.all'));
   const [heroRef, heroIn] = useInView(0.1);
 
   const categories = useMemo(() => {
     const unique = [...new Set(works.map((w) => w.category))];
-    return ["Hamısı", ...unique];
-  }, []);
+    return [t('portfolio.all'), ...unique];
+  }, [t]);
 
-  const filteredWorks = filter === "Hamısı" ? works : works.filter((w) => w.category === filter);
+  const filteredWorks = filter === t('portfolio.all') ? works : works.filter((w) => w.category === filter);
 
   return (
     <div
@@ -99,7 +101,7 @@ export default function Portfolio() {
                 color: "rgba(255,255,255,0.4)",
               }}
             >
-              İşlərimiz
+              {t('portfolio.badge')}
             </span>
           </div>
 
@@ -115,7 +117,7 @@ export default function Portfolio() {
               transform: heroIn ? "translateY(0)" : "translateY(30px)",
             }}
           >
-            <span
+              <span
               style={{
                 background: "linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899)",
                 backgroundSize: "200% auto",
@@ -124,7 +126,7 @@ export default function Portfolio() {
                 animation: "shimmer 4s linear infinite",
               }}
             >
-              Portfolio
+              {t('portfolio.title')}
             </span>
           </h1>
 
@@ -140,7 +142,7 @@ export default function Portfolio() {
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
             }}
           >
-            Müştərilərimiz üçün hazırladığımız işlərin seçmələri.
+            {t('portfolio.intro')}
           </p>
         </section>
 

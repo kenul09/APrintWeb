@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import styles from "./contact.module.css";
 import { glassStyle } from "@/components/ui/glassStyle";
+import { useI18n } from '@/components/i18n/I18nProvider';
 
 const inputBase = {
   width: "100%",
@@ -20,6 +21,7 @@ const inputBase = {
 };
 
 export default function Contact() {
+  const { t } = useI18n();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -43,13 +45,13 @@ export default function Contact() {
     e.preventDefault();
 
     if (!form.name.trim() || !form.email.trim() || !form.phone.trim() || !form.message.trim()) {
-      setError("Zəhmət olmasa bütün vacib sahələri doldurun.");
+      setError(t('contact.errors.required'));
       return;
     }
 
     const emailOk = /\S+@\S+\.\S+/.test(form.email);
     if (!emailOk) {
-      setError("Email formatı düzgün deyil.");
+      setError(t('contact.errors.invalidEmail'));
       return;
     }
 
@@ -70,7 +72,7 @@ export default function Contact() {
             className={styles.inlineLabel}
           >
             <div className={styles.labelDot} />
-            <span>Əlaqə</span>
+            <span>{t('contact.badge')}</span>
           </div>
 
           <h1
@@ -81,7 +83,7 @@ export default function Contact() {
             }}
             className={styles.heroTitle}
           >
-            <span className={styles.gradientText}>Bizimlə əlaqə</span>
+            <span className={styles.gradientText}>{t('contact.heroTitle')}</span>
           </h1>
 
           <p
@@ -92,7 +94,7 @@ export default function Contact() {
             }}
             className={styles.heroText}
           >
-            Sifariş vermək və ya sual vermək üçün formu doldurun.
+            {t('contact.heroText')}
           </p>
         </section>
 
@@ -110,15 +112,15 @@ export default function Contact() {
             {sent ? (
               <div className={styles.successWrap}>
                 <div className={styles.successBadge}>✓</div>
-                <h3 className={styles.successTitle}>Mesaj göndərildi!</h3>
-                <p className={styles.successText}>Müraciətiniz qeydə alındı. Tezliklə sizinlə əlaqə saxlayacağıq.</p>
+                <h3 className={styles.successTitle}>{t('contact.successTitle')}</h3>
+                <p className={styles.successText}>{t('contact.successText')}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
                 {[
-                  { label: "Ad Soyad", key: "name", placeholder: "Əli Həsənov", type: "text" },
-                  { label: "Email", key: "email", placeholder: "ali@example.com", type: "email" },
-                  { label: "Telefon", key: "phone", placeholder: "+994 50 123 45 67", type: "tel" },
+                  { label: t('contact.labels.name'), key: "name", placeholder: t('contact.placeholders.name'), type: "text" },
+                  { label: t('contact.labels.email'), key: "email", placeholder: t('contact.placeholders.email'), type: "email" },
+                  { label: t('contact.labels.phone'), key: "phone", placeholder: t('contact.placeholders.phone'), type: "tel" },
                 ].map((field) => (
                   <div key={field.key} className={styles.fieldWrap}>
                     <label className={styles.fieldLabel}>{field.label}</label>
@@ -143,7 +145,7 @@ export default function Contact() {
                 ))}
 
                 <div className={styles.fieldWrap}>
-                  <label className={styles.fieldLabel}>Xidmət</label>
+                  <label className={styles.fieldLabel}>{t('contact.labels.service')}</label>
                   <select
                     value={form.service}
                     onChange={(e) => handleChange("service", e.target.value)}
@@ -161,17 +163,8 @@ export default function Contact() {
                       cursor: "pointer",
                     }}
                   >
-                    <option value="">Xidmət seçin</option>
-                    {[
-                      "Flayer",
-                      "Banner",
-                      "Roll-up",
-                      "Vizit kart",
-                      "Kitabça",
-                      "Stiker",
-                      "Plakat",
-                      "Digər",
-                    ].map((service) => (
+                    <option value="">{t('contact.labels.service')}</option>
+                    {t('contact.services').map((service) => (
                       <option key={service} value={service}>
                         {service}
                       </option>
@@ -180,10 +173,10 @@ export default function Contact() {
                 </div>
 
                 <div className={styles.fieldWrapMessage}>
-                  <label className={styles.fieldLabel}>Mesaj</label>
+                  <label className={styles.fieldLabel}>{t('contact.labels.message')}</label>
                   <textarea
                     rows={4}
-                    placeholder="Sifariş detallarını yazın..."
+                    placeholder={t('contact.placeholders.message')}
                     value={form.message}
                     onChange={(e) => handleChange("message", e.target.value)}
                     onFocus={() => setFocused("message")}
@@ -215,7 +208,7 @@ export default function Contact() {
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  GÖNDƏR →
+                  {t('contact.submit')}
                 </button>
               </form>
             )}
@@ -230,7 +223,7 @@ export default function Contact() {
             }}
           >
             <div className={styles.contactInfoBox} style={{ ...glassStyle, marginBottom: 16 }}>
-              <h3 className={styles.infoTitle}>Əlaqə məlumatları</h3>
+              <h3 className={styles.infoTitle}>{t('contact.contactInfoTitle')}</h3>
 
               {[
                 { icon: "📍", title: "Ünvan", value: "Bakı, Sahil m/s yaxınlığı" },
@@ -264,10 +257,8 @@ export default function Contact() {
                 borderColor: "rgba(37,211,102,0.15)",
               }}
             >
-              <h4 className={styles.whatsappTitle}>Sürətli cavab</h4>
-              <p className={styles.whatsappText}>
-                Suallarınız üçün WhatsApp-da da əlaqə saxlaya bilərsiniz. Adətən 15 dəqiqə ərzində cavab veririk.
-              </p>
+              <h4 className={styles.whatsappTitle}>{t('contact.quickReplyTitle')}</h4>
+              <p className={styles.whatsappText}>{t('contact.quickReplyText')}</p>
               <a
                 href="https://wa.me/994557505533?text=Salam%2C%20sifari%C5%9Fl%C9%99%20ba%C4%9Fl%C4%B1%20m%C9%99lumat%20almaq%20ist%C9%99yir%C9%99m."
                 target="_blank"
