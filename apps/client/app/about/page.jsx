@@ -6,10 +6,12 @@ import { useInView } from "@/hooks/useInView";
 import StatCard from "@/components/about/StatCard";
 import MemberCard from "@/components/about/MemberCard";
 import { glassStyle } from "@/components/ui/glassStyle";
+import { useI18n } from '@/components/i18n/I18nProvider';
 
 export default function About() {
   const [heroRef, heroIn] = useInView(0.1);
   const [storyRef, storyIn] = useInView(0.1);
+  const { t } = useI18n();
 
   return (
     <div
@@ -133,11 +135,11 @@ export default function About() {
                 color: "rgba(255,255,255,0.4)",
               }}
             >
-              Haqqımızda
+              {t('about.badge')}
             </span>
           </div>
 
-          <h1
+            <h1
             style={{
               fontFamily: '"Bebas Neue", sans-serif',
               fontSize: "clamp(4rem, 10vw, 8rem)",
@@ -150,16 +152,16 @@ export default function About() {
               transform: heroIn ? "translateY(0)" : "translateY(40px)",
             }}
           >
-            <span
+              <span
               style={{
                 background: "linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              2015-dən
-              <br />
-              bəri
+                {t('about.since')}
+                <br />
+                {t('about.since') === '2015-dən bəri' ? '' : ''}
             </span>
             <br />
             <span
@@ -171,7 +173,7 @@ export default function About() {
                 animation: "shimmer 4s linear infinite",
               }}
             >
-              Bakıda çap
+              {t('about.city')}
             </span>
           </h1>
 
@@ -187,7 +189,7 @@ export default function About() {
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
             }}
           >
-            A_Print olaraq 2015-ci ildən bəri Azərbaycanda yüzlərlə şirkətə peşəkar çap xidməti göstəririk.
+            {t('about.p1')}
           </p>
         </section>
 
@@ -217,9 +219,7 @@ export default function About() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Bizim
-              <br />
-              Hekayəmiz
+              {t('about.storyTitle')}
             </h2>
 
             <div
@@ -241,7 +241,7 @@ export default function About() {
                 marginBottom: 16,
               }}
             >
-              2015-ci ildə kiçik bir studiya kimi başladıq. Bu gün Bakının ən böyük rəqəmsal çap mərkəzlərindən birinə çevrildik.
+              {t('about.p1')}
             </p>
 
             <p
@@ -252,7 +252,7 @@ export default function About() {
                 fontWeight: 300,
               }}
             >
-              Hər sifarişə fərdi yanaşırıq, keyfiyyətsiz iş buraxmırıq.
+              {t('about.p2')}
             </p>
           </div>
 
@@ -264,9 +264,9 @@ export default function About() {
               transform: storyIn ? "translateX(0)" : "translateX(40px)",
             }}
           >
-            {["Çap", "Dizayn", "Çatdırılma", "Keyfiyyət"].map((t, i) => (
+            {t('about.features').map((feat, i) => (
               <div
-                key={t}
+                key={feat}
                 style={{
                   ...glassStyle,
                   padding: "36px 28px",
@@ -285,7 +285,7 @@ export default function About() {
                     marginBottom: 10,
                   }}
                 >
-                  {t}
+                  {feat}
                 </div>
 
                 <div
@@ -311,7 +311,7 @@ export default function About() {
                 color: "rgba(255,255,255,0.3)",
               }}
             >
-              Komandamız
+              {t('about.teamTitle')}
             </span>
             <div
               style={{
