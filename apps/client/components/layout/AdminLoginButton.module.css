@@ -16,4 +16,3 @@
 .btn:hover { box-shadow: 0 8px 28px rgba(139,92,246,0.14); transform: translateY(-1px); }
 .lock { font-size: 14px; }
 .label { font-weight: 700; font-size: 0.95rem; }
-.disabled { opacity: 0.5; pointer-events: none; }

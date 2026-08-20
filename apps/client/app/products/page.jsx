@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { categoryGroups } from "@/data/products";
 import GroupCard from "@/components/products/GroupCard";
+import PriceList from "@/components/products/PriceList";
 import { useI18n } from '@/components/i18n/I18nProvider';
 export default function CategoriesCatalog() {
   const { t } = useI18n();
@@ -102,6 +102,21 @@ export default function CategoriesCatalog() {
           {categoryGroups.map((group) => (
             <GroupCard key={group.id} group={group} />
           ))}
+        </div>
+
+        <div style={{ marginTop: 64 }}>
+          <h2
+            style={{
+              margin: "0 0 22px",
+              fontFamily: '"Oswald", sans-serif',
+              fontSize: "1.6rem",
+              fontWeight: 500,
+              color: "#fff",
+            }}
+          >
+            {t('products.priceListTitle')}
+          </h2>
+          <PriceList />
         </div>
       </div>
     </section>

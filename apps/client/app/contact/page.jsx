@@ -41,7 +41,9 @@ export default function Contact() {
     if (error) setError("");
   };
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.name.trim() || !form.email.trim() || !form.phone.trim() || !form.message.trim()) {
@@ -55,8 +57,21 @@ export default function Contact() {
       return;
     }
 
-    setSent(true);
-    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("submit failed");
+      setSent(true);
+      setError("");
+    } catch {
+      setError(t('contact.errors.submitFailed'));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -199,16 +214,20 @@ export default function Contact() {
                 <button
                   type="submit"
                   className={styles.submitButton}
+                  disabled={submitting}
+                  style={{ opacity: submitting ? 0.7 : 1 }}
                   onMouseEnter={(e) => {
+                    if (submitting) return;
                     e.currentTarget.style.opacity = "0.85";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
+                    if (submitting) return;
                     e.currentTarget.style.opacity = "1";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  {t('contact.submit')}
+                  {submitting ? "..." : t('contact.submit')}
                 </button>
               </form>
             )}

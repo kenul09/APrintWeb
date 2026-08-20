@@ -1,34 +1,110 @@
-.dashboard {
-  min-height: 100vh;
-  padding: 40px 48px;
-  color: white;
-  background: linear-gradient(
-    180deg,
-    #0f172a 0%,
-    #111827 50%,
-    #0b1120 100%
-  );
-}
-
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  background: linear-gradient(
-    135deg,
-    #6e42d5,
-    #a78bfa,
-    #ec4899
-  );
+  margin: 0 0 6px;
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-  color: rgba(255,255,255,.45);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelTitle {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  line-height: 1.4;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.rowTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rowSub {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.82rem;
+  margin-top: 6px;
+}
+
+.amount {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.viewAll {
+  display: inline-block;
+  margin-top: 14px;
+  color: #a78bfa;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.viewAll:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1100px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,11 +1,11 @@
 export const translations = {
   az: {
-    nav: { home: 'Ana Səhifə', about: 'Haqqımızda', products: 'Məhsullar', portfolio: 'Portfolio', contact: 'Əlaqə', admin: 'Admin Giriş' },
+    nav: { home: 'Ana Səhifə', about: 'Haqqımızda', products: 'Məhsullar', portfolio: 'Portfolio', contact: 'Əlaqə' },
     langNames: { az: 'Azərbaycan', en: 'İngilis dili', ru: 'Rus dili' },
     hero: { line1: 'Brendinizi', line2: 'Canlandırın', button: 'Məhsullar →' },
     stats: { customers: 'Müştəri', products: 'Məhsul', delivery: 'Çatdırılma', rating: 'Reytinq' },
     partners: { title: 'Partnyorlarımız', subtitle: 'Bizimlə işləyən brendlər' },
-    products: { badge: 'İşlərimiz', title: 'Portfolio', intro: 'Müştərilərimiz üçün hazırladığımız vizit kart, flayer, menu, banner və digər çap işlərindən seçilmiş nümunələri burada təqdim edirik.' },
+    products: { badge: 'İşlərimiz', title: 'Portfolio', intro: 'Müştərilərimiz üçün hazırladığımız vizit kart, flayer, menu, banner və digər çap işlərindən seçilmiş nümunələri burada təqdim edirik.', priceListTitle: 'Qiymətlər' },
     portfolio: { badge: 'İşlərimiz', title: 'Portfolio', intro: 'Müştərilərimiz üçün hazırladığımız işlərin seçmələri.', all: 'Hamısı' },
     about: {
       badge: 'Haqqımızda',
@@ -19,8 +19,6 @@ export const translations = {
     },
     footer: {
       desc: 'A Print — brendinizi çap və dizayn xidmətləri ilə gücləndirir. Yüksək keyfiyyət, sürətli çatdırılma və peşəkar yanaşma.',
-      contact: { email: 'info@aprint.az', phone: '+994 12 345 67 89', address: 'Bakı, Azərbaycan' },
-      strip: { emailLabel: 'Email', phoneLabel: 'Telefon', addressLabel: 'Ünvan' },
       backToTop: 'Səhifənin yuxarısına',
       copyright: '© 2026 A Print. Bütün hüquqlar qorunur.'
     },
@@ -33,7 +31,7 @@ export const translations = {
       submit: 'GÖNDƏR →',
       successTitle: 'Mesaj göndərildi!',
       successText: 'Müraciətiniz qeydə alındı. Tezliklə sizinlə əlaqə saxlayacağıq.',
-      errors: { required: 'Zəhmət olmasa bütün vacib sahələri doldurun.', invalidEmail: 'Email formatı düzgün deyil.' },
+      errors: { required: 'Zəhmət olmasa bütün vacib sahələri doldurun.', invalidEmail: 'Email formatı düzgün deyil.', submitFailed: 'Mesaj göndərilmədi. Zəhmət olmasa yenidən cəhd edin.' },
       services: ['Flayer', 'Banner', 'Roll-up', 'Vizit kart', 'Kitabça', 'Stiker', 'Plakat', 'Digər'],
       contactInfoTitle: 'Əlaqə məlumatları',
       quickReplyTitle: 'Sürətli cavab',
@@ -41,18 +39,16 @@ export const translations = {
     },
   },
   en: {
-    nav: { home: 'Home', about: 'About', products: 'Products', portfolio: 'Portfolio', contact: 'Contact', admin: 'Admin Login' },
+    nav: { home: 'Home', about: 'About', products: 'Products', portfolio: 'Portfolio', contact: 'Contact' },
     langNames: { az: 'Azerbaijani', en: 'English', ru: 'Russian' },
     hero: { line1: 'Bring', line2: 'Your Brand Alive', button: 'Products →' },
     stats: { customers: 'Customers', products: 'Products', delivery: 'Delivery', rating: 'Rating' },
     partners: { title: 'Our Partners', subtitle: 'Brands we work with' },
-    products: { badge: 'Our Works', title: 'Portfolio', intro: 'Here are selected samples of business cards, flyers, menus, banners and other print works prepared for our clients.' },
+    products: { badge: 'Our Works', title: 'Portfolio', intro: 'Here are selected samples of business cards, flyers, menus, banners and other print works prepared for our clients.', priceListTitle: 'Pricing' },
     portfolio: { badge: 'Our Works', title: 'Portfolio', intro: 'Selected samples of works we prepared for clients.', all: 'All' },
     about: { badge: 'About', since: 'Since 2015', city: 'Printing in Baku', p1: 'Since 2015, A_Print has provided professional printing services to hundreds of companies in Azerbaijan.', p2: 'We take a personal approach to every order and never compromise on quality.', storyTitle: 'Our\nStory', features: ['Printing', 'Design', 'Delivery', 'Quality'], teamTitle: 'Our Team' },
     footer: {
       desc: 'A Print — strengthens your brand with professional printing and design services. High quality, fast delivery and a professional approach.',
-      contact: { email: 'info@aprint.az', phone: '+994 12 345 67 89', address: 'Baku, Azerbaijan' },
-      strip: { emailLabel: 'Email', phoneLabel: 'Phone', addressLabel: 'Address' },
       backToTop: 'Back to top',
       copyright: '© 2026 A Print. All rights reserved.'
     },
@@ -65,7 +61,7 @@ export const translations = {
       submit: 'SEND →',
       successTitle: 'Message sent!',
       successText: 'Your request has been received. We will contact you shortly.',
-      errors: { required: 'Please fill all required fields.', invalidEmail: 'Email format is invalid.' },
+      errors: { required: 'Please fill all required fields.', invalidEmail: 'Email format is invalid.', submitFailed: 'Message could not be sent. Please try again.' },
       services: ['Flyer', 'Banner', 'Roll-up', 'Business Card', 'Booklet', 'Sticker', 'Poster', 'Other'],
       contactInfoTitle: 'Contact information',
       quickReplyTitle: 'Quick reply',
@@ -73,18 +69,16 @@ export const translations = {
     },
   },
   ru: {
-    nav: { home: 'Главная', about: 'О нас', products: 'Продукция', portfolio: 'Портфолио', contact: 'Контакты', admin: 'Вход в админ' },
+    nav: { home: 'Главная', about: 'О нас', products: 'Продукция', portfolio: 'Портфолио', contact: 'Контакты' },
     langNames: { az: 'Азербайджанский', en: 'Английский', ru: 'Русский' },
     hero: { line1: 'Оживите', line2: 'Ваш Бренд', button: 'Продукция →' },
     stats: { customers: 'Клиенты', products: 'Продукты', delivery: 'Доставка', rating: 'Рейтинг' },
     partners: { title: 'Наши партнёры', subtitle: 'Бренды, с которыми мы работаем' },
-    products: { badge: 'Работы', title: 'Портфолио', intro: 'Здесь представлены выбранные образцы визиток, флаеров, меню, баннеров и других печатных работ, подготовленных для наших клиентов.' },
+    products: { badge: 'Работы', title: 'Портфолио', intro: 'Здесь представлены выбранные образцы визиток, флаеров, меню, баннеров и других печатных работ, подготовленных для наших клиентов.', priceListTitle: 'Цены' },
     portfolio: { badge: 'Работы', title: 'Портфолио', intro: 'Выбранные образцы работ, подготовленных для наших клиентов.', all: 'Все' },
     about: { badge: 'О нас', since: 'С 2015', city: 'Печать в Баку', p1: 'С 2015 года A_Print предоставляет профессиональные услуги печати сотням компаний в Азербайджане.', p2: 'Мы подходим к каждому заказу индивидуально и никогда не идём на компромисс с качеством.', storyTitle: 'Наша\nИстория', features: ['Печать', 'Дизайн', 'Доставка', 'Качество'], teamTitle: 'Наша команда' },
     footer: {
       desc: 'A Print — усиливает ваш бренд с помощью профессиональных услуг печати и дизайна. Высокое качество, быстрая доставка и профессиональный подход.',
-      contact: { email: 'info@aprint.az', phone: '+994 12 345 67 89', address: 'Баку, Азербайджан' },
-      strip: { emailLabel: 'Email', phoneLabel: 'Телефон', addressLabel: 'Адрес' },
       backToTop: 'Наверх',
       copyright: '© 2026 A Print. Все права защищены.'
     },
@@ -97,7 +91,7 @@ export const translations = {
       submit: 'ОТПРАВИТЬ →',
       successTitle: 'Сообщение отправлено!',
       successText: 'Ваш запрос получен. Мы свяжемся с вами в ближайшее время.',
-      errors: { required: 'Пожалуйста, заполните все обязательные поля.', invalidEmail: 'Неверный формат email.' },
+      errors: { required: 'Пожалуйста, заполните все обязательные поля.', invalidEmail: 'Неверный формат email.', submitFailed: 'Не удалось отправить сообщение. Попробуйте ещё раз.' },
       services: ['Флаер', 'Баннер', 'Roll-up', 'Визитка', 'Брошюра', 'Наклейка', 'Плакат', 'Другое'],
       contactInfoTitle: 'Контактная информация',
       quickReplyTitle: 'Быстрый ответ',

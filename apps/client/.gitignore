@@ -33,9 +33,16 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# prisma (SQLite dev db + generated client, regenerated via postinstall)
+/dev.db
+/dev.db-journal
+/lib/generated
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/lib/generated/prisma
