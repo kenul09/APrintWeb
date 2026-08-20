@@ -1,0 +1,58 @@
+// Prisma schema for the shared data source used by both apps/client and
+// apps/admin. See apps/client/lib/prisma.js for how the generated client is
+// instantiated (SQLite via a driver adapter, required in Prisma 7).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Product {
+  id       Int     @id @default(autoincrement())
+  title    String
+  price    String
+  icon     String
+  category String
+  active   Boolean @default(true)
+}
+
+model Order {
+  id       String   @id
+  customer String
+  product  String
+  amount   String
+  status   String   @default("Gözləyir")
+  date     String
+}
+
+model Customer {
+  id     Int    @id @default(autoincrement())
+  name   String
+  email  String @unique
+  orders Int    @default(0)
+  total  String @default("0₼")
+  date   String
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  service   String?
+  message   String
+  date      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

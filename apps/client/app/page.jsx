@@ -45,6 +45,7 @@ export default function Home() {
         .marquee-pill:hover { background: rgba(255,255,255,0.03); }
 
         .marquee-logo-wrap {
+          position: relative;
           width: 85px !important;
           height: 85px !important;
           min-width: 85px !important;
