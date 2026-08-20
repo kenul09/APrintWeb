@@ -1,24 +1,36 @@
-"use client";
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from "../styles/adminOrders.module.css";
 import clsx from 'clsx';
-import { initialOrders } from "../data/orders";
+import { apiFetch } from "../lib/api";
 
 const ALL_STATUSES = ['Hamısı', 'Gözləyir', 'Hazırlanır', 'Tamamlandı'];
 const CHANGE_STATUSES = ['Gözləyir', 'Hazırlanır', 'Tamamlandı'];
 const TABLE_HEADERS   = ['ID', 'Müştəri', 'Məhsul', 'Məbləğ', 'Tarix', 'Status', 'Əməliyyat'];
 
 export default function AdminOrders() {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('Hamısı');
+
+  useEffect(() => {
+    apiFetch('/api/orders')
+      .then(res => res.json())
+      .then(setOrders)
+      .catch(() => {});
+  }, []);
 
   const filtered = filter === 'Hamısı'
     ? orders
     : orders.filter(o => o.status === filter);
 
-  const changeStatus = (id, newStatus) =>
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
+  const changeStatus = async (id, newStatus) => {
+    const res = await apiFetch(`/api/orders/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: newStatus }),
+    });
+    if (res.ok) {
+      setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
+    }
+  };
 
   return (
     <div className={styles.page}>

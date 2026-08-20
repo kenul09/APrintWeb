@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { aboutStats, teamMembers } from "@/data/about";
 import { useInView } from "@/hooks/useInView";
 import StatCard from "@/components/about/StatCard";
@@ -161,7 +160,6 @@ export default function About() {
             >
                 {t('about.since')}
                 <br />
-                {t('about.since') === '2015-dən bəri' ? '' : ''}
             </span>
             <br />
             <span

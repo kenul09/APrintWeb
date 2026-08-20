@@ -1,26 +1,50 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { apiFetch } from './lib/api';
 
 export default function AdminLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [focused, setFocused] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [registrationAvailable, setRegistrationAvailable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const aut = localStorage.getItem('admin_auth');
-      if (aut) navigate('/admin');
-    } catch (e) {}
+    let cancelled = false;
+    apiFetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data.authenticated) navigate('/admin');
+      })
+      .catch(() => {});
+    apiFetch('/api/auth/register')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setRegistrationAvailable(Boolean(data.available));
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
   }, [navigate]);
 
-  const handleLogin = () => {
-    if (form.email === 'admin@printshop.az' && form.password === 'admin123') {
-      localStorage.setItem('admin_auth', 'true');
-      navigate('/admin');
-    } else {
-      setError('Email və ya şifrə yanlışdır');
+  const handleLogin = async () => {
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await apiFetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email: form.email, password: form.password }),
+      });
+      if (res.ok) {
+        navigate('/admin');
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || 'Email və ya şifrə yanlışdır');
+      }
+    } catch {
+      setError('Serverə qoşulmaq mümkün olmadı');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -175,32 +199,34 @@ export default function AdminLogin() {
           {/* Button */}
           <button
             onClick={handleLogin}
+            disabled={submitting}
             style={{
               width: '100%',
               background: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
               color: '#fff', border: 'none', borderRadius: '14px',
               padding: '15px', fontWeight: 700,
-              cursor: 'pointer', fontSize: '0.85rem',
+              cursor: submitting ? 'default' : 'pointer', fontSize: '0.85rem',
               letterSpacing: '0.1em', textTransform: 'uppercase',
               fontFamily: '"DM Sans", sans-serif',
               marginTop: '8px',
+              opacity: submitting ? 0.7 : 1,
               transition: 'opacity 0.2s, transform 0.2s',
               boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
             }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            onMouseEnter={e => { if (!submitting) { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; } }}
+            onMouseLeave={e => { if (!submitting) { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; } }}
           >
-            Daxil ol →
+            {submitting ? 'Yoxlanılır…' : 'Daxil ol →'}
           </button>
 
-          {/* Demo hint */}
-          <p style={{
-            textAlign: 'center', marginTop: '24px',
-            color: 'rgba(255,255,255,0.15)', fontSize: '0.75rem',
-            lineHeight: 1.7,
-          }}>
-            Demo: admin@printshop.az / admin123
-          </p>
+          {registrationAvailable && (
+            <p style={{ textAlign: 'center', marginTop: 20, fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)' }}>
+              Hesabınız yoxdur?{' '}
+              <Link to="/admin/register" style={{ color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
+                Qeydiyyatdan keçin
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

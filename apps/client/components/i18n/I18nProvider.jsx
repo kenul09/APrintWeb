@@ -1,29 +1,17 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useSyncExternalStore } from 'react';
 import { translations } from '@/i18n/translations';
+import { getSnapshot, getServerSnapshot, subscribe, setLang as setStoredLang } from '@/lib/langStore';
 
 const I18nContext = createContext();
 
 export function I18nProvider({ children }) {
-  // Start with a deterministic default to keep SSR and client initial render identical.
-  // Do not read localStorage during render — read it after mount and update state if needed.
-  const [lang, setLang] = useState('az');
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('lang');
-      if (saved && saved !== lang) setLang(saved);
-    } catch (e) {
-      // ignore
-    }
-  // run only once on mount
-  }, []);
-
-  // persist language changes to localStorage
-  useEffect(() => {
-    try { localStorage.setItem('lang', lang); } catch (e) {}
-  }, [lang]);
+  // Reads the persisted language from an external store (localStorage) via
+  // useSyncExternalStore, rather than useState+useEffect — this avoids the
+  // extra post-mount render and the setState-in-effect anti-pattern.
+  const lang = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const setLang = setStoredLang;
 
   const t = (keyPath) => {
     const parts = keyPath.split('.');

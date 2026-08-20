@@ -1,10 +1,20 @@
+import { useEffect, useState } from 'react';
 import styles from '../styles/adminCustomers.module.css';
-import { customers } from '../data/customers';
+import { apiFetch } from '../lib/api';
 
 const AVATAR_CLASSES = ['avatarPurple', 'avatarPink', 'avatarBlue', 'avatarGreen', 'avatarAmber'];
 const HEADERS = ['Ad Soyad', 'Email', 'Sifariş sayı', 'Ümumi', 'Qeydiyyat'];
 
 export default function AdminCustomers() {
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    apiFetch('/api/customers')
+      .then(res => res.json())
+      .then(setCustomers)
+      .catch(() => {});
+  }, []);
+
   return (
     <div className={styles.page}>
 

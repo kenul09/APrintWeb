@@ -29,7 +29,7 @@ export default function AdminLoginButton() {
     } else {
       // No adminUrl configured — fall back to common local dev admin URL.
       // Do NOT navigate to a client-internal /admin route to avoid mixing apps.
-      target = 'http://localhost:5173/admin';
+      target = 'http://localhost:5178/admin';
     }
 
     // If target looks like an absolute URL, perform a full navigation; otherwise use router.push
