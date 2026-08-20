@@ -1,20 +1,31 @@
-"use client";
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from '../styles/adminMessages.module.css';
-import { initialMessages } from '../data/messages';
+import { apiFetch } from '../lib/api';
 
 export default function AdminMessages() {
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const markRead = (id) =>
-    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
+  useEffect(() => {
+    apiFetch('/api/messages')
+      .then(res => res.json())
+      .then(setMessages)
+      .catch(() => {});
+  }, []);
 
-  const del = (id) => {
+  const markRead = async (id) => {
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
+    await apiFetch(`/api/messages/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ read: true }),
+    });
+  };
+
+  const del = async (id) => {
     setMessages(prev => prev.filter(m => m.id !== id));
     if (selected?.id === id) setSelected(null);
+    await apiFetch(`/api/messages/${id}`, { method: 'DELETE' });
   };
 
   const handleSelect = (m) => {

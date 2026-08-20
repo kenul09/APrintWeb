@@ -1,14 +1,18 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import AdminSidebar from './components/AdminSidebar';
 import AdminHeader from './components/AdminHeader';
+import { apiFetch } from './lib/api';
 import '../admin/styles/adminUI.css';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem('admin_auth');
-    navigate('/admin/login');
+  const logout = async () => {
+    try {
+      await apiFetch('/api/auth/logout', { method: 'POST' });
+    } finally {
+      navigate('/admin/login');
+    }
   };
 
   return (

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/adminProducts.module.css";
-import { initialProducts } from "../data/products";
+import { apiFetch } from "../lib/api";
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
     title: "",
@@ -12,17 +12,24 @@ export default function AdminProducts() {
     category: "Çap",
   });
 
-  const addProduct = () => {
+  useEffect(() => {
+    apiFetch("/api/products")
+      .then((res) => res.json())
+      .then(setProducts)
+      .catch(() => {});
+  }, []);
+
+  const addProduct = async () => {
     if (!form.title || !form.price) return;
 
-    setProducts([
-      ...products,
-      {
-        ...form,
-        id: Date.now(),
-        active: true,
-      },
-    ]);
+    const res = await apiFetch("/api/products", {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+    if (res.ok) {
+      const product = await res.json();
+      setProducts([...products, product]);
+    }
 
     setForm({
       title: "",
@@ -34,16 +41,21 @@ export default function AdminProducts() {
     setShowForm(false);
   };
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
+  const deleteProduct = async (id) => {
+    const res = await apiFetch(`/api/products/${id}`, { method: "DELETE" });
+    if (res.ok) setProducts(products.filter((p) => p.id !== id));
   };
 
-  const toggleActive = (id) => {
-    setProducts(
-      products.map((p) =>
-        p.id === id ? { ...p, active: !p.active } : p
-      )
-    );
+  const toggleActive = async (id) => {
+    const product = products.find((p) => p.id === id);
+    const res = await apiFetch(`/api/products/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ active: !product.active }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      setProducts(products.map((p) => (p.id === id ? updated : p)));
+    }
   };
 
   return (

@@ -6,12 +6,10 @@ import styles from "./SiteHeader.module.css";
 import { useI18n } from '@/components/i18n/I18nProvider';
 import LanguageSelector from './LanguageSelector';
 import AdminLoginButton from './AdminLoginButton';
-import { getAdminUrl } from '@/lib/adminUrl';
 import { usePathname } from 'next/navigation';
 
 export default function SiteHeader() {
   const { t, lang, setLang } = useI18n();
-  const adminUrl = getAdminUrl();
   const pathname = usePathname() || '/';
   const navItems = [
     { href: "/", label: t('nav.home') },
