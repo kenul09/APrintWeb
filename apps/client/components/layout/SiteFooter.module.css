@@ -1,6 +1,6 @@
 .footer {
-  background: #050505;
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--background);
+  color: rgba(var(--ink-rgb), 0.9);
   position: relative;
   z-index: 50;
 }
@@ -26,7 +26,7 @@
 
 .brand {
   display: inline-flex;
-  color: #fff;
+  color: var(--foreground);
   text-decoration: none;
 }
 
@@ -34,10 +34,17 @@
   width: 140px;
   height: auto;
   max-width: 100%;
+  transition: filter 0.25s ease;
+}
+
+/* The logo asset itself is white artwork — invert it in light mode rather
+   than shipping a second logo file. */
+:global([data-theme='light']) .logo {
+  filter: invert(1);
 }
 
 .desc {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(var(--ink-rgb), 0.6);
   margin-top: 12px;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -56,10 +63,10 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--ink-rgb), 0.04);
+  color: rgba(var(--ink-rgb), 0.9);
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(var(--ink-rgb), 0.08);
   transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
 }
 
@@ -73,14 +80,14 @@
 
 .divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--ink-rgb), 0.1);
   width: min(1280px, calc(100% - 48px));
   margin: 0 auto;
 }
 
 .bottom {
   padding-top: 24px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--ink-rgb), 0.5);
   font-size: 0.85rem;
   text-align: center;
 }
@@ -93,18 +100,18 @@
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: rgba(18, 18, 18, 0.8);
+  background: var(--control-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--control-text);
+  border: 1px solid var(--control-border);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 180ms ease, transform 180ms ease, box-shadow 160ms ease;
+  transition: opacity 180ms ease, transform 180ms ease, box-shadow 160ms ease, background-color 0.25s ease, border-color 0.2s ease, color 0.25s ease;
   z-index: 60;
 }
 
@@ -118,6 +125,7 @@
   box-shadow: 0 8px 22px rgba(139, 92, 246, 0.1);
   border-color: transparent;
   background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  color: #fff;
 }
 
 /* Responsive */

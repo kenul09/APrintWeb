@@ -20,8 +20,8 @@ export default function MemberCard({ m, delay = 0 }) {
         transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background 0.3s, border-color 0.3s`,
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0) scale(1)" : "translateY(30px) scale(0.96)",
-        background: hovered ? "rgba(139,92,246,0.12)" : "rgba(255,255,255,0.04)",
-        borderColor: hovered ? "rgba(139,92,246,0.4)" : "rgba(255,255,255,0.08)",
+        background: hovered ? "rgba(139,92,246,0.12)" : "rgba(var(--ink-rgb),0.04)",
+        borderColor: hovered ? "rgba(139,92,246,0.4)" : "rgba(var(--ink-rgb),0.08)",
         cursor: "default",
       }}
     >
@@ -32,15 +32,15 @@ export default function MemberCard({ m, delay = 0 }) {
           borderRadius: "50%",
           background: hovered
             ? "linear-gradient(135deg, #8b5cf6, #a78bfa)"
-            : "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.1)",
+            : "rgba(var(--ink-rgb),0.06)",
+          border: "1px solid rgba(var(--ink-rgb),0.1)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           margin: "0 auto 18px",
           fontFamily: '"Bebas Neue", sans-serif',
           fontSize: "1.1rem",
-          color: "#fff",
+          color: "var(--foreground)",
           transition: "background 0.3s",
         }}
       >
@@ -52,7 +52,7 @@ export default function MemberCard({ m, delay = 0 }) {
           fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.88rem",
           fontWeight: 500,
-          color: "#fff",
+          color: "var(--foreground)",
           marginBottom: 6,
         }}
       >
@@ -63,7 +63,7 @@ export default function MemberCard({ m, delay = 0 }) {
         style={{
           fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.68rem",
-          color: "rgba(255,255,255,0.3)",
+          color: "rgba(var(--ink-rgb),0.3)",
           letterSpacing: "0.14em",
           textTransform: "uppercase",
           fontWeight: 300,

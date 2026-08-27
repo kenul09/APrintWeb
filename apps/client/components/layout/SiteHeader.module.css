@@ -4,10 +4,12 @@
   left: 0;
   right: 0;
   z-index: 50;
-  background: rgba(6, 6, 8, 0.7);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .inner {
@@ -22,7 +24,7 @@
 .brand {
   display: flex;
   align-items: center;
-  color: #ffffff;
+  color: var(--foreground);
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -31,6 +33,13 @@
   width: 140px;
   height: auto;
   max-width: 100%;
+  transition: filter 0.25s ease;
+}
+
+/* The logo asset itself is white artwork — invert it in light mode rather
+   than shipping a second logo file. */
+:global([data-theme='light']) .logo {
+  filter: invert(1);
 }
 
 .nav {
@@ -43,14 +52,28 @@
 
 .controls {
   display: flex;
-  gap: 0.5rem;
+  gap: 18px;
   align-items: center;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   flex-shrink: 0;
 }
 
+.controlsDivider {
+  width: 1px;
+  height: 22px;
+  background: var(--control-border);
+  flex-shrink: 0;
+  transition: background-color 0.25s ease;
+}
+
+@media (min-width: 1280px) {
+  .controls {
+    gap: 22px;
+  }
+}
+
 .link {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--nav-link);
   text-decoration: none;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
@@ -61,7 +84,7 @@
 
 .link:hover,
 .link:focus-visible {
-  color: #ffffff;
+  color: var(--nav-link-hover);
 }
 
 .link.active {
@@ -70,13 +93,13 @@
 .link.active::after {
   content: '';
   position: absolute;
-  left: 8px;
-  right: 8px;
+  left: 10px;
+  right: 10px;
   bottom: -10px;
-  height: 3px;
-  border-radius: 6px;
+  height: 2px;
+  border-radius: 2px;
   background: linear-gradient(90deg, #8b5cf6, #ec4899);
-  opacity: 0.95;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.35);
   transform-origin: center;
 }
 
@@ -89,11 +112,12 @@
   width: 42px;
   height: 42px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--control-border);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--control-bg);
   cursor: pointer;
   flex-shrink: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .menuBar {
@@ -101,8 +125,8 @@
   width: 20px;
   height: 2px;
   border-radius: 2px;
-  background: #ffffff;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  background: var(--control-text);
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.25s ease;
 }
 
 .menuToggle[aria-expanded="true"] .menuBar:nth-child(1) {
@@ -145,11 +169,11 @@
     overflow: hidden;
     opacity: 0;
     padding: 0 20px;
-    background: rgba(6, 6, 8, 0.96);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--header-scrim);
+    border-top: 1px solid var(--header-border);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease;
+    transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease, background-color 0.25s ease, border-color 0.25s ease;
   }
 
   .mobileNavOpen {
@@ -159,23 +183,23 @@
   }
 
   .mobileLink {
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--nav-link);
     text-decoration: none;
     font-size: 0.95rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 14px 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--header-border);
     transition: color 0.2s ease;
   }
 
   .mobileLink:hover,
   .mobileLink:focus-visible {
-    color: #ffffff;
+    color: var(--nav-link-hover);
   }
 
   .mobileLink.mobileLinkActive {
-    color: #ffffff;
+    color: var(--nav-link-hover);
     padding-left: 14px;
     border-image: linear-gradient(180deg, #8b5cf6, #ec4899) 1;
     border-left: 3px solid;
@@ -185,7 +209,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 12px;
     margin-top: 16px;
   }
 }
