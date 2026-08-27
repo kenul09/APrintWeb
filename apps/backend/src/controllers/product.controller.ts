@@ -4,7 +4,8 @@ import * as productService from "../services/product.service";
 
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
   const activeOnly = req.query.active === "true";
-  const data = await productService.listProducts({ activeOnly });
+  const search = typeof req.query.search === "string" ? req.query.search.trim() : undefined;
+  const data = await productService.listProducts({ activeOnly, search });
   res.status(200).json({ success: true, data });
 });
 

@@ -29,8 +29,26 @@
 
 .columns {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
+}
+
+.stateBox {
+  padding: 30px 12px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+}
+
+.errorBox {
+  composes: stateBox;
+  color: #f87171;
+}
+
+.rowLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .panel {
@@ -100,6 +118,12 @@
 @media (max-width: 1100px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .columns {
+    grid-template-columns: 1fr;
   }
 }
 

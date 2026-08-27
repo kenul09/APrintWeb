@@ -9,6 +9,7 @@ const router = Router();
 router.post("/", validateBody(createContactMessageSchema), contactController.create);
 router.get("/", authenticateToken, requireAdmin, contactController.getAll);
 router.patch("/:id/read", authenticateToken, requireAdmin, contactController.markRead);
+router.patch("/:id/unread", authenticateToken, requireAdmin, contactController.markUnread);
 router.delete("/:id", authenticateToken, requireAdmin, contactController.remove);
 
 export default router;

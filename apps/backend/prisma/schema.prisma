@@ -11,6 +11,14 @@ enum Role {
   ADMIN
 }
 
+enum OrderStatus {
+  NEW
+  IN_REVIEW
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
 model Admin {
   id        String   @id @default(cuid())
   name      String
@@ -41,6 +49,40 @@ model Portfolio {
   image       String
   category    String
   isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId String
+  service    String?
+  message    String?
+  amount     String?
+  status     OrderStatus @default(NEW)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String?
+  image       String?
+  isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

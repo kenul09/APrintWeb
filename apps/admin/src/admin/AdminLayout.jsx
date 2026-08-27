@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import AdminSidebar from './components/AdminSidebar';
 import AdminHeader from './components/AdminHeader';
@@ -7,6 +8,7 @@ import '../admin/styles/adminUI.css';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const logout = async () => {
     authService.logout();
@@ -19,8 +21,8 @@ export default function AdminLayout() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      <AdminSidebar onLogout={logout} />
-      <AdminHeader />
+      <AdminSidebar onLogout={logout} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <AdminHeader onMenuClick={() => setSidebarOpen((v) => !v)} />
 
       <main className="admin-main">
         <Outlet />
