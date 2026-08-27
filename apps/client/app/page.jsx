@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import AnimatedStat from "@/components/common/AnimatedStat";
 import PartnerLogo from "@/components/common/PartnerLogo";
 import { partners } from "@/data/partners";
 import { typeWords } from "@/data/siteContent";
@@ -38,52 +39,89 @@ export default function Home() {
         .display-text { font-family: "Oswald", sans-serif; font-weight: 500; line-height: 0.9; margin: 0; }
         .cursor { display: inline-block; width: 3px; height: 0.85em; background: #a78bfa; margin-left: 4px; animation: blink 0.9s infinite; }
 
-        .marquee-shell { border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: relative; background: rgba(255,255,255,0.01); }
-        .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+        .marquee-shell { border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: relative; background: rgba(255,255,255,0.01); max-width: 100%; }
+        .marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
-        .marquee-pill { display: flex; align-items: center; gap: 20px; padding: 0 60px; height: 160px; border-right: 1px solid rgba(255,255,255,0.04); transition: background 0.3s; }
-        .marquee-pill:hover { background: rgba(255,255,255,0.03); }
+        .marquee-pill { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 36px 48px; }
 
         .marquee-logo-wrap {
           position: relative;
-          width: 85px !important;
-          height: 85px !important;
-          min-width: 85px !important;
-          min-height: 85px !important;
-          border-radius: 50% !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          overflow: hidden !important;
-          padding: 15px !important;
-          background: rgba(255,255,255,0.08) !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
-          transition: all 0.4s ease;
+          width: 150px;
+          height: 150px;
+          min-width: 150px;
+          min-height: 150px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          padding: 26px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+          transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
         }
 
         .marquee-logo-wrap img {
-          width: 100%;
-          height: 100%;
           object-fit: contain !important;
-          filter: grayscale(100%) brightness(1.2);
-          transition: 0.4s;
         }
 
         .marquee-pill:hover .marquee-logo-wrap {
-          transform: scale(1.1);
+          transform: scale(1.08);
           border-color: #a78bfa;
-          background: rgba(255,255,255,0.12) !important;
+          background: rgba(255,255,255,0.1);
+          box-shadow: 0 12px 32px rgba(139,92,246,0.25);
         }
 
-        .marquee-pill:hover img {
-          filter: grayscale(0%) brightness(1);
+        .shimmer-load {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.04) 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.4s ease-in-out infinite;
         }
 
-        .marquee-name { font-family: "DM Sans", sans-serif; font-size: 1.2rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .marquee-fallback { font-family: "Oswald", sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em; }
+
+        .marquee-name { font-family: "DM Sans", sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
+
+        @media (max-width: 980px) {
+          .marquee-pill { padding: 28px 32px; gap: 12px; }
+          .marquee-logo-wrap { width: 110px; height: 110px; min-width: 110px; min-height: 110px; padding: 20px; }
+          .marquee-name { font-size: 0.85rem; max-width: 100px; }
+        }
+
+        @media (max-width: 640px) {
+          .marquee-pill { padding: 20px 18px; gap: 8px; }
+          .marquee-logo-wrap { width: 80px; height: 80px; min-width: 80px; min-height: 80px; padding: 14px; }
+          .marquee-name { font-size: 0.7rem; max-width: 90px; }
+        }
 
         .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(255,255,255,0.06); }
-        .stat-box { padding: 40px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.06); }
-        .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 500; }
+        .stat-box { padding: 40px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.06); min-width: 0; }
+        .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 500; white-space: nowrap; }
+
+        @media (max-width: 900px) {
+          .stat-grid { margin: 0 32px 72px; }
+          .stat-box { padding: 28px 20px; }
+          .stat-val { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 640px) {
+          .stat-grid { grid-template-columns: repeat(2, 1fr); margin: 0 20px 56px; }
+          .stat-box { padding: 22px 12px; border-right: 1px solid rgba(255,255,255,0.06); border-bottom: none; }
+          .stat-box:nth-child(2n) { border-right: none; }
+          .stat-box:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .stat-val { font-size: 1.9rem; }
+        }
+
+        @media (max-width: 380px) {
+          .stat-box { padding: 18px 10px; }
+          .stat-val { font-size: 1.5rem; }
+        }
 
         .btn-primary { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; padding: 16px 36px; border-radius: 12px; text-decoration: none; font-weight: 700; }
       `}</style>
@@ -136,10 +174,7 @@ export default function Home() {
           style={{ opacity: statsIn ? 1 : 0, transition: "1s" }}
         >
           {[["2000+", t('stats.customers')], ["8+", t('stats.products')], ["24s", t('stats.delivery')], ["5.0★", t('stats.rating')]].map(([v, l]) => (
-            <div key={l} className="stat-box">
-              <div className="stat-val">{v}</div>
-              <div style={{ color: "rgba(255,255,255,0.4)" }}>{l}</div>
-            </div>
+            <AnimatedStat key={l} value={v} label={l} active={statsIn} />
           ))}
         </section>
 

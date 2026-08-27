@@ -16,7 +16,8 @@ export default function PartnerLogo({ partner }) {
             src={partner.logo}
             alt={partner.name}
             fill
-            sizes="85px"
+            loading="eager"
+            sizes="(max-width: 640px) 80px, (max-width: 980px) 110px, 150px"
             onLoad={() => setLoading(false)}
             onError={() => {
               setBroken(true);
@@ -25,8 +26,6 @@ export default function PartnerLogo({ partner }) {
             style={{
               display: loading ? "none" : "block",
               objectFit: "contain",
-              filter: "grayscale(100%) brightness(1.2)",
-              transition: "0.4s",
             }}
           />
         ) : (

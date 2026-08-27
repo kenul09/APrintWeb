@@ -5,8 +5,9 @@ import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import { glassStyle } from "@/components/ui/glassStyle";
 
-export default function WorkCard({ work, delay = 0 }) {
-  const [ref, inView] = useInView();
+export default function WorkCard({ work, delay = 0, forceVisible = false }) {
+  const [ref, observedInView] = useInView();
+  const inView = forceVisible || observedInView;
   const [hovered, setHovered] = useState(false);
 
   return (
