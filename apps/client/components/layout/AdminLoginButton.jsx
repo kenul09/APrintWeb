@@ -8,6 +8,17 @@ export default function AdminLoginButton() {
   const adminUrl = getAdminUrl();
   const router = useRouter();
 
+  // In development, apps/admin (Vite) runs on the port set in
+  // apps/admin/vite.config.js. In production there is no safe localhost
+  // fallback — NEXT_PUBLIC_ADMIN_URL must be configured to the deployed
+  // admin URL, otherwise the button is hidden (see render guard below).
+  const isDev = process.env.NODE_ENV === 'development';
+  const devFallbackUrl = 'http://localhost:5178/admin';
+
+  if (!adminUrl && !isDev) {
+    return null;
+  }
+
   function go() {
     // Determine final target. If an explicit adminUrl is provided, prefer it
     let target = adminUrl || '';
@@ -27,9 +38,9 @@ export default function AdminLoginButton() {
         if (!target.startsWith('/')) target = `/${target}`;
       }
     } else {
-      // No adminUrl configured — fall back to common local dev admin URL.
-      // Do NOT navigate to a client-internal /admin route to avoid mixing apps.
-      target = 'http://localhost:5178/admin';
+      // No NEXT_PUBLIC_ADMIN_URL configured — only reached in development
+      // (see render guard above), so fall back to the local Vite dev port.
+      target = devFallbackUrl;
     }
 
     // If target looks like an absolute URL, perform a full navigation; otherwise use router.push

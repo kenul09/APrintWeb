@@ -100,6 +100,12 @@ export default function Home() {
           .marquee-name { font-size: 0.7rem; max-width: 90px; }
         }
 
+        @media (max-width: 480px) {
+          .marquee-pill { padding: 14px 12px; gap: 8px; }
+          .marquee-logo-wrap { width: 60px; height: 60px; min-width: 60px; min-height: 60px; padding: 10px; }
+          .marquee-name { font-size: 0.65rem; max-width: 70px; }
+        }
+
         .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(255,255,255,0.06); }
         .stat-box { padding: 40px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.06); min-width: 0; }
         .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 500; white-space: nowrap; }
