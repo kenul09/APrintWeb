@@ -17,9 +17,19 @@ async function uniqueSlugFrom(name: string, ignoreId?: string): Promise<string> 
   }
 }
 
-export async function listProducts(options: { activeOnly?: boolean } = {}) {
+export async function listProducts(options: { activeOnly?: boolean; search?: string } = {}) {
   return prisma.product.findMany({
-    where: options.activeOnly ? { isActive: true } : undefined,
+    where: {
+      ...(options.activeOnly ? { isActive: true } : {}),
+      ...(options.search
+        ? {
+            OR: [
+              { name: { contains: options.search, mode: "insensitive" as const } },
+              { category: { contains: options.search, mode: "insensitive" as const } },
+            ],
+          }
+        : {}),
+    },
     orderBy: { createdAt: "desc" },
   });
 }

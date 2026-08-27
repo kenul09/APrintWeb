@@ -145,3 +145,117 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ── Toolbar ── */
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.searchInput:focus {
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+/* ── States ── */
+.stateBox {
+  padding: 60px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.9rem;
+}
+
+.errorBox {
+  composes: stateBox;
+  color: #f87171;
+}
+
+.rowClickable {
+  cursor: pointer;
+}
+
+/* ── Detail modal ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #0f0f13;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.modalClose {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modalRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+}
+
+.modalLabel {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.modalValue {
+  color: #fff;
+  text-align: right;
+}
+
+.orderHistoryTitle {
+  margin: 20px 0 10px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.orderHistoryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+}
