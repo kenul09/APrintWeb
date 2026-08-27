@@ -4,6 +4,7 @@ import AdminRegister from "./admin/adminRegister";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/pages/dashboard";
 import AdminProducts from "./admin/pages/adminProducts";
+import AdminPortfolio from "./admin/pages/adminPortfolio";
 import AdminOrders from "./admin/pages/adminOrders";
 import AdminCustomers from "./admin/pages/adminCustomers";
 import AdminBlog from "./admin/pages/adminBlog";
@@ -26,6 +27,7 @@ export default function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="products" element={<AdminProducts />} />
+        <Route path="portfolio" element={<AdminPortfolio />} />
         <Route path="orders" element={<AdminOrders />} />
         <Route path="customers" element={<AdminCustomers />} />
         <Route path="blog" element={<AdminBlog />} />

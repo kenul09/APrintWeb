@@ -1,32 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiFetch } from './lib/api';
+import { authService } from './lib/authService';
 
 export default function AdminRegister() {
-  const [form, setForm] = useState({ email: '', password: '', confirm: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [focused, setFocused] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [checking, setChecking] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let cancelled = false;
-    apiFetch('/api/auth/register')
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (!data.available) navigate('/admin/login', { replace: true });
-        else setChecking(false);
-      })
-      .catch(() => {
-        if (!cancelled) navigate('/admin/login', { replace: true });
-      });
-    return () => { cancelled = true; };
-  }, [navigate]);
 
   const handleRegister = async () => {
     setError('');
+    if (!form.name.trim()) {
+      setError('Ad Soyad tələb olunur');
+      return;
+    }
     if (form.password.length < 8) {
       setError('Şifrə ən azı 8 simvol olmalıdır');
       return;
@@ -37,24 +26,20 @@ export default function AdminRegister() {
     }
     setSubmitting(true);
     try {
-      const res = await apiFetch('/api/auth/register', {
-        method: 'POST',
-        body: JSON.stringify({ email: form.email, password: form.password }),
-      });
-      if (res.ok) {
-        navigate('/admin');
-      } else {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error || 'Qeydiyyat mümkün olmadı');
-      }
-    } catch {
-      setError('Serverə qoşulmaq mümkün olmadı');
+      // apps/backend (:5001) is the real, current admin auth system — this
+      // is deliberately NOT the legacy apps/client cookie-session route,
+      // which only ever allowed a single self-registered admin.
+      await authService.register(form.name.trim(), form.email, form.password);
+      setSuccess(true);
+      setTimeout(() => navigate('/admin/login'), 1200);
+    } catch (err) {
+      // status 0 = backendFetch couldn't reach the server at all (network
+      // failure), as opposed to a normal JSON error response from it.
+      setError(err.status === 0 ? 'Serverlə əlaqə qurmaq mümkün olmadı.' : err.message);
     } finally {
       setSubmitting(false);
     }
   };
-
-  if (checking) return null;
 
   return (
     <div style={{
@@ -78,6 +63,10 @@ export default function AdminRegister() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
         }
         ::placeholder { color: rgba(255,255,255,0.2); }
       `}</style>
@@ -131,13 +120,31 @@ export default function AdminRegister() {
               background: 'linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899)',
               backgroundSize: '200% auto',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+              animation: 'shimmer 4s linear infinite',
               marginBottom: 6,
-            }}>İlk admin hesabı</h1>
+            }}>PrintShop Admin</h1>
             <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.83rem' }}>
-              Qeydiyyatdan keçin və admin panelinə daxil olun
+              Yeni hesab yaradın
             </p>
           </div>
 
+          {success ? (
+            <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: '50%', margin: '0 auto 18px',
+                background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1.5rem', color: '#a78bfa',
+              }}>✓</div>
+              <p style={{ color: '#fff', fontWeight: 600, fontSize: '0.95rem', marginBottom: 6 }}>
+                Qeydiyyat uğurla tamamlandı
+              </p>
+              <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.83rem' }}>
+                Daxil olma səhifəsinə yönləndirilirsiniz…
+              </p>
+            </div>
+          ) : (
+          <>
           {error && (
             <div style={{
               background: 'rgba(239,68,68,0.1)',
@@ -151,6 +158,7 @@ export default function AdminRegister() {
           )}
 
           {[
+            { label: 'Ad Soyad', key: 'name', type: 'text', placeholder: 'Əli Həsənov' },
             { label: 'Email', key: 'email', type: 'email', placeholder: 'admin@printshop.az' },
             { label: 'Şifrə', key: 'password', type: 'password', placeholder: '••••••••' },
             { label: 'Şifrəni təsdiqlə', key: 'confirm', type: 'password', placeholder: '••••••••' },
@@ -212,6 +220,8 @@ export default function AdminRegister() {
               Daxil olun
             </Link>
           </p>
+          </>
+          )}
         </div>
       </div>
     </div>

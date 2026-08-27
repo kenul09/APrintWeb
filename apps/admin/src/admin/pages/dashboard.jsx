@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { initialPosts } from '../data/blog';
 import { apiFetch } from '../lib/api';
+import { productService } from '../lib/productService';
 import StatCard from '../components/StatCard';
 import styles from '../styles/dashboard.module.css';
 
@@ -11,9 +12,20 @@ export default function Dashboard() {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    apiFetch('/api/products').then(res => res.json()).then(setProducts).catch(() => {});
-    apiFetch('/api/orders').then(res => res.json()).then(setOrders).catch(() => {});
-    apiFetch('/api/customers').then(res => res.json()).then(setCustomers).catch(() => {});
+    productService.getAll().then(setProducts).catch(() => {});
+    // Orders/Customers are still served by the legacy cookie-session API
+    // (see apps/backend/README.md "Known scope boundary") — an admin
+    // account created via the new /admin/register flow won't have that
+    // legacy session, so this 401s. Guard against the non-array error
+    // body rather than crashing the whole dashboard on it.
+    apiFetch('/api/orders')
+      .then(res => res.json())
+      .then(data => setOrders(Array.isArray(data) ? data : []))
+      .catch(() => {});
+    apiFetch('/api/customers')
+      .then(res => res.json())
+      .then(data => setCustomers(Array.isArray(data) ? data : []))
+      .catch(() => {});
   }, []);
 
   const totalProducts = products.length;

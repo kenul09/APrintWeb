@@ -41,9 +41,15 @@
 
 .formGrid {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 14px;
   margin-bottom: 20px;
+}
+
+.error {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin: 0 0 16px;
 }
 
 .input {
