@@ -2,9 +2,19 @@ import { prisma } from "../lib/prisma";
 import { ApiError } from "../utils/ApiError";
 import type { CreatePortfolioInput, UpdatePortfolioInput } from "../validators/portfolio.schema";
 
-export async function listPortfolio(options: { publishedOnly?: boolean } = {}) {
+export async function listPortfolio(options: { publishedOnly?: boolean; search?: string } = {}) {
   return prisma.portfolio.findMany({
-    where: options.publishedOnly ? { isPublished: true } : undefined,
+    where: {
+      ...(options.publishedOnly ? { isPublished: true } : {}),
+      ...(options.search
+        ? {
+            OR: [
+              { title: { contains: options.search, mode: "insensitive" as const } },
+              { category: { contains: options.search, mode: "insensitive" as const } },
+            ],
+          }
+        : {}),
+    },
     orderBy: { createdAt: "desc" },
   });
 }

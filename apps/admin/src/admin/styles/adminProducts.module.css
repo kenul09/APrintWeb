@@ -148,6 +148,37 @@
   border-radius: 8px;
 }
 
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 380px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.stateBox {
+  padding: 60px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.9rem;
+}
+
+.errorBox {
+  composes: stateBox;
+  color: #f87171;
+}
+
 @media (max-width: 900px) {
   .formGrid {
     grid-template-columns: 1fr;

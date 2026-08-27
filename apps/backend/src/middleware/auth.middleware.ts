@@ -28,6 +28,23 @@ export function authenticateToken(req: Request, _res: Response, next: NextFuncti
   }
 }
 
+export function optionalAuth(req: Request, _res: Response, next: NextFunction) {
+  const header = req.headers.authorization;
+  const token = header?.startsWith("Bearer ") ? header.slice("Bearer ".length) : null;
+
+  if (!token) {
+    next();
+    return;
+  }
+
+  try {
+    req.user = verifyToken(token);
+  } catch {
+    // Invalid/expired token on an optionally-authenticated route: treat as anonymous.
+  }
+  next();
+}
+
 export function requireAdmin(req: Request, _res: Response, next: NextFunction) {
   if (!req.user) {
     next(ApiError.unauthorized());

@@ -2,8 +2,9 @@ import type { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import * as portfolioService from "../services/portfolio.service";
 
-export const getAll = asyncHandler(async (_req: Request, res: Response) => {
-  const data = await portfolioService.listPortfolio({ publishedOnly: true });
+export const getAll = asyncHandler(async (req: Request, res: Response) => {
+  const search = typeof req.query.search === "string" ? req.query.search.trim() : undefined;
+  const data = await portfolioService.listPortfolio({ publishedOnly: !req.user, search });
   res.status(200).json({ success: true, data });
 });
 

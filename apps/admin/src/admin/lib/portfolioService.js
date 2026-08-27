@@ -1,8 +1,11 @@
 import { backendFetch } from './backend';
 
 export const portfolioService = {
-  async getAll() {
-    const { data } = await backendFetch('/portfolio');
+  async getAll(params = {}) {
+    const query = new URLSearchParams();
+    if (params.search) query.set('search', params.search);
+    const qs = query.toString();
+    const { data } = await backendFetch(`/portfolio${qs ? `?${qs}` : ''}`);
     return data;
   },
   async create(payload) {
