@@ -1,60 +1,54 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/adminProducts.module.css";
-import { apiFetch } from "../lib/api";
+import { productService } from "../lib/productService";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
-    title: "",
+    name: "",
     price: "",
-    icon: "🖨️",
     category: "Çap",
   });
 
   useEffect(() => {
-    apiFetch("/api/products")
-      .then((res) => res.json())
+    productService
+      .getAll()
       .then(setProducts)
       .catch(() => {});
   }, []);
 
   const addProduct = async () => {
-    if (!form.title || !form.price) return;
+    if (!form.name) return;
 
-    const res = await apiFetch("/api/products", {
-      method: "POST",
-      body: JSON.stringify(form),
-    });
-    if (res.ok) {
-      const product = await res.json();
-      setProducts([...products, product]);
+    setError("");
+    try {
+      const product = await productService.create(form);
+      setProducts([product, ...products]);
+      setForm({ name: "", price: "", category: "Çap" });
+      setShowForm(false);
+    } catch (err) {
+      setError(err.message || "Məhsul əlavə edilə bilmədi");
     }
-
-    setForm({
-      title: "",
-      price: "",
-      icon: "🖨️",
-      category: "Çap",
-    });
-
-    setShowForm(false);
   };
 
   const deleteProduct = async (id) => {
-    const res = await apiFetch(`/api/products/${id}`, { method: "DELETE" });
-    if (res.ok) setProducts(products.filter((p) => p.id !== id));
+    try {
+      await productService.remove(id);
+      setProducts(products.filter((p) => p.id !== id));
+    } catch {
+      // ignore — list simply won't update
+    }
   };
 
   const toggleActive = async (id) => {
     const product = products.find((p) => p.id === id);
-    const res = await apiFetch(`/api/products/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ active: !product.active }),
-    });
-    if (res.ok) {
-      const updated = await res.json();
+    try {
+      const updated = await productService.update(id, { isActive: !product.isActive });
       setProducts(products.map((p) => (p.id === id ? updated : p)));
+    } catch {
+      // ignore
     }
   };
 
@@ -86,11 +80,11 @@ export default function AdminProducts() {
             <input
               className={styles.input}
               placeholder="Məhsul adı"
-              value={form.title}
+              value={form.name}
               onChange={(e) =>
                 setForm({
                   ...form,
-                  title: e.target.value,
+                  name: e.target.value,
                 })
               }
             />
@@ -103,18 +97,6 @@ export default function AdminProducts() {
                 setForm({
                   ...form,
                   price: e.target.value,
-                })
-              }
-            />
-
-            <input
-              className={styles.input}
-              placeholder="İkon"
-              value={form.icon}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  icon: e.target.value,
                 })
               }
             />
@@ -133,6 +115,8 @@ export default function AdminProducts() {
               <option value="Reklam">Reklam</option>
             </select>
           </div>
+
+          {error && <p className={styles.error}>{error}</p>}
 
           <div className={styles.formActions}>
             <button
@@ -169,29 +153,27 @@ export default function AdminProducts() {
               <tr key={product.id}>
                 <td>
                   <div className={styles.productInfo}>
-                    <div className={styles.productIcon}>
-                      {product.icon}
-                    </div>
+                    <div className={styles.productIcon}>🖨️</div>
 
-                    <span>{product.title}</span>
+                    <span>{product.name}</span>
                   </div>
                 </td>
 
                 <td>{product.category}</td>
 
                 <td className={styles.price}>
-                  {product.price}
+                  {product.price || "—"}
                 </td>
 
                 <td>
                   <span
                     className={
-                      product.active
+                      product.isActive
                         ? styles.active
                         : styles.inactive
                     }
                   >
-                    {product.active
+                    {product.isActive
                       ? "Aktiv"
                       : "Deaktiv"}
                   </span>

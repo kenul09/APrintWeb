@@ -44,7 +44,7 @@ export default function SiteFooter() {
               <a className={styles.socialBtn} href="https://wa.me/994557505533" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
-              <a className={styles.socialBtn} href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a className={styles.socialBtn} href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>
@@ -56,7 +56,8 @@ export default function SiteFooter() {
         <div className={styles.divider} />
 
         <div className={styles.bottom}>
-          <span>{t('footer.copyright')}</span>
+          <span className={styles.copyright}>{t('footer.copyright')}</span>
+          <span className={styles.madeBy}>{t('footer.madeBy')}</span>
         </div>
       </div>
 

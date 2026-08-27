@@ -1,24 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { productService } from "@/lib/api/productService";
 
 export default function PriceList() {
   const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/products?active=true")
-      .then((res) => res.json())
+    productService
+      .getAll({ activeOnly: true })
       .then((data) => {
-        if (!cancelled) setProducts(data);
+        if (cancelled) return;
+        setProducts(data);
+        setStatus(data.length === 0 ? "empty" : "ready");
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!cancelled) setStatus("error");
+      });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  if (products.length === 0) return null;
+  if (status === "loading") {
+    return <p style={{ color: "rgba(var(--ink-rgb),0.5)", fontSize: "0.9rem" }}>Yüklənir…</p>;
+  }
+  if (status === "error") {
+    return <p style={{ color: "rgba(var(--ink-rgb),0.5)", fontSize: "0.9rem" }}>Qiymət siyahısı yüklənə bilmədi.</p>;
+  }
+  if (status === "empty") return null;
 
   return (
     <div
@@ -41,13 +53,15 @@ export default function PriceList() {
             gap: 8,
           }}
         >
-          <div style={{ fontSize: "1.6rem" }}>{product.icon}</div>
+          <div style={{ fontSize: "1.6rem" }}>🖨️</div>
           <div style={{ color: "var(--foreground)", fontSize: "0.95rem", fontWeight: 600 }}>
-            {product.title}
+            {product.name}
           </div>
-          <div style={{ color: "#a78bfa", fontSize: "0.9rem", fontWeight: 700 }}>
-            {product.price}
-          </div>
+          {product.price && (
+            <div style={{ color: "#a78bfa", fontSize: "0.9rem", fontWeight: 700 }}>
+              {product.price}
+            </div>
+          )}
         </div>
       ))}
     </div>

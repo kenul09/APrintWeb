@@ -4,6 +4,7 @@ const menuItems = [
   { to: '/admin', label: 'Dashboard', icon: '📊', end: true },
   { to: '/admin/orders', label: 'Sifarişlər', icon: '📦' },
   { to: '/admin/products', label: 'Məhsullar', icon: '🗞️' },
+  { to: '/admin/portfolio', label: 'Portfolio', icon: '🖼️' },
   { to: '/admin/customers', label: 'Müştərilər', icon: '👥' },
   { to: '/admin/blog', label: 'Blog', icon: '✍️' },
   { to: '/admin/messages', label: 'Mesajlar', icon: '💬' },

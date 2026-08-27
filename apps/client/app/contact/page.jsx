@@ -5,6 +5,7 @@ import { useInView } from "@/hooks/useInView";
 import styles from "./contact.module.css";
 import { glassStyle } from "@/components/ui/glassStyle";
 import { useI18n } from '@/components/i18n/I18nProvider';
+import { contactService } from "@/lib/api/contactService";
 
 const inputBase = {
   width: "100%",
@@ -59,12 +60,7 @@ export default function Contact() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("submit failed");
+      await contactService.create(form);
       setSent(true);
       setError("");
     } catch {
@@ -227,7 +223,7 @@ export default function Contact() {
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  {submitting ? "..." : t('contact.submit')}
+                  {submitting ? t('contact.submitting') : t('contact.submit')}
                 </button>
               </form>
             )}

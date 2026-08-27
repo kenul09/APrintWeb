@@ -20,7 +20,8 @@ export const translations = {
     footer: {
       desc: 'A Print — brendinizi çap və dizayn xidmətləri ilə gücləndirir. Yüksək keyfiyyət, sürətli çatdırılma və peşəkar yanaşma.',
       backToTop: 'Səhifənin yuxarısına',
-      copyright: '© 2026 A Print. Bütün hüquqlar qorunur.'
+      copyright: '© 2026 A Print. Bütün hüquqlar qorunur.',
+      madeBy: 'SKWEB tərəfindən hazırlandı'
     },
     contact: {
       badge: 'Əlaqə',
@@ -29,9 +30,10 @@ export const translations = {
       labels: { name: 'Ad Soyad', email: 'Email', phone: 'Telefon', service: 'Xidmət', message: 'Mesaj' },
       placeholders: { name: 'Əli Həsənov', email: 'ali@example.com', phone: '+994 50 123 45 67', message: 'Sifariş detallarını yazın...' },
       submit: 'GÖNDƏR →',
+      submitting: 'Göndərilir...',
       successTitle: 'Mesaj göndərildi!',
-      successText: 'Müraciətiniz qeydə alındı. Tezliklə sizinlə əlaqə saxlayacağıq.',
-      errors: { required: 'Zəhmət olmasa bütün vacib sahələri doldurun.', invalidEmail: 'Email formatı düzgün deyil.', submitFailed: 'Mesaj göndərilmədi. Zəhmət olmasa yenidən cəhd edin.' },
+      successText: 'Müraciətiniz uğurla göndərildi.',
+      errors: { required: 'Zəhmət olmasa bütün vacib sahələri doldurun.', invalidEmail: 'Email düzgün formatda deyil.', submitFailed: 'Xəta baş verdi. Zəhmət olmasa bir az sonra yenidən cəhd edin.' },
       services: ['Flayer', 'Banner', 'Roll-up', 'Vizit kart', 'Kitabça', 'Stiker', 'Plakat', 'Digər'],
       contactInfoTitle: 'Əlaqə məlumatları',
       quickReplyTitle: 'Sürətli cavab',
@@ -50,7 +52,8 @@ export const translations = {
     footer: {
       desc: 'A Print — strengthens your brand with professional printing and design services. High quality, fast delivery and a professional approach.',
       backToTop: 'Back to top',
-      copyright: '© 2026 A Print. All rights reserved.'
+      copyright: '© 2026 A Print. All rights reserved.',
+      madeBy: 'SKWEB tərəfindən hazırlandı'
     },
     contact: {
       badge: 'Contact',
@@ -59,6 +62,7 @@ export const translations = {
       labels: { name: 'Name', email: 'Email', phone: 'Phone', service: 'Service', message: 'Message' },
       placeholders: { name: 'Ali Hasanov', email: 'ali@example.com', phone: '+994 50 123 45 67', message: 'Write your order details...' },
       submit: 'SEND →',
+      submitting: 'Sending...',
       successTitle: 'Message sent!',
       successText: 'Your request has been received. We will contact you shortly.',
       errors: { required: 'Please fill all required fields.', invalidEmail: 'Email format is invalid.', submitFailed: 'Message could not be sent. Please try again.' },
@@ -80,7 +84,8 @@ export const translations = {
     footer: {
       desc: 'A Print — усиливает ваш бренд с помощью профессиональных услуг печати и дизайна. Высокое качество, быстрая доставка и профессиональный подход.',
       backToTop: 'Наверх',
-      copyright: '© 2026 A Print. Все права защищены.'
+      copyright: '© 2026 A Print. Все права защищены.',
+      madeBy: 'SKWEB tərəfindən hazırlandı'
     },
     contact: {
       badge: 'Контакты',
@@ -89,6 +94,7 @@ export const translations = {
       labels: { name: 'Имя Фамилия', email: 'Email', phone: 'Телефон', service: 'Услуга', message: 'Сообщение' },
       placeholders: { name: 'Али Хасанов', email: 'ali@example.com', phone: '+994 50 123 45 67', message: 'Опишите детали заказа...' },
       submit: 'ОТПРАВИТЬ →',
+      submitting: 'Отправка...',
       successTitle: 'Сообщение отправлено!',
       successText: 'Ваш запрос получен. Мы свяжемся с вами в ближайшее время.',
       errors: { required: 'Пожалуйста, заполните все обязательные поля.', invalidEmail: 'Неверный формат email.', submitFailed: 'Не удалось отправить сообщение. Попробуйте ещё раз.' },
