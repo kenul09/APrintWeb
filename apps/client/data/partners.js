@@ -7,4 +7,5 @@ export const partners = [
   { name: "Manipura", abbr: "MC", bg: "rgba(212,83,126,0.1)", color: "#ed93b1", logo: "/logos/manipura.png" },
   { name: "İmereti", abbr: "IM", bg: "rgba(99,153,34,0.1)", color: "#97c459", logo: "/logos/imereti.png" },
   { name: "FusionClub", abbr: "FC", bg: "rgba(59,139,212,0.1)", color: "#6db3f2", logo: "/logos/fusionclub.png" },
+  { name: "Cire Duz", abbr: "CD", bg: "rgba(94,200,216,0.1)", color: "#5ec8d8", logo: "/logos/cireduz.png" },
 ];
