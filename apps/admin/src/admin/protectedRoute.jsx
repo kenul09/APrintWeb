@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { apiFetch } from './lib/api';
+import { authService } from './lib/authService';
 
 export default function ProtectedRoute({ children }) {
   const [status, setStatus] = useState('checking');
 
   useEffect(() => {
     let cancelled = false;
-    apiFetch('/api/auth/me')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setStatus(data.authenticated ? 'authenticated' : 'anonymous');
-      })
-      .catch(() => {
-        if (!cancelled) setStatus('anonymous');
-      });
-    return () => { cancelled = true; };
+    authService.me().then((user) => {
+      if (!cancelled) setStatus(user ? 'authenticated' : 'anonymous');
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (status === 'checking') return null;

@@ -40,6 +40,7 @@ model Customer {
 
 model Admin {
   id           Int      @id @default(autoincrement())
+  name         String?
   email        String   @unique
   passwordHash String
   createdAt    DateTime @default(now())

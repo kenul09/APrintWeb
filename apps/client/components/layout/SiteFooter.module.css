@@ -86,10 +86,35 @@
 }
 
 .bottom {
+  /* Same width/centering system as .container and .divider above it — this
+     was the actual bug: .bottom is a sibling of .container (not nested
+     inside it) and had no width constraint of its own, so it stretched
+     edge-to-edge instead of aligning with the footer content above it. */
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+  box-sizing: border-box;
   padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   color: rgba(var(--ink-rgb), 0.5);
   font-size: 0.85rem;
-  text-align: center;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+.copyright {
+  text-align: left;
+}
+
+.madeBy {
+  text-align: right;
+  /* Extra clearance (on top of the container's own inset above) so the
+     text never sits underneath the fixed back-to-top button
+     (right: 18px, 44px wide) at narrower desktop widths. */
+  padding-right: 56px;
 }
 
 /* Back to top */
@@ -151,6 +176,15 @@
   .container > div:last-child {
     display: none; /* Hide empty div on mobile */
   }
+  .bottom {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .copyright,
+  .madeBy {
+    text-align: center;
+    padding-right: 0;
+  }
 }
 
 @media (max-width: 520px) {
@@ -158,6 +192,9 @@
     width: calc(100% - 32px);
   }
   .divider {
+    width: calc(100% - 32px);
+  }
+  .bottom {
     width: calc(100% - 32px);
   }
 }

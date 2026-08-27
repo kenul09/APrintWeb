@@ -1,39 +1,52 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from '../styles/adminMessages.module.css';
-import { apiFetch } from '../lib/api';
+import { contactService } from '../lib/contactService';
+
+function formatDate(iso) {
+  try {
+    return new Date(iso).toLocaleDateString('az-AZ', { day: 'numeric', month: 'short' });
+  } catch {
+    return '';
+  }
+}
 
 export default function AdminMessages() {
   const [messages, setMessages] = useState([]);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    apiFetch('/api/messages')
-      .then(res => res.json())
+    contactService
+      .getAll()
       .then(setMessages)
       .catch(() => {});
   }, []);
 
   const markRead = async (id) => {
-    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
-    await apiFetch(`/api/messages/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ read: true }),
-    });
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, isRead: true } : m));
+    try {
+      await contactService.markRead(id);
+    } catch {
+      // ignore — local optimistic state already reflects the intent
+    }
   };
 
   const del = async (id) => {
     setMessages(prev => prev.filter(m => m.id !== id));
     if (selected?.id === id) setSelected(null);
-    await apiFetch(`/api/messages/${id}`, { method: 'DELETE' });
+    try {
+      await contactService.remove(id);
+    } catch {
+      // ignore
+    }
   };
 
   const handleSelect = (m) => {
     setSelected(m);
-    markRead(m.id);
+    if (!m.isRead) markRead(m.id);
   };
 
-  const unreadCount = messages.filter(m => !m.read).length;
+  const unreadCount = messages.filter(m => !m.isRead).length;
 
   return (
     <div className={styles.page}>
@@ -60,13 +73,13 @@ export default function AdminMessages() {
               )}
             >
               <div className={styles.cardTop}>
-                <span className={clsx(styles.senderName, !m.read && styles.senderNameUnread)}>
+                <span className={clsx(styles.senderName, !m.isRead && styles.senderNameUnread)}>
                   {m.name}
                 </span>
-                <span className={styles.date}>{m.date}</span>
+                <span className={styles.date}>{formatDate(m.createdAt)}</span>
               </div>
               <div className={styles.preview}>
-                {!m.read && <span className={styles.unreadDot} aria-hidden="true" />}
+                {!m.isRead && <span className={styles.unreadDot} aria-hidden="true" />}
                 <span className={styles.previewText}>{m.message}</span>
               </div>
             </div>
@@ -82,7 +95,7 @@ export default function AdminMessages() {
                   <h3 className={styles.detailName}>{selected.name}</h3>
                   <div className={styles.detailEmail}>{selected.email}</div>
                 </div>
-                <span className={styles.serviceBadge}>{selected.service}</span>
+                {selected.service && <span className={styles.serviceBadge}>{selected.service}</span>}
               </div>
 
               <div className={styles.messageBody}>
