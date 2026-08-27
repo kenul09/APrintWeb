@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
+import { parsePagination } from "../utils/pagination";
 import * as contactService from "../services/contact.service";
 import * as emailService from "../services/email.service";
 
@@ -21,13 +22,20 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
   res.status(201).json({ success: true, message: "Müraciətiniz uğurla göndərildi.", data });
 });
 
-export const getAll = asyncHandler(async (_req: Request, res: Response) => {
-  const data = await contactService.listMessages();
-  res.status(200).json({ success: true, data });
+export const getAll = asyncHandler(async (req: Request, res: Response) => {
+  const pagination = parsePagination(req);
+  const unreadOnly = req.query.unreadOnly === "true";
+  const { data, meta } = await contactService.listMessages({ ...pagination, unreadOnly });
+  res.status(200).json({ success: true, data, meta });
 });
 
 export const markRead = asyncHandler(async (req: Request, res: Response) => {
   const data = await contactService.markMessageRead(req.params.id);
+  res.status(200).json({ success: true, data });
+});
+
+export const markUnread = asyncHandler(async (req: Request, res: Response) => {
+  const data = await contactService.markMessageUnread(req.params.id);
   res.status(200).json({ success: true, data });
 });
 
