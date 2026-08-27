@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import Image from "next/image";
-import { works } from "@/data/portfolioWorks";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import WorkCard from "@/components/portfolio/WorkCard";
 import { useI18n } from '@/components/i18n/I18nProvider';
+import { portfolioService } from "@/lib/api/portfolioService";
 
 const MOBILE_PAGE_SIZE = 4;
 
@@ -35,15 +34,34 @@ function getPaginationRange(current, total) {
 
 export default function Portfolio() {
   const { t } = useI18n();
+  const [works, setWorks] = useState([]);
+  const [status, setStatus] = useState("loading");
   const [filter, setFilter] = useState(t('portfolio.all'));
   const [page, setPage] = useState(1);
   const [heroRef, heroIn] = useInView(0.1);
   const gridRef = useRef(null);
 
+  useEffect(() => {
+    let cancelled = false;
+    portfolioService
+      .getAll()
+      .then((data) => {
+        if (cancelled) return;
+        setWorks(data);
+        setStatus(data.length === 0 ? "empty" : "ready");
+      })
+      .catch(() => {
+        if (!cancelled) setStatus("error");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const categories = useMemo(() => {
     const unique = [...new Set(works.map((w) => w.category))];
     return [t('portfolio.all'), ...unique];
-  }, [t]);
+  }, [t, works]);
 
   const filteredWorks = filter === t('portfolio.all') ? works : works.filter((w) => w.category === filter);
 
@@ -303,17 +321,33 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <section className="portfolio-grid portfolio-grid-desktop">
-          {filteredWorks.map((work, i) => (
-            <WorkCard key={work.id} work={work} delay={i * 0.08} />
-          ))}
-        </section>
+        {status === "loading" && (
+          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>Yüklənir…</p>
+        )}
+        {status === "error" && (
+          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>
+            Portfolio yüklənə bilmədi. Bir az sonra yenidən cəhd edin.
+          </p>
+        )}
+        {status === "empty" && (
+          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>Hələ heç bir iş əlavə olunmayıb.</p>
+        )}
 
-        <section ref={gridRef} className="portfolio-grid portfolio-grid-mobile">
-          {paginatedWorks.map((work, i) => (
-            <WorkCard key={work.id} work={work} delay={i * 0.06} forceVisible />
-          ))}
-        </section>
+        {status === "ready" && (
+          <>
+            <section className="portfolio-grid portfolio-grid-desktop">
+              {filteredWorks.map((work, i) => (
+                <WorkCard key={work.id} work={work} delay={i * 0.08} />
+              ))}
+            </section>
+
+            <section ref={gridRef} className="portfolio-grid portfolio-grid-mobile">
+              {paginatedWorks.map((work, i) => (
+                <WorkCard key={work.id} work={work} delay={i * 0.06} forceVisible />
+              ))}
+            </section>
+          </>
+        )}
 
         {totalPages > 1 && (
           <nav className="portfolio-pagination" aria-label="Səhifələmə">

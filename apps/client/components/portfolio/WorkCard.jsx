@@ -34,7 +34,7 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
         }}
       >
         <Image
-          src={work.img}
+          src={work.image}
           alt={work.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

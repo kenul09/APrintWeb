@@ -1,29 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { apiFetch } from './lib/api';
+import { authService } from './lib/authService';
 
 export default function AdminLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [focused, setFocused] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [registrationAvailable, setRegistrationAvailable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
-    apiFetch('/api/auth/me')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled && data.authenticated) navigate('/admin');
-      })
-      .catch(() => {});
-    apiFetch('/api/auth/register')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setRegistrationAvailable(Boolean(data.available));
-      })
-      .catch(() => {});
+    authService.me().then((user) => {
+      if (!cancelled && user) navigate('/admin');
+    });
     return () => { cancelled = true; };
   }, [navigate]);
 
@@ -31,18 +22,20 @@ export default function AdminLogin() {
     setSubmitting(true);
     setError('');
     try {
-      const res = await apiFetch('/api/auth/login', {
+      await authService.login(form.email, form.password);
+
+      // Best-effort: also establish the legacy cookie session so the
+      // not-yet-migrated Orders/Customers pages (still served by
+      // apps/client's old session-based API) keep working. Failure here
+      // must never block a successful backend login.
+      apiFetch('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: form.email, password: form.password }),
-      });
-      if (res.ok) {
-        navigate('/admin');
-      } else {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error || 'Email və ya şifrə yanlışdır');
-      }
-    } catch {
-      setError('Serverə qoşulmaq mümkün olmadı');
+      }).catch(() => {});
+
+      navigate('/admin');
+    } catch (err) {
+      setError(err.message || 'Email və ya şifrə yanlışdır');
     } finally {
       setSubmitting(false);
     }
@@ -80,6 +73,18 @@ export default function AdminLogin() {
           to { opacity: 1; transform: translateY(0); }
         }
         ::placeholder { color: rgba(255,255,255,0.2); }
+
+        .admin-login-actions {
+          display: flex;
+          gap: 12px;
+          width: 100%;
+          margin-top: 8px;
+        }
+        @media (max-width: 480px) {
+          .admin-login-actions {
+            flex-direction: column;
+          }
+        }
       `}</style>
 
       {/* ── AMBIENT BLOBS ── */}
@@ -196,37 +201,48 @@ export default function AdminLogin() {
             </div>
           ))}
 
-          {/* Button */}
-          <button
-            onClick={handleLogin}
-            disabled={submitting}
-            style={{
-              width: '100%',
-              background: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
-              color: '#fff', border: 'none', borderRadius: '14px',
-              padding: '15px', fontWeight: 700,
-              cursor: submitting ? 'default' : 'pointer', fontSize: '0.85rem',
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              fontFamily: '"DM Sans", sans-serif',
-              marginTop: '8px',
-              opacity: submitting ? 0.7 : 1,
-              transition: 'opacity 0.2s, transform 0.2s',
-              boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
-            }}
-            onMouseEnter={e => { if (!submitting) { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; } }}
-            onMouseLeave={e => { if (!submitting) { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; } }}
-          >
-            {submitting ? 'Yoxlanılır…' : 'Daxil ol →'}
-          </button>
+          {/* Actions */}
+          <div className="admin-login-actions">
+            <button
+              onClick={handleLogin}
+              disabled={submitting}
+              style={{
+                flex: 1,
+                background: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+                color: '#fff', border: 'none', borderRadius: '14px',
+                padding: '15px', fontWeight: 700,
+                cursor: submitting ? 'default' : 'pointer', fontSize: '0.85rem',
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                fontFamily: '"DM Sans", sans-serif',
+                opacity: submitting ? 0.7 : 1,
+                transition: 'opacity 0.2s, transform 0.2s',
+                boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
+              }}
+              onMouseEnter={e => { if (!submitting) { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; } }}
+              onMouseLeave={e => { if (!submitting) { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; } }}
+            >
+              {submitting ? 'Yoxlanılır…' : 'Daxil ol →'}
+            </button>
 
-          {registrationAvailable && (
-            <p style={{ textAlign: 'center', marginTop: 20, fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)' }}>
-              Hesabınız yoxdur?{' '}
-              <Link to="/admin/register" style={{ color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
-                Qeydiyyatdan keçin
-              </Link>
-            </p>
-          )}
+            <button
+              type="button"
+              onClick={() => navigate('/admin/register')}
+              style={{
+                flex: 1,
+                background: 'rgba(255,255,255,0.03)',
+                color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '14px',
+                padding: '15px', fontWeight: 700,
+                cursor: 'pointer', fontSize: '0.85rem',
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                fontFamily: '"DM Sans", sans-serif',
+                transition: 'background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              Qeydiyyat
+            </button>
+          </div>
         </div>
       </div>
     </div>

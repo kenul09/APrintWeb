@@ -32,10 +32,17 @@ export async function POST(request) {
     return Response.json({ error: "Invalid request body" }, { status: 400, headers });
   }
 
-  const { email, password } = body ?? {};
-  if (typeof email !== "string" || !email.includes("@") || typeof password !== "string" || password.length < 8) {
+  const { name, email, password } = body ?? {};
+  if (
+    typeof name !== "string" ||
+    !name.trim() ||
+    typeof email !== "string" ||
+    !email.includes("@") ||
+    typeof password !== "string" ||
+    password.length < 8
+  ) {
     return Response.json(
-      { error: "Email düzgün olmalı və şifrə ən azı 8 simvol olmalıdır" },
+      { error: "Ad Soyad, düzgün email və ən azı 8 simvollu şifrə tələb olunur" },
       { status: 400, headers }
     );
   }
@@ -43,8 +50,9 @@ export async function POST(request) {
   const passwordHash = await bcrypt.hash(password, 10);
 
   try {
-    await prisma.admin.create({ data: { email, passwordHash } });
-  } catch {
+    await prisma.admin.create({ data: { name: name.trim(), email, passwordHash } });
+  } catch (error) {
+    console.error("[auth/register] Failed to create admin:", error);
     return Response.json({ error: "Qeydiyyat mümkün olmadı" }, { status: 409, headers });
   }
 
