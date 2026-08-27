@@ -1,0 +1,19 @@
+{
+  "name": "aprintweb",
+  "private": true,
+  "description": "Convenience scripts to run apps/client and apps/admin together. Each app keeps its own package.json, node_modules and lockfile — this is not an npm workspaces root.",
+  "scripts": {
+    "dev": "concurrently -n client,admin -c blue,magenta \"npm:dev:client\" \"npm:dev:admin\"",
+    "dev:client": "npm --prefix apps/client run dev",
+    "dev:admin": "npm --prefix apps/admin run dev",
+    "build": "npm run build:client && npm run build:admin",
+    "build:client": "npm --prefix apps/client run build",
+    "build:admin": "npm --prefix apps/admin run build",
+    "lint": "npm run lint:client && npm run lint:admin",
+    "lint:client": "npm --prefix apps/client run lint",
+    "lint:admin": "npm --prefix apps/admin run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
