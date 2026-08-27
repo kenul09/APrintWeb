@@ -38,7 +38,7 @@ export default function SiteFooter() {
             </Link>
             <p className={styles.desc}>{t('footer.desc')}</p>
             <div className={styles.socialRow}>
-              <a className={styles.socialBtn} href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a className={styles.socialBtn} href="https://www.instagram.com/a_print_poliqrafiya/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
               </a>
               <a className={styles.socialBtn} href="https://wa.me/994557505533" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
