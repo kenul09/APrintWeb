@@ -8,11 +8,11 @@ import { useI18n } from '@/components/i18n/I18nProvider';
 
 const inputBase = {
   width: "100%",
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(255,255,255,0.08)",
+  background: "rgba(var(--ink-rgb),0.04)",
+  border: "1px solid rgba(var(--ink-rgb),0.08)",
   borderRadius: "12px",
   padding: "14px 18px",
-  color: "#fff",
+  color: "var(--foreground)",
   fontSize: "0.88rem",
   outline: "none",
   boxSizing: "border-box",
@@ -149,9 +149,9 @@ export default function Contact() {
                       style={{
                         ...inputBase,
                         borderColor:
-                          focused === field.key ? "rgba(139,92,246,0.6)" : "rgba(255,255,255,0.08)",
+                          focused === field.key ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
                         background:
-                          focused === field.key ? "rgba(139,92,246,0.08)" : "rgba(255,255,255,0.04)",
+                          focused === field.key ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
                         boxShadow:
                           focused === field.key ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
                       }}
@@ -168,11 +168,11 @@ export default function Contact() {
                     onBlur={() => setFocused("")}
                     style={{
                       ...inputBase,
-                      color: form.service ? "#fff" : "rgba(255,255,255,0.2)",
+                      color: form.service ? "var(--foreground)" : "rgba(var(--ink-rgb),0.2)",
                       borderColor:
-                        focused === "service" ? "rgba(139,92,246,0.6)" : "rgba(255,255,255,0.08)",
+                        focused === "service" ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
                       background:
-                        focused === "service" ? "rgba(139,92,246,0.08)" : "rgba(255,255,255,0.04)",
+                        focused === "service" ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
                       boxShadow:
                         focused === "service" ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
                       cursor: "pointer",
@@ -200,9 +200,9 @@ export default function Contact() {
                       ...inputBase,
                       resize: "none",
                       borderColor:
-                        focused === "message" ? "rgba(139,92,246,0.6)" : "rgba(255,255,255,0.08)",
+                        focused === "message" ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
                       background:
-                        focused === "message" ? "rgba(139,92,246,0.08)" : "rgba(255,255,255,0.04)",
+                        focused === "message" ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
                       boxShadow:
                         focused === "message" ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
                     }}
@@ -254,7 +254,7 @@ export default function Contact() {
                   key={item.title}
                   className={styles.infoRow}
                   style={{
-                    borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                    borderBottom: i < 3 ? "1px solid rgba(var(--ink-rgb),0.05)" : "none",
                     paddingBottom: i < 3 ? 24 : 0,
                     marginBottom: i < 3 ? 24 : 0,
                   }}

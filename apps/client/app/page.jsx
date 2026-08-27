@@ -20,9 +20,9 @@ export default function Home() {
   return (
     <div
       style={{
-        background: "#060608",
+        background: "var(--background)",
         minHeight: "100vh",
-        color: "#fff",
+        color: "var(--foreground)",
         fontFamily: '"DM Sans", sans-serif',
         position: "relative",
         overflow: "hidden",
@@ -35,11 +35,18 @@ export default function Home() {
         @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,-20px); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .hero-section { padding: 120px 56px 80px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .hero-section {
+          padding: 120px 56px 80px;
+          border-bottom: 1px solid rgba(var(--ink-rgb),0.06);
+          position: relative;
+          background-color: var(--hero-bg);
+          background-image: radial-gradient(circle at 88% 30%, var(--hero-glow-a) 0%, transparent 62%);
+        }
+
         .display-text { font-family: "Oswald", sans-serif; font-weight: 500; line-height: 0.9; margin: 0; }
         .cursor { display: inline-block; width: 3px; height: 0.85em; background: #a78bfa; margin-left: 4px; animation: blink 0.9s infinite; }
 
-        .marquee-shell { border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: relative; background: rgba(255,255,255,0.01); max-width: 100%; }
+        .marquee-shell { border-top: 1px solid rgba(var(--ink-rgb),0.06); border-bottom: 1px solid rgba(var(--ink-rgb),0.06); overflow: hidden; position: relative; background: rgba(var(--ink-rgb),0.01); max-width: 100%; }
         .marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
         .marquee-pill { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 36px 48px; }
@@ -56,8 +63,8 @@ export default function Home() {
           justify-content: center;
           overflow: hidden;
           padding: 26px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(var(--ink-rgb),0.06);
+          border: 1px solid rgba(var(--ink-rgb),0.12);
           box-shadow: 0 8px 24px rgba(0,0,0,0.25);
           transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
         }
@@ -69,7 +76,7 @@ export default function Home() {
         .marquee-pill:hover .marquee-logo-wrap {
           transform: scale(1.08);
           border-color: #a78bfa;
-          background: rgba(255,255,255,0.1);
+          background: rgba(var(--ink-rgb),0.1);
           box-shadow: 0 12px 32px rgba(139,92,246,0.25);
         }
 
@@ -77,7 +84,7 @@ export default function Home() {
           position: absolute;
           inset: 0;
           border-radius: 50%;
-          background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.04) 75%);
+          background: linear-gradient(90deg, rgba(var(--ink-rgb),0.04) 25%, rgba(var(--ink-rgb),0.1) 50%, rgba(var(--ink-rgb),0.04) 75%);
           background-size: 200% 100%;
           animation: shimmer 1.4s ease-in-out infinite;
         }
@@ -86,7 +93,7 @@ export default function Home() {
 
         .marquee-fallback { font-family: "Oswald", sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em; }
 
-        .marquee-name { font-family: "DM Sans", sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
+        .marquee-name { font-family: "DM Sans", sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(var(--ink-rgb),0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
 
         @media (max-width: 980px) {
           .marquee-pill { padding: 28px 32px; gap: 12px; }
@@ -106,9 +113,10 @@ export default function Home() {
           .marquee-name { font-size: 0.65rem; max-width: 70px; }
         }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(255,255,255,0.06); }
-        .stat-box { padding: 40px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.06); min-width: 0; }
-        .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 500; white-space: nowrap; }
+        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(var(--ink-rgb),0.08); background: var(--stats-bg); transition: background-color 0.25s ease; }
+        .stat-box { padding: 44px 40px; border-right: 1px solid rgba(var(--ink-rgb),0.08); min-width: 0; transition: background-color 0.2s ease; }
+        .stat-box:hover { background: rgba(var(--ink-rgb),0.025); }
+        .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
 
         @media (max-width: 900px) {
           .stat-grid { margin: 0 32px 72px; }
@@ -118,9 +126,9 @@ export default function Home() {
 
         @media (max-width: 640px) {
           .stat-grid { grid-template-columns: repeat(2, 1fr); margin: 0 20px 56px; }
-          .stat-box { padding: 22px 12px; border-right: 1px solid rgba(255,255,255,0.06); border-bottom: none; }
+          .stat-box { padding: 22px 12px; border-right: 1px solid rgba(var(--ink-rgb),0.08); border-bottom: none; }
           .stat-box:nth-child(2n) { border-right: none; }
-          .stat-box:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .stat-box:nth-child(-n+2) { border-bottom: 1px solid rgba(var(--ink-rgb),0.08); }
           .stat-val { font-size: 1.9rem; }
         }
 
@@ -193,7 +201,7 @@ export default function Home() {
             <h2 style={{ fontFamily: "Oswald", letterSpacing: "0.2em", textTransform: "uppercase" }}>
               {t('partners.title')}
             </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)" }}>{t('partners.subtitle')}</p>
+            <p style={{ color: "rgba(var(--ink-rgb),0.5)" }}>{t('partners.subtitle')}</p>
           </div>
 
           <div className="marquee-shell">

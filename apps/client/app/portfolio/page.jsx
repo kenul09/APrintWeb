@@ -68,9 +68,9 @@ export default function Portfolio() {
   return (
     <div
       style={{
-        background: "#060608",
+        background: "var(--background)",
         minHeight: "100vh",
-        color: "#fff",
+        color: "var(--foreground)",
         fontFamily: '"DM Sans", sans-serif',
         position: "relative",
         overflow: "hidden",
@@ -118,9 +118,9 @@ export default function Portfolio() {
           height: 36px;
           padding: 0 10px;
           border-radius: 10px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.6);
+          border: 1px solid rgba(var(--ink-rgb),0.08);
+          background: rgba(var(--ink-rgb),0.04);
+          color: rgba(var(--ink-rgb),0.6);
           font-family: "DM Sans", sans-serif;
           font-size: 0.85rem;
           font-weight: 600;
@@ -129,7 +129,7 @@ export default function Portfolio() {
         }
 
         .portfolio-page-btn:hover:not(:disabled) {
-          color: #fff;
+          color: var(--foreground);
           border-color: rgba(139,92,246,0.4);
         }
 
@@ -146,7 +146,7 @@ export default function Portfolio() {
         }
 
         .portfolio-page-dots {
-          color: rgba(255,255,255,0.3);
+          color: rgba(var(--ink-rgb),0.3);
           padding: 0 2px;
           font-size: 0.85rem;
         }
@@ -213,7 +213,7 @@ export default function Portfolio() {
                 fontSize: "0.7rem",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(var(--ink-rgb),0.4)",
               }}
             >
               {t('portfolio.badge')}
@@ -247,7 +247,7 @@ export default function Portfolio() {
 
           <p
             style={{
-              color: "rgba(255,255,255,0.35)",
+              color: "rgba(var(--ink-rgb),0.35)",
               fontSize: "0.9rem",
               lineHeight: 1.8,
               maxWidth: 400,
@@ -281,12 +281,12 @@ export default function Portfolio() {
                 background:
                   filter === category
                     ? "linear-gradient(135deg, #8b5cf6, #ec4899)"
-                    : "rgba(255,255,255,0.04)",
-                color: filter === category ? "#fff" : "rgba(255,255,255,0.4)",
+                    : "rgba(var(--ink-rgb),0.04)",
+                color: filter === category ? "#fff" : "rgba(var(--ink-rgb),0.4)",
                 border:
                   filter === category
                     ? "1px solid transparent"
-                    : "1px solid rgba(255,255,255,0.08)",
+                    : "1px solid rgba(var(--ink-rgb),0.08)",
                 borderRadius: "10px",
                 padding: "9px 22px",
                 cursor: "pointer",

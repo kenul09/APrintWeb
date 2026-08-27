@@ -32,7 +32,7 @@ export default function StatCard({ n, l, delay = 0 }) {
         style={{
           fontFamily: '"Bebas Neue", sans-serif',
           fontSize: "3.5rem",
-          color: "#fff",
+          color: "var(--foreground)",
           lineHeight: 1,
           letterSpacing: "0.02em",
           marginBottom: "10px",
@@ -46,7 +46,7 @@ export default function StatCard({ n, l, delay = 0 }) {
         style={{
           fontFamily: '"DM Sans", sans-serif',
           fontSize: "0.72rem",
-          color: "rgba(255,255,255,0.35)",
+          color: "rgba(var(--ink-rgb),0.35)",
           letterSpacing: "0.18em",
           textTransform: "uppercase",
           fontWeight: 300,

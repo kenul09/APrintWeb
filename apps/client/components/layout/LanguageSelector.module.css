@@ -2,56 +2,151 @@
   position: relative;
   display: inline-block;
 }
-.button {
+
+.trigger {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(6,6,8,0.6);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.9);
+  gap: 6px;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  color: var(--control-text);
   padding: 6px 10px;
   border-radius: 10px;
   cursor: pointer;
+  font: inherit;
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background-color 0.25s ease, border-color 0.2s ease, color 0.25s ease;
 }
+
+.trigger:hover {
+  border-color: var(--control-hover-border);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--accent-start, #8b5cf6);
+  outline-offset: 2px;
+}
+
+.flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.code {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .chev {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  transform: rotate(0deg);
+  color: currentColor;
+  opacity: 0.7;
   transition: transform 150ms ease;
 }
-.chev.open { transform: rotate(180deg); }
+
+.chevOpen {
+  transform: rotate(180deg);
+}
+
 .dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
-  background: rgba(6,6,8,0.88);
-  border: 1px solid rgba(139,92,246,0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 6px;
   border-radius: 12px;
-  min-width: 220px;
-  box-shadow: 0 10px 30px rgba(139,92,246,0.06);
+  min-width: 200px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
   z-index: 1000;
-  animation: fadeIn 140ms ease;
+
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
 }
+
+.dropdownOpen {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
 .item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 10px 12px;
-  color: rgba(255,255,255,0.92);
+  gap: 14px;
+  width: 100%;
+  padding: 9px 10px;
+  background: transparent;
+  border: none;
   border-radius: 8px;
-  font-size: 0.95rem;
+  color: var(--control-text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
 }
-.item:hover { background: rgba(255,255,255,0.02); }
-.item.selected { box-shadow: inset 0 0 0 1px rgba(139,92,246,0.18); background: linear-gradient(90deg, rgba(139,92,246,0.03), rgba(236,72,153,0.02)); }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.item:hover,
+.item:focus-visible {
+  background: var(--dropdown-item-hover);
+}
 
-@media (max-width: 720px) {
-  .dropdown { right: 8px; left: auto; min-width: 160px; }
+.item:focus-visible {
+  outline: 2px solid var(--accent-start, #8b5cf6);
+  outline-offset: -2px;
+}
+
+.item.itemActive {
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.25);
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
+}
+
+.itemLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itemName {
+  white-space: nowrap;
+}
+
+.itemCode {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  /* The mobile nav panel uses overflow:hidden (for its own collapse
+     animation), which would clip an absolutely-positioned dropdown nested
+     inside it. Anchoring to the viewport instead avoids that clipping and
+     keeps the menu fully visible regardless of scroll position. */
+  .dropdown {
+    position: fixed;
+    top: auto;
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    min-width: 0;
+    transform-origin: bottom right;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  .dropdownOpen {
+    transform: translateY(0) scale(1);
+  }
 }

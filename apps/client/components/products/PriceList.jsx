@@ -34,15 +34,15 @@ export default function PriceList() {
           style={{
             padding: "18px 16px",
             borderRadius: 20,
-            background: "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025))",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "linear-gradient(180deg, rgba(var(--ink-rgb),0.05), rgba(var(--ink-rgb),0.025))",
+            border: "1px solid rgba(var(--ink-rgb),0.08)",
             display: "flex",
             flexDirection: "column",
             gap: 8,
           }}
         >
           <div style={{ fontSize: "1.6rem" }}>{product.icon}</div>
-          <div style={{ color: "#fff", fontSize: "0.95rem", fontWeight: 600 }}>
+          <div style={{ color: "var(--foreground)", fontSize: "0.95rem", fontWeight: 600 }}>
             {product.title}
           </div>
           <div style={{ color: "#a78bfa", fontSize: "0.9rem", fontWeight: 700 }}>
