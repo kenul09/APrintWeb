@@ -16,9 +16,9 @@ export default function GroupCard({ group }) {
         minHeight: 390,
         overflow: "hidden",
         background: hovered
-          ? `linear-gradient(180deg, ${group.accent}18, rgba(255,255,255,0.04))`
-          : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025))",
-        border: `1px solid ${hovered ? `${group.accent}66` : "rgba(255,255,255,0.08)"}`,
+          ? `linear-gradient(180deg, ${group.accent}18, rgba(var(--ink-rgb),0.04))`
+          : "linear-gradient(180deg, rgba(var(--ink-rgb),0.05), rgba(var(--ink-rgb),0.025))",
+        border: `1px solid ${hovered ? `${group.accent}66` : "rgba(var(--ink-rgb),0.08)"}`,
         boxShadow: hovered
           ? `0 28px 70px ${group.accent}20`
           : "0 14px 34px rgba(0,0,0,0.22)",
@@ -74,8 +74,8 @@ export default function GroupCard({ group }) {
           style={{
             padding: "7px 12px",
             borderRadius: 999,
-            background: "rgba(255,255,255,0.05)",
-            color: "rgba(255,255,255,0.55)",
+            background: "rgba(var(--ink-rgb),0.05)",
+            color: "rgba(var(--ink-rgb),0.55)",
             fontSize: "0.72rem",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
@@ -94,7 +94,7 @@ export default function GroupCard({ group }) {
             fontSize: "2rem",
             fontWeight: 500,
             lineHeight: 1.02,
-            color: "#fff",
+            color: "var(--foreground)",
           }}
         >
           {group.title}
@@ -103,7 +103,7 @@ export default function GroupCard({ group }) {
         <p
           style={{
             margin: "0 0 22px",
-            color: "rgba(255,255,255,0.56)",
+            color: "rgba(var(--ink-rgb),0.56)",
             fontSize: "0.94rem",
             lineHeight: 1.75,
             maxWidth: 320,
@@ -120,10 +120,10 @@ export default function GroupCard({ group }) {
                 padding: "10px 12px",
                 borderRadius: 14,
                 background: hovered
-                  ? "rgba(255,255,255,0.05)"
-                  : "rgba(255,255,255,0.025)",
-                border: "1px solid rgba(255,255,255,0.05)",
-                color: "rgba(255,255,255,0.74)",
+                  ? "rgba(var(--ink-rgb),0.05)"
+                  : "rgba(var(--ink-rgb),0.025)",
+                border: "1px solid rgba(var(--ink-rgb),0.05)",
+                color: "rgba(var(--ink-rgb),0.74)",
                 fontSize: "0.92rem",
                 lineHeight: 1.45,
                 transition: "all 0.25s ease",
@@ -131,16 +131,16 @@ export default function GroupCard({ group }) {
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateX(4px)";
                 e.currentTarget.style.borderColor = `${group.accent}55`;
-                e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.color = "var(--foreground)";
                 e.currentTarget.style.background = `${group.accent}14`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateX(0)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)";
-                e.currentTarget.style.color = "rgba(255,255,255,0.74)";
+                e.currentTarget.style.borderColor = "rgba(var(--ink-rgb),0.05)";
+                e.currentTarget.style.color = "rgba(var(--ink-rgb),0.74)";
                 e.currentTarget.style.background = hovered
-                  ? "rgba(255,255,255,0.05)"
-                  : "rgba(255,255,255,0.025)";
+                  ? "rgba(var(--ink-rgb),0.05)"
+                  : "rgba(var(--ink-rgb),0.025)";
               }}
             >
               {item}

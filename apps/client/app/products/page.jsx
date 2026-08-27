@@ -11,8 +11,8 @@ export default function CategoriesCatalog() {
       style={{
         minHeight: "100vh",
         background:
-          "radial-gradient(circle at top left, rgba(139,92,246,0.14), transparent 24%), radial-gradient(circle at bottom right, rgba(236,72,153,0.10), transparent 24%), #060608",
-        color: "#fff",
+          "radial-gradient(circle at top left, rgba(139,92,246,0.14), transparent 24%), radial-gradient(circle at bottom right, rgba(236,72,153,0.10), transparent 24%), var(--background)",
+        color: "var(--foreground)",
         padding: "110px 24px 90px",
         fontFamily: '"DM Sans", sans-serif',
       }}
@@ -60,8 +60,8 @@ export default function CategoriesCatalog() {
               marginBottom: 16,
               padding: "8px 14px",
               borderRadius: 999,
-              background: "rgba(255,255,255,0.06)",
-              color: "rgba(255,255,255,0.6)",
+              background: "rgba(var(--ink-rgb),0.06)",
+              color: "rgba(var(--ink-rgb),0.6)",
               fontSize: "0.72rem",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
@@ -88,7 +88,7 @@ export default function CategoriesCatalog() {
           <p
             style={{
               margin: 0,
-              color: "rgba(255,255,255,0.58)",
+              color: "rgba(var(--ink-rgb),0.58)",
               fontSize: "1rem",
               lineHeight: 1.9,
               maxWidth: 760,
@@ -111,7 +111,7 @@ export default function CategoriesCatalog() {
               fontFamily: '"Oswald", sans-serif',
               fontSize: "1.6rem",
               fontWeight: 500,
-              color: "#fff",
+              color: "var(--foreground)",
             }}
           >
             {t('products.priceListTitle')}

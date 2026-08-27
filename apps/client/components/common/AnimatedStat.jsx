@@ -19,7 +19,17 @@ export default function AnimatedStat({ value, label, active }) {
         {display}
         {suffix}
       </div>
-      <div style={{ color: "rgba(255,255,255,0.4)" }}>{label}</div>
+      <div
+        style={{
+          color: "rgba(var(--ink-rgb),0.56)",
+          marginTop: "8px",
+          fontSize: "0.8rem",
+          fontWeight: 500,
+          letterSpacing: "0.04em",
+        }}
+      >
+        {label}
+      </div>
     </div>
   );
 }

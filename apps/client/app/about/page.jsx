@@ -15,9 +15,9 @@ export default function About() {
   return (
     <div
       style={{
-        background: "#060608",
+        background: "var(--background)",
         minHeight: "100vh",
-        color: "#fff",
+        color: "var(--foreground)",
         fontFamily: '"DM Sans", sans-serif',
         position: "relative",
         overflow: "hidden",
@@ -131,7 +131,7 @@ export default function About() {
                 fontSize: "0.7rem",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(var(--ink-rgb),0.4)",
               }}
             >
               {t('about.badge')}
@@ -153,7 +153,7 @@ export default function About() {
           >
               <span
               style={{
-                background: "linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5))",
+                background: "linear-gradient(135deg, var(--foreground) 30%, rgba(var(--ink-rgb),0.5))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -177,7 +177,7 @@ export default function About() {
 
           <p
             style={{
-              color: "rgba(255,255,255,0.4)",
+              color: "rgba(var(--ink-rgb),0.4)",
               fontSize: "0.95rem",
               lineHeight: 1.9,
               maxWidth: 480,
@@ -212,7 +212,7 @@ export default function About() {
                 fontWeight: 400,
                 lineHeight: 0.92,
                 marginBottom: 28,
-                background: "linear-gradient(135deg, #fff, rgba(255,255,255,0.6))",
+                background: "linear-gradient(135deg, var(--foreground), rgba(var(--ink-rgb),0.6))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -232,7 +232,7 @@ export default function About() {
 
             <p
               style={{
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(var(--ink-rgb),0.4)",
                 fontSize: "0.88rem",
                 lineHeight: 1.9,
                 fontWeight: 300,
@@ -244,7 +244,7 @@ export default function About() {
 
             <p
               style={{
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(var(--ink-rgb),0.4)",
                 fontSize: "0.88rem",
                 lineHeight: 1.9,
                 fontWeight: 300,
@@ -271,14 +271,14 @@ export default function About() {
                   background:
                     i % 2 === 0
                       ? "rgba(139,92,246,0.06)"
-                      : "rgba(255,255,255,0.03)",
+                      : "rgba(var(--ink-rgb),0.03)",
                 }}
               >
                 <div
                   style={{
                     fontFamily: '"Bebas Neue", sans-serif',
                     fontSize: "1.8rem",
-                    color: "#fff",
+                    color: "var(--foreground)",
                     letterSpacing: "0.05em",
                     marginBottom: 10,
                   }}
@@ -306,7 +306,7 @@ export default function About() {
                 fontSize: "0.7rem",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.3)",
+                color: "rgba(var(--ink-rgb),0.3)",
               }}
             >
               {t('about.teamTitle')}
@@ -315,7 +315,7 @@ export default function About() {
               style={{
                 flex: 1,
                 height: 1,
-                background: "linear-gradient(90deg, rgba(255,255,255,0.08), transparent)",
+                background: "linear-gradient(90deg, rgba(var(--ink-rgb),0.08), transparent)",
               }}
             />
           </div>

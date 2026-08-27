@@ -21,8 +21,8 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
         transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background 0.3s, border-color 0.3s`,
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0) scale(1)" : "translateY(30px) scale(0.97)",
-        background: hovered ? "rgba(139,92,246,0.1)" : "rgba(255,255,255,0.04)",
-        borderColor: hovered ? "rgba(139,92,246,0.35)" : "rgba(255,255,255,0.08)",
+        background: hovered ? "rgba(139,92,246,0.1)" : "rgba(var(--ink-rgb),0.04)",
+        borderColor: hovered ? "rgba(139,92,246,0.35)" : "rgba(var(--ink-rgb),0.08)",
       }}
     >
       <div
@@ -66,7 +66,7 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
             fontWeight: 500,
             letterSpacing: "0.03em",
             margin: 0,
-            color: "#fff",
+            color: "var(--foreground)",
             lineHeight: 1.2,
           }}
         >
