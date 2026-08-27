@@ -1,0 +1,55 @@
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 52px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid var(--control-border);
+  background: var(--control-bg);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.toggle:hover {
+  border-color: var(--control-hover-border);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent-start, #8b5cf6);
+  outline-offset: 2px;
+}
+
+.icon {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.4;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.iconActive {
+  opacity: 1;
+}
+
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-start, #8b5cf6), var(--accent-end, #ec4899));
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.35);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(24px);
+}
+
+.toggle[aria-checked='false'] .thumb {
+  transform: translateX(0);
+}
