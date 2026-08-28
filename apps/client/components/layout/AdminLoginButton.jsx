@@ -27,38 +27,19 @@ export default function AdminLoginButton() {
   }
 
   function go() {
-    // Determine final target. If an explicit adminUrl is provided, prefer it
-    let target = adminUrl || '';
-    if (target) {
-      // strip trailing slash
-      target = target.replace(/\/$/, '');
-      // if it already includes /admin path, use as-is; otherwise append /admin
-      try {
-        const url = new URL(target);
-        if (!url.pathname || url.pathname === '/') {
-          target = `${target}/admin`;
-        } else if (!url.pathname.includes('/admin')) {
-          target = `${target.replace(/\/$/, '')}/admin`;
-        }
-      } catch (e) {
-        // not a full URL, if it's a relative path just use it
-        if (!target.startsWith('/')) target = `/${target}`;
-      }
-    } else {
-      // No NEXT_PUBLIC_ADMIN_URL configured — only reached in development
-      // (see render guard above), so fall back to the local Vite dev port.
-      target = devFallbackUrl;
-    }
+    // NEXT_PUBLIC_ADMIN_URL is the full, complete destination for the
+    // separate apps/admin deployment — navigate to it exactly as configured.
+    // Do NOT append "/admin" here: that used to turn a bare domain into
+    // "<domain>/admin", which is harmless when the domain is the actual
+    // admin app (its own router redirects "/" -> "/admin" internally) but
+    // silently produces a broken same-origin "/admin" route if
+    // NEXT_PUBLIC_ADMIN_URL is ever misconfigured to the client's own domain.
+    const target = (adminUrl || devFallbackUrl).replace(/\/$/, '');
 
-    // If target looks like an absolute URL, perform a full navigation; otherwise use router.push
-    try {
-      if (/^https?:\/\//i.test(target)) {
-        window.location.href = target;
-      } else {
-        router.push(target);
-      }
-    } catch (e) {
+    if (/^https?:\/\//i.test(target)) {
       window.location.href = target;
+    } else {
+      router.push(target.startsWith('/') ? target : `/${target}`);
     }
   }
 
