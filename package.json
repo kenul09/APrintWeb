@@ -3,7 +3,8 @@
   "private": true,
   "description": "Convenience scripts to run apps/client and apps/admin together. Each app keeps its own package.json, node_modules and lockfile — this is not an npm workspaces root.",
   "scripts": {
-    "dev": "concurrently -n client,admin -c blue,magenta \"npm:dev:client\" \"npm:dev:admin\"",
+    "dev": "concurrently -n backend,client,admin -c green,blue,magenta \"npm:dev:backend\" \"npm:dev:client\" \"npm:dev:admin\"",
+    "dev:backend": "npm --prefix apps/backend run dev",
     "dev:client": "npm --prefix apps/client run dev",
     "dev:admin": "npm --prefix apps/admin run dev",
     "build": "npm run build:client && npm run build:admin",

@@ -16,6 +16,13 @@ export default function AdminLoginButton() {
   const devFallbackUrl = 'http://localhost:5178/admin';
 
   if (!adminUrl && !isDev) {
+    if (typeof window !== 'undefined') {
+      console.error(
+        '[client] NEXT_PUBLIC_ADMIN_URL is not set, so the Admin Giriş button is hidden (there is no safe ' +
+          "localhost fallback in production). Set NEXT_PUBLIC_ADMIN_URL to the deployed apps/admin URL in " +
+          "this project's Vercel environment variables and redeploy."
+      );
+    }
     return null;
   }
 

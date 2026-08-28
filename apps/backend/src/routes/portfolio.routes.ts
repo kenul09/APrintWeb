@@ -2,11 +2,13 @@ import { Router } from "express";
 import * as portfolioController from "../controllers/portfolio.controller";
 import { authenticateToken, optionalAuth, requireAdmin } from "../middleware/auth.middleware";
 import { validateBody } from "../middleware/validate.middleware";
+import { uploadPortfolioImage } from "../middleware/upload.middleware";
 import { createPortfolioSchema, updatePortfolioSchema } from "../validators/portfolio.schema";
 
 const router = Router();
 
 router.get("/", optionalAuth, portfolioController.getAll);
+router.post("/upload", authenticateToken, requireAdmin, uploadPortfolioImage, portfolioController.uploadImage);
 router.get("/:id", portfolioController.getOne);
 router.post("/", authenticateToken, requireAdmin, validateBody(createPortfolioSchema), portfolioController.create);
 router.put("/:id", authenticateToken, requireAdmin, validateBody(updatePortfolioSchema), portfolioController.update);
