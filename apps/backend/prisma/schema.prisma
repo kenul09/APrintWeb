@@ -1,3 +1,8 @@
+// binaryTargets is intentionally left at its default (["native"]). package.json's
+// postinstall runs `prisma generate` on every `npm install`, including Vercel's own
+// build step — so the query engine is (re)compiled for whatever platform is actually
+// installing dependencies (Vercel's Linux build machine in production), not baked in
+// once from a developer's local machine.
 generator client {
   provider = "prisma-client-js"
 }
