@@ -1,3 +1,4 @@
+import path from "node:path";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -7,7 +8,7 @@ import { errorHandler, notFoundHandler } from "./middleware/error.middleware";
 
 const app = express();
 
-const allowedOrigins = [env.clientUrl, env.adminUrl];
+const allowedOrigins = [...env.clientUrls, ...env.adminUrls];
 
 app.use(helmet());
 app.use(
@@ -25,6 +26,19 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Uploaded portfolio images: served same-origin-safe (helmet sets
+// Cross-Origin-Resource-Policy: same-origin globally, which would block the
+// admin app's plain <img> tags and next/image on the client from loading
+// these cross-origin — relax it for this path only.
+app.use(
+  "/uploads",
+  (_req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    next();
+  },
+  express.static(path.join(process.cwd(), "uploads"))
+);
 
 app.use("/api", routes);
 

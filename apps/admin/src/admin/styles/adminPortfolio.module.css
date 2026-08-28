@@ -199,6 +199,59 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.fileField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fileFieldLabel {
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
+
+.fileInputHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fileInputButton {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.fileInputButton:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #fff;
+}
+
+.filePreview {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 @media (max-width: 900px) {
   .formGrid {
     grid-template-columns: 1fr;

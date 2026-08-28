@@ -1,6 +1,12 @@
-import { backendFetch } from './backend';
+import { backendFetch, backendUpload } from './backend';
 
 export const portfolioService = {
+  async uploadImage(file) {
+    const formData = new FormData();
+    formData.append('image', file);
+    const { data } = await backendUpload('/portfolio/upload', formData);
+    return data.url;
+  },
   async getAll(params = {}) {
     const query = new URLSearchParams();
     if (params.search) query.set('search', params.search);

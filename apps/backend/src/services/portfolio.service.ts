@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { ApiError } from "../utils/ApiError";
+import { deleteImage } from "./storage.service";
 import type { CreatePortfolioInput, UpdatePortfolioInput } from "../validators/portfolio.schema";
 
 export async function listPortfolio(options: { publishedOnly?: boolean; search?: string } = {}) {
@@ -43,6 +44,14 @@ export async function updatePortfolio(id: string, input: UpdatePortfolioInput) {
 }
 
 export async function deletePortfolio(id: string) {
-  await getPortfolioById(id);
+  const item = await getPortfolioById(id);
   await prisma.portfolio.delete({ where: { id } });
+
+  // Only remove the file from storage if no other portfolio record still
+  // points at the same image URL (e.g. a duplicated/reused image) — never
+  // delete a file another item still depends on.
+  const stillReferenced = await prisma.portfolio.count({ where: { image: item.image } });
+  if (stillReferenced === 0) {
+    await deleteImage(item.image);
+  }
 }

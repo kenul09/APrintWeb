@@ -5,10 +5,29 @@ import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import { glassStyle } from "@/components/ui/glassStyle";
 
+// The API stores `image` as either an absolute URL (http/https) or a path
+// into apps/client/public (e.g. "/portfolio/xxx.png"). Anything else (null,
+// empty, a bare filename with no leading slash, etc.) is bad data that would
+// make next/image throw "Failed to construct 'URL': Invalid URL" — guard
+// against it instead of crashing the whole Portfolio page over one record.
+function resolveImageSrc(image, title) {
+  if (typeof image === "string") {
+    const trimmed = image.trim();
+    if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith("/")) {
+      return trimmed;
+    }
+  }
+  if (process.env.NODE_ENV !== "production") {
+    console.warn(`[WorkCard] Portfolio item "${title}" has an invalid image value:`, image);
+  }
+  return null;
+}
+
 export default function WorkCard({ work, delay = 0, forceVisible = false }) {
   const [ref, observedInView] = useInView();
   const inView = forceVisible || observedInView;
   const [hovered, setHovered] = useState(false);
+  const imageSrc = resolveImageSrc(work.image, work.title);
 
   return (
     <article
@@ -33,19 +52,21 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
           background: "#0d0d1a",
         }}
       >
-        <Image
-          src={work.image}
-          alt={work.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-            transition: "transform 0.5s",
-            transform: hovered ? "scale(1.05)" : "scale(1)",
-            display: "block",
-          }}
-        />
+        {imageSrc && (
+          <Image
+            src={imageSrc}
+            alt={work.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+              transition: "transform 0.5s",
+              transform: hovered ? "scale(1.05)" : "scale(1)",
+              display: "block",
+            }}
+          />
+        )}
         <div
           style={{
             position: "absolute",
