@@ -333,5 +333,5 @@ export default function AdminPortfolio() {
         onCancel={() => setPendingDelete(null)}
       />
     </div>
-  );
+  );  
 }
