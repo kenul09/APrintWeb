@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/ApiError";
 import * as portfolioService from "../services/portfolio.service";
+import { saveImage } from "../services/storage.service";
 
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
   const search = typeof req.query.search === "string" ? req.query.search.trim() : undefined;
@@ -26,4 +28,11 @@ export const update = asyncHandler(async (req: Request, res: Response) => {
 export const remove = asyncHandler(async (req: Request, res: Response) => {
   await portfolioService.deletePortfolio(req.params.id);
   res.status(200).json({ success: true, data: null });
+});
+
+export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.file) throw ApiError.badRequest("image faylı tələb olunur");
+  const stored = await saveImage(req.file.buffer, req.file.mimetype, req.file.originalname);
+  const url = stored.startsWith("http") ? stored : `${req.protocol}://${req.get("host")}${stored}`;
+  res.status(201).json({ success: true, data: { url } });
 });
