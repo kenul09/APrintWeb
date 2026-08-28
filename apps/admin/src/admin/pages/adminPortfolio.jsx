@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "../styles/adminPortfolio.module.css";
 import { portfolioService } from "../lib/portfolioService";
 import { useToast } from "../lib/ToastContext";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const EMPTY_FORM = { title: "", category: "", image: "", description: "", isPublished: true };
+const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg"];
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, matches the backend upload limit
 
 export default function AdminPortfolio() {
   const toast = useToast();
@@ -21,6 +23,31 @@ export default function AdminPortfolio() {
   const [saving, setSaving] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
 
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const objectUrlRef = useRef(null);
+
+  // The categories admins can pick from — the real, distinct values already
+  // used by existing portfolio records (captured from the unfiltered list so
+  // an active search doesn't shrink the options). Never a hardcoded/invented
+  // list: it only ever contains category strings that actually came from the API.
+  const [knownCategories, setKnownCategories] = useState([]);
+  const categoryOptions = useMemo(() => {
+    const set = new Set(knownCategories);
+    if (form.category) set.add(form.category);
+    return [...set].sort((a, b) => a.localeCompare(b));
+  }, [knownCategories, form.category]);
+
+  const releasePreview = () => {
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+    }
+  };
+
+  useEffect(() => releasePreview, []);
+
   useEffect(() => {
     const t = setTimeout(() => setSearch(searchInput), 350);
     return () => clearTimeout(t);
@@ -31,7 +58,12 @@ export default function AdminPortfolio() {
     setError("");
     portfolioService
       .getAll({ search })
-      .then(setItems)
+      .then((data) => {
+        setItems(data);
+        if (!search) {
+          setKnownCategories([...new Set(data.map((i) => i.category))]);
+        }
+      })
       .catch(() => setError("Serverlə əlaqə qurmaq mümkün olmadı."))
       .finally(() => setLoading(false));
   };
@@ -42,6 +74,9 @@ export default function AdminPortfolio() {
     setEditingId(null);
     setForm(EMPTY_FORM);
     setFormError("");
+    releasePreview();
+    setImageFile(null);
+    setImagePreview("");
     setShowForm(true);
   };
 
@@ -55,6 +90,9 @@ export default function AdminPortfolio() {
       isPublished: item.isPublished,
     });
     setFormError("");
+    releasePreview();
+    setImageFile(null);
+    setImagePreview(item.image || "");
     setShowForm(true);
   };
 
@@ -63,21 +101,66 @@ export default function AdminPortfolio() {
     setEditingId(null);
     setForm(EMPTY_FORM);
     setFormError("");
+    releasePreview();
+    setImageFile(null);
+    setImagePreview("");
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setFormError("Yalnız PNG və JPG/JPEG formatlı şəkillərə icazə verilir.");
+      return;
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      setFormError("Şəkil 5MB-dan böyük ola bilməz.");
+      return;
+    }
+
+    setFormError("");
+    releasePreview();
+    const url = URL.createObjectURL(file);
+    objectUrlRef.current = url;
+    setImageFile(file);
+    setImagePreview(url);
   };
 
   const saveItem = async () => {
-    if (!form.title.trim() || !form.category.trim() || !form.image.trim()) {
-      setFormError("Başlıq, kateqoriya və şəkil tələb olunur");
+    if (!form.title.trim() || !form.category.trim()) {
+      setFormError("Başlıq və kateqoriya tələb olunur");
       return;
     }
-    setSaving(true);
+    if (!imageFile && !form.image) {
+      setFormError("Şəkil seçilməlidir");
+      return;
+    }
+
     setFormError("");
+    let imageUrl = form.image;
+
+    if (imageFile) {
+      setUploading(true);
+      try {
+        imageUrl = await portfolioService.uploadImage(imageFile);
+      } catch (err) {
+        setFormError(err.message || "Şəkil yüklənə bilmədi.");
+        setUploading(false);
+        return;
+      }
+      setUploading(false);
+    }
+
+    setSaving(true);
     try {
+      const payload = { ...form, image: imageUrl };
       if (editingId) {
-        await portfolioService.update(editingId, form);
+        await portfolioService.update(editingId, payload);
         toast.success("İş yeniləndi.");
       } else {
-        await portfolioService.create(form);
+        await portfolioService.create(payload);
         toast.success("İş uğurla əlavə edildi.");
       }
       closeForm();
@@ -137,18 +220,37 @@ export default function AdminPortfolio() {
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
-            <input
+            <select
               className={styles.input}
-              placeholder="Kateqoriya"
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-            />
-            <input
-              className={styles.input}
-              placeholder="Şəkil URL (https://...)"
-              value={form.image}
-              onChange={(e) => setForm({ ...form, image: e.target.value })}
-            />
+            >
+              <option value="" disabled>
+                Kateqoriya seçin
+              </option>
+              {categoryOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <div className={styles.fileField}>
+              <span className={styles.fileFieldLabel}>Şəkil seç</span>
+              <label htmlFor="portfolio-image-input" className={styles.fileInputButton}>
+                {imageFile ? imageFile.name : "PNG/JPG faylı seç"}
+              </label>
+              <input
+                id="portfolio-image-input"
+                className={styles.fileInputHidden}
+                type="file"
+                accept="image/png,image/jpeg"
+                onChange={handleFileChange}
+                disabled={uploading || saving}
+              />
+              {imagePreview && (
+                <img className={styles.filePreview} src={imagePreview} alt="Önizləmə" />
+              )}
+            </div>
           </div>
 
           <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, fontSize: "0.85rem", opacity: 0.7 }}>
@@ -163,8 +265,8 @@ export default function AdminPortfolio() {
           {formError && <p className={styles.error}>{formError}</p>}
 
           <div className={styles.formActions}>
-            <button className={styles.primaryButton} onClick={saveItem} disabled={saving}>
-              {saving ? "Saxlanılır..." : editingId ? "Yadda saxla" : "Əlavə et"}
+            <button className={styles.primaryButton} onClick={saveItem} disabled={saving || uploading}>
+              {uploading ? "Şəkil yüklənir..." : saving ? "Saxlanılır..." : editingId ? "Yadda saxla" : "Əlavə et"}
             </button>
             <button className={styles.secondaryButton} onClick={closeForm}>
               Ləğv et
