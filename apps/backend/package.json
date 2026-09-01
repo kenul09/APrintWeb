@@ -8,6 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "postinstall": "prisma generate",
     "build": "tsc -p tsconfig.json",
+    "vercel-build": "prisma migrate deploy && tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "prisma generate",

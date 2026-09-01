@@ -37,7 +37,23 @@ export async function register({ name, email, password }: RegisterInput) {
 export async function login({ email, password }: LoginInput) {
   // Same normalization as register() — otherwise an account created as
   // "Admin@X.com" could never log back in with a differently-cased email.
-  const admin = await prisma.admin.findUnique({ where: { email: email.trim().toLowerCase() } });
+  let admin;
+  try {
+    admin = await prisma.admin.findUnique({ where: { email: email.trim().toLowerCase() } });
+  } catch (error) {
+    // Never log the raw error object — Prisma errors can embed the DB host
+    // in .message, but some wrapped causes carry more. Logging only .message
+    // (and .code, when present) keeps the connection string/credentials out
+    // of Vercel logs while still surfacing enough to diagnose from there.
+    const code = error && typeof error === "object" && "code" in error ? (error as { code: unknown }).code : undefined;
+    console.error(
+      "[auth.service] Database error during login lookup:",
+      error instanceof Error ? error.message : String(error),
+      code ? `(code: ${code})` : ""
+    );
+    throw ApiError.internal("Verilənlər bazasına qoşulmaq mümkün olmadı");
+  }
+
   if (!admin) {
     throw ApiError.unauthorized("Email və ya şifrə yanlışdır");
   }
