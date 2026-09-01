@@ -13,8 +13,22 @@
 }
 
 .title {
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   margin: 0;
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 .subtitle {
