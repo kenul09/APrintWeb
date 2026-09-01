@@ -220,20 +220,18 @@ export default function AdminPortfolio() {
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
-            <select
+            <input
               className={styles.input}
+              list="portfolio-category-list"
+              placeholder="Kateqoriya"
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-            >
-              <option value="" disabled>
-                Kateqoriya seçin
-              </option>
+            />
+            <datalist id="portfolio-category-list">
               {categoryOptions.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
+                <option key={category} value={category} />
               ))}
-            </select>
+            </datalist>
             <div className={styles.fileField}>
               <span className={styles.fileFieldLabel}>Şəkil seç</span>
               <label htmlFor="portfolio-image-input" className={styles.fileInputButton}>
