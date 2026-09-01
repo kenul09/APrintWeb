@@ -4,15 +4,6 @@ import crypto from "node:crypto";
 import { put, del } from "@vercel/blob";
 import { ApiError } from "../utils/ApiError";
 
-// Pluggable image storage:
-// - Vercel Blob when BLOB_READ_WRITE_TOKEN is configured
-// - Local disk only outside Vercel
-//
-// IMPORTANT:
-// Read BLOB_READ_WRITE_TOKEN at runtime inside the functions.
-// This ensures the environment variable is resolved from the
-// current Vercel runtime environment when an upload/delete occurs.
-
 const ON_VERCEL = process.env.VERCEL === "1";
 
 export const storageBackend: "vercel-blob" | "local-disk" =
@@ -31,22 +22,18 @@ const EXTENSION_BY_MIME: Record<string, string> = {
   "image/jpeg": ".jpg",
 };
 
-/**
- * Returns the Vercel Blob token from the current runtime environment.
- */
 function getBlobToken(): string | undefined {
   return process.env.BLOB_READ_WRITE_TOKEN;
 }
 
 /**
- * Persists an uploaded image and returns its permanent URL.
+ * Save an uploaded portfolio image.
  *
- * Vercel:
- *   Uses Vercel Blob with BLOB_READ_WRITE_TOKEN.
+ * Production / Vercel:
+ * Uses Vercel Blob.
  *
  * Local development:
- *   Falls back to local disk under:
- *   apps/backend/uploads/portfolio
+ * Uses local disk.
  */
 export async function saveImage(
   buffer: Buffer,
@@ -56,35 +43,47 @@ export async function saveImage(
   const blobToken = getBlobToken();
 
   const ext =
-    EXTENSION_BY_MIME[mimetype] ??
-    path.extname(originalname) ??
+    EXTENSION_BY_MIME[mimetype] ||
+    path.extname(originalname) ||
     "";
 
   const filename = `${crypto.randomUUID()}${ext}`;
 
-  // Use Vercel Blob when the token is available.
+  // Vercel Blob storage
   if (blobToken) {
-    const blob = await put(
-      `portfolio/${filename}`,
-      buffer,
-      {
-        access: "public",
-        contentType: mimetype,
-        token: blobToken,
-      }
-    );
+    try {
+      const blob = await put(
+        `portfolio/${filename}`,
+        buffer,
+        {
+          access: "public",
+          contentType: mimetype,
+          token: blobToken,
+        }
+      );
 
-    return blob.url;
+      return blob.url;
+    } catch (error) {
+      console.error("Vercel Blob upload failed:", error);
+
+      throw ApiError.internal(
+        "Şəkil Vercel Blob yaddaşına yüklənə bilmədi."
+      );
+    }
   }
 
-  // Never use local filesystem storage on Vercel.
+  // Vercel-də local filesystem istifadə etmək olmaz.
   if (ON_VERCEL) {
+    console.error(
+      "BLOB_READ_WRITE_TOKEN is missing in the Vercel runtime."
+    );
+
     throw ApiError.internal(
       "Şəkil saxlama xidməti konfiqurasiya olunmayıb (BLOB_READ_WRITE_TOKEN tapılmadı)."
     );
   }
 
-  // Local development fallback.
+  // Local development fallback
   await fsp.mkdir(LOCAL_UPLOAD_DIR, {
     recursive: true,
   });
@@ -98,7 +97,7 @@ export async function saveImage(
 }
 
 /**
- * Checks whether an image path belongs to our local portfolio storage.
+ * Checks whether an image belongs to our local portfolio storage.
  */
 function isSelfManagedLocalPath(
   image: string
@@ -111,27 +110,26 @@ function isSelfManagedLocalPath(
 }
 
 /**
- * Checks whether an image URL belongs to our Vercel Blob storage.
+ * Checks whether an image belongs to our Vercel Blob storage.
  */
 function isSelfManagedBlobUrl(
   image: string
 ): boolean {
   try {
-    return new URL(image)
-      .hostname
-      .endsWith(".public.blob.vercel-storage.com");
+    const url = new URL(image);
+
+    return url.hostname.endsWith(
+      ".public.blob.vercel-storage.com"
+    );
   } catch {
     return false;
   }
 }
 
 /**
- * Best-effort deletion of an image from storage.
+ * Delete an image from storage.
  *
- * Only deletes:
- * - our own Vercel Blob URLs
- * - our own local /uploads/portfolio/* paths
- *
+ * Only images created by this service are deleted.
  * External images are ignored.
  */
 export async function deleteImage(
@@ -139,33 +137,45 @@ export async function deleteImage(
 ): Promise<void> {
   const blobToken = getBlobToken();
 
-  // Delete from Vercel Blob.
+  // Delete Vercel Blob image
   if (
     blobToken &&
     isSelfManagedBlobUrl(image)
   ) {
-    await del(image, {
-      token: blobToken,
-    }).catch(() => {});
+    try {
+      await del(image, {
+        token: blobToken,
+      });
+    } catch (error) {
+      console.error(
+        "Vercel Blob delete failed:",
+        error
+      );
+    }
 
     return;
   }
 
-  // Nothing to delete locally on Vercel.
+  // No local filesystem cleanup on Vercel
   if (ON_VERCEL) {
     return;
   }
 
-  // Delete local development file.
+  // Delete local development image
   const filename = isSelfManagedLocalPath(image);
 
   if (!filename) {
     return;
   }
 
-  await fsp
-    .unlink(
-      path.join(LOCAL_UPLOAD_DIR, filename)
-    )
-    .catch(() => {});
+  try {
+    await fsp.unlink(
+      path.join(
+        LOCAL_UPLOAD_DIR,
+        filename
+      )
+    );
+  } catch {
+    // Ignore missing local files
+  }
 }
