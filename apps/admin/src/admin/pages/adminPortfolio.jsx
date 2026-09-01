@@ -9,11 +9,17 @@ const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg"];
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, matches the backend upload limit
 
 // Bootstrap suggestions for an empty database (first item ever added would
-// otherwise have no datalist suggestions at all). Matches the category names
-// already used elsewhere in the app: "Çap"/"Reklam" from prisma/seed.ts's
-// product seed, "Promo"/"Kataloq" from apps/client/data/products.js's
-// categoryGroups ("Kataloq" is also already a real, live portfolio category).
-const DEFAULT_CATEGORIES = ["Çap", "Reklam", "Promo", "Kataloq"];
+// otherwise have no suggestions at all). Matches category names already used
+// elsewhere in the app: "Çap"/"Reklam" from prisma/seed.ts's product seed;
+// "Promo"/"Kataloq"/"Vizitkart"/"Banner"/"Flayer"/"Broşür"/"Etiket"/"Stiker"/
+// "Roll-up"/"Firma blankları"/"Qutu"/"Təqvim"/"Sertifikat" derived from
+// apps/client/data/products.js's categoryGroups; "Digər" as an explicit
+// catch-all. "Kataloq" is also already a real, live portfolio category.
+const DEFAULT_CATEGORIES = [
+  "Çap", "Reklam", "Promo", "Kataloq", "Vizitkart", "Banner", "Flayer",
+  "Broşür", "Etiket", "Stiker", "Roll-up", "Firma blankları", "Qutu",
+  "Təqvim", "Sertifikat", "Digər",
+];
 
 export default function AdminPortfolio() {
   const toast = useToast();
