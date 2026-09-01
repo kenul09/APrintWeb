@@ -41,18 +41,19 @@ export default function AdminPortfolio() {
   const [uploading, setUploading] = useState(false);
   const objectUrlRef = useRef(null);
 
-  // The categories suggested in the datalist: a small bootstrap default set
+  // The categories suggested in the combobox: a small bootstrap default set
   // (see DEFAULT_CATEGORIES above) merged with the real, distinct values
   // already used by existing portfolio records (captured from the
   // unfiltered list so an active search doesn't shrink the options). The
   // field itself is still free text — this list is suggestions, not a
-  // closed set of allowed values.
+  // closed set of allowed values. Deliberately does NOT include whatever is
+  // currently typed in form.category — that would make the dropdown "suggest"
+  // back the exact text you just typed as if it were a real option.
   const [knownCategories, setKnownCategories] = useState([]);
   const categoryOptions = useMemo(() => {
     const set = new Set([...DEFAULT_CATEGORIES, ...knownCategories]);
-    if (form.category) set.add(form.category);
     return [...set].sort((a, b) => a.localeCompare(b));
-  }, [knownCategories, form.category]);
+  }, [knownCategories]);
 
   // Custom combobox for the category field: native <input list>+<datalist>
   // can't be styled or positioned (it's browser/OS chrome), so this is a
@@ -66,9 +67,9 @@ export default function AdminPortfolio() {
     return categoryOptions.filter((c) => c.toLowerCase().includes(query));
   }, [categoryOptions, form.category]);
 
-  useEffect(() => {
-    setHighlightedIndex(0);
-  }, [filteredCategoryOptions]);
+  // Clamped rather than reset via an effect: filteredCategoryOptions shrinks
+  // as the user types, so the raw index can point past the end of the list.
+  const activeIndex = Math.min(highlightedIndex, Math.max(filteredCategoryOptions.length - 1, 0));
 
   useEffect(() => {
     if (!categoryMenuOpen) return;
@@ -94,14 +95,14 @@ export default function AdminPortfolio() {
     if (!categoryMenuOpen) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setHighlightedIndex((i) => Math.min(i + 1, filteredCategoryOptions.length - 1));
+      setHighlightedIndex(Math.min(activeIndex + 1, filteredCategoryOptions.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setHighlightedIndex((i) => Math.max(i - 1, 0));
+      setHighlightedIndex(Math.max(activeIndex - 1, 0));
     } else if (e.key === "Enter") {
-      if (filteredCategoryOptions[highlightedIndex]) {
+      if (filteredCategoryOptions[activeIndex]) {
         e.preventDefault();
-        selectCategory(filteredCategoryOptions[highlightedIndex]);
+        selectCategory(filteredCategoryOptions[activeIndex]);
       }
     } else if (e.key === "Escape") {
       setCategoryMenuOpen(false);
@@ -283,26 +284,64 @@ export default function AdminPortfolio() {
           <h3 className={styles.cardTitle}>{editingId ? "İşi redaktə et" : "Yeni portfolio işi əlavə et"}</h3>
 
           <div className={styles.formGrid}>
-            <input
-              className={styles.input}
-              placeholder="Başlıq"
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-            />
-            <input
-              className={styles.input}
-              list="portfolio-category-list"
-              placeholder="Kateqoriya"
-              value={form.category}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-            />
-            <datalist id="portfolio-category-list">
-              {categoryOptions.map((category) => (
-                <option key={category} value={category} />
-              ))}
-            </datalist>
-            <div className={styles.fileField}>
-              <span className={styles.fileFieldLabel}>Şəkil seç</span>
+            <div className={styles.formField}>
+              <label htmlFor="portfolio-title" className={styles.fieldLabel}>Başlıq</label>
+              <input
+                id="portfolio-title"
+                className={styles.input}
+                placeholder="Məs: Vizit kartlar"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="portfolio-category" className={styles.fieldLabel}>Kateqoriya</label>
+              <div className={styles.comboboxWrapper} ref={categoryBoxRef}>
+                <input
+                  id="portfolio-category"
+                  className={styles.input}
+                  placeholder="Kateqoriya seçin və ya yazın"
+                  value={form.category}
+                  onChange={(e) => {
+                    setForm({ ...form, category: e.target.value });
+                    setHighlightedIndex(0);
+                  }}
+                  onFocus={() => setCategoryMenuOpen(true)}
+                  onClick={() => setCategoryMenuOpen(true)}
+                  onKeyDown={handleCategoryKeyDown}
+                  autoComplete="off"
+                />
+                {categoryMenuOpen && (
+                  <div className={styles.comboboxPanel} role="listbox">
+                    {filteredCategoryOptions.length === 0 ? (
+                      <div className={styles.comboboxEmpty}>Uyğun kateqoriya yoxdur — yeni ad yazıla bilər</div>
+                    ) : (
+                      filteredCategoryOptions.map((category, index) => (
+                        <div
+                          key={category}
+                          role="option"
+                          aria-selected={category === form.category}
+                          className={[
+                            styles.comboboxOption,
+                            index === activeIndex ? styles.comboboxOptionHighlighted : "",
+                            category === form.category ? styles.comboboxOptionSelected : "",
+                          ].filter(Boolean).join(" ")}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onMouseEnter={() => setHighlightedIndex(index)}
+                          onClick={() => selectCategory(category)}
+                        >
+                          {category}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.formField}>
+              <span className={styles.fieldLabel}>Şəkil seç</span>
               <label htmlFor="portfolio-image-input" className={styles.fileInputButton}>
                 {imageFile ? imageFile.name : "PNG/JPG faylı seç"}
               </label>
