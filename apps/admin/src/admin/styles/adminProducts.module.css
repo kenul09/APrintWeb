@@ -2,12 +2,7 @@
   padding: 40px 48px;
   min-height: 100vh;
   color: #fff;
-  background: linear-gradient(
-    180deg,
-    #0f172a,
-    #111827,
-    #0b1120
-  );
+  background: #0b0b0c;
 }
 
 .header {
