@@ -2,22 +2,19 @@
 // which still talks to the legacy apps/client cookie-authenticated routes
 // (orders/customers/admin-registration — not part of this migration).
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001/api';
+import { env } from './env';
+
+const BACKEND_URL = env.backendUrl;
 const TOKEN_KEY = 'aprint_admin_token';
 
-// VITE_BACKEND_URL is baked in at build time (Vite can't read it at
-// runtime). If it wasn't set when this bundle was built, BACKEND_URL falls
-// back to localhost — which silently makes every login/API request fail
-// once this build is deployed anywhere but a developer's own machine. Flag
-// that misconfiguration loudly instead of leaving it to look like a generic
-// network error.
-if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && BACKEND_URL.includes('localhost')) {
-  console.error(
-    '[admin] VITE_BACKEND_URL was not set when this build was created, so API requests are pointed at ' +
-      `${BACKEND_URL} — which does not exist on this machine. Set VITE_BACKEND_URL to the deployed ` +
-      'apps/backend URL in this project\'s Vercel environment variables and redeploy.'
-  );
-}
+// Dispatched whenever a backend request comes back 401 while a token was
+// actually attached (i.e. the session was live but the token is now
+// invalid/expired) — AdminLayout listens for this to redirect to /admin/login
+// immediately instead of leaving the user stuck retrying with a dead token.
+// Not fired for the login/register screens themselves: nothing listens there
+// (AdminLayout only renders inside the already-authenticated route tree), so
+// a normal "wrong password" 401 on those forms is unaffected.
+export const UNAUTHORIZED_EVENT = 'admin:unauthorized';
 
 export function getToken() {
   try {
@@ -52,6 +49,22 @@ export class BackendRequestError extends Error {
   }
 }
 
+async function handleResponse(response, hadToken) {
+  const body = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    if (response.status === 401 && hadToken) {
+      clearToken();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent(UNAUTHORIZED_EVENT));
+      }
+    }
+    throw new BackendRequestError(body?.message || 'Xəta baş verdi', response.status, body?.errors);
+  }
+
+  return body;
+}
+
 export async function backendFetch(path, options = {}) {
   const token = getToken();
   const headers = {
@@ -67,13 +80,7 @@ export async function backendFetch(path, options = {}) {
     throw new BackendRequestError('Serverə qoşulmaq mümkün olmadı', 0);
   }
 
-  const body = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new BackendRequestError(body?.message || 'Xəta baş verdi', response.status, body?.errors);
-  }
-
-  return body;
+  return handleResponse(response, !!token);
 }
 
 // Multipart upload (FormData). Deliberately does NOT set Content-Type —
@@ -89,11 +96,5 @@ export async function backendUpload(path, formData) {
     throw new BackendRequestError('Serverə qoşulmaq mümkün olmadı', 0);
   }
 
-  const body = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new BackendRequestError(body?.message || 'Xəta baş verdi', response.status, body?.errors);
-  }
-
-  return body;
+  return handleResponse(response, !!token);
 }
