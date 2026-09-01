@@ -17,7 +17,7 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, matches the backend upload limit
 // catch-all. "Kataloq" is also already a real, live portfolio category.
 const DEFAULT_CATEGORIES = [
   "Çap", "Reklam", "Promo", "Kataloq", "Vizitkart", "Banner", "Flayer",
-  "Broşür", "Etiket", "Stiker", "Roll-up", "Firma blankları", "Qutu",
+  "Broşür", "Etiket", "Stiker", "Roll-up", "Kart", "Qutu",
   "Təqvim", "Sertifikat", "Menu",
 ];
 
