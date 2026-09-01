@@ -8,6 +8,7 @@ export default function AdminRegister() {
   const [success, setSuccess] = useState(false);
   const [focused, setFocused] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [visiblePasswords, setVisiblePasswords] = useState({});
   const navigate = useNavigate();
 
   const handleRegister = async () => {
@@ -162,35 +163,60 @@ export default function AdminRegister() {
             { label: 'Email', key: 'email', type: 'email', placeholder: 'admin@printshop.az' },
             { label: 'Şifrə', key: 'password', type: 'password', placeholder: '••••••••' },
             { label: 'Şifrəni təsdiqlə', key: 'confirm', type: 'password', placeholder: '••••••••' },
-          ].map(f => (
+          ].map(f => {
+            const isPassword = f.type === 'password';
+            const revealed = !!visiblePasswords[f.key];
+            return (
             <div key={f.key} style={{ marginBottom: '18px' }}>
               <label style={{
                 display: 'block', fontSize: '0.65rem',
                 letterSpacing: '0.18em', color: 'rgba(255,255,255,0.3)',
                 textTransform: 'uppercase', fontWeight: 600, marginBottom: 8,
               }}>{f.label}</label>
-              <input
-                type={f.type}
-                placeholder={f.placeholder}
-                value={form[f.key]}
-                onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                onKeyDown={e => e.key === 'Enter' && handleRegister()}
-                onFocus={() => setFocused(f.key)}
-                onBlur={() => setFocused('')}
-                style={{
-                  width: '100%',
-                  background: focused === f.key ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${focused === f.key ? 'rgba(139,92,246,0.6)' : 'rgba(255,255,255,0.08)'}`,
-                  borderRadius: '12px', padding: '14px 18px',
-                  color: '#fff', fontSize: '0.88rem', outline: 'none',
-                  boxSizing: 'border-box',
-                  fontFamily: '"DM Sans", sans-serif',
-                  boxShadow: focused === f.key ? '0 0 0 3px rgba(139,92,246,0.12)' : 'none',
-                  transition: 'all 0.2s',
-                }}
-              />
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={isPassword ? (revealed ? 'text' : 'password') : f.type}
+                  placeholder={f.placeholder}
+                  value={form[f.key]}
+                  onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                  onKeyDown={e => e.key === 'Enter' && handleRegister()}
+                  onFocus={() => setFocused(f.key)}
+                  onBlur={() => setFocused('')}
+                  style={{
+                    width: '100%',
+                    background: focused === f.key ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${focused === f.key ? 'rgba(139,92,246,0.6)' : 'rgba(255,255,255,0.08)'}`,
+                    borderRadius: '12px', padding: isPassword ? '14px 44px 14px 18px' : '14px 18px',
+                    color: '#fff', fontSize: '0.88rem', outline: 'none',
+                    boxSizing: 'border-box',
+                    fontFamily: '"DM Sans", sans-serif',
+                    boxShadow: focused === f.key ? '0 0 0 3px rgba(139,92,246,0.12)' : 'none',
+                    transition: 'all 0.2s',
+                  }}
+                />
+                {isPassword && (
+                  <button
+                    type="button"
+                    onClick={() => setVisiblePasswords(prev => ({ ...prev, [f.key]: !prev[f.key] }))}
+                    aria-label={revealed ? 'Şifrəni gizlət' : 'Şifrəni göstər'}
+                    style={{
+                      position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
+                      background: 'transparent', border: 'none', padding: 0,
+                      cursor: 'pointer', fontSize: '1rem', lineHeight: 1,
+                      color: 'rgba(255,255,255,0.35)',
+                      display: 'flex', alignItems: 'center',
+                      transition: 'color 0.2s',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}
+                  >
+                    {revealed ? '🙈' : '👁️'}
+                  </button>
+                )}
+              </div>
             </div>
-          ))}
+            );
+          })}
 
           <button
             onClick={handleRegister}
