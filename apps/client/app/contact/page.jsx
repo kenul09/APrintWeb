@@ -7,7 +7,7 @@ import { glassStyle } from "@/components/ui/glassStyle";
 import { useI18n } from '@/components/i18n/I18nProvider';
 import { contactService } from "@/lib/api/contactService";
 
-const CONTACT_ADDRESS = "Bakı, Sahil m/s yaxınlığı";
+const CONTACT_ADDRESS = "Əlövsət Quliyev küçəsi, 140, Bakı, Nəsimi, Azərbaycan";
 const MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(CONTACT_ADDRESS)}&output=embed`;
 
 const inputBase = {
