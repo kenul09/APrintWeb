@@ -7,6 +7,9 @@ import { glassStyle } from "@/components/ui/glassStyle";
 import { useI18n } from '@/components/i18n/I18nProvider';
 import { contactService } from "@/lib/api/contactService";
 
+const CONTACT_ADDRESS = "Bakı, Sahil m/s yaxınlığı";
+const MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(CONTACT_ADDRESS)}&output=embed`;
+
 const inputBase = {
   width: "100%",
   background: "rgba(var(--ink-rgb),0.04)",
@@ -241,7 +244,7 @@ export default function Contact() {
               <h3 className={styles.infoTitle}>{t('contact.contactInfoTitle')}</h3>
 
               {[
-                { icon: "📍", title: "Ünvan", value: "Bakı, Sahil m/s yaxınlığı" },
+                { icon: "📍", title: "Ünvan", value: CONTACT_ADDRESS },
                 { icon: "📞", title: "Telefon", value: "+994 55 750 55 33" },
                 { icon: "📧", title: "Email", value: "asadov_78@mail.ru" },
                 { icon: "🕐", title: "İş saatları", value: "B.e – C.a: 09:00 – 21:00" },
@@ -262,6 +265,22 @@ export default function Contact() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className={styles.contactInfoBox} style={{ ...glassStyle, marginBottom: 16, padding: 12 }}>
+              <iframe
+                src={MAP_EMBED_URL}
+                title={`Xəritədə ${CONTACT_ADDRESS}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{
+                  width: "100%",
+                  height: 260,
+                  border: 0,
+                  borderRadius: "12px",
+                  display: "block",
+                }}
+              />
             </div>
 
             <div
