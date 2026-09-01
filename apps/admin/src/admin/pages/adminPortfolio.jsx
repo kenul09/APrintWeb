@@ -8,6 +8,13 @@ const EMPTY_FORM = { title: "", category: "", image: "", description: "", isPubl
 const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg"];
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, matches the backend upload limit
 
+// Bootstrap suggestions for an empty database (first item ever added would
+// otherwise have no datalist suggestions at all). Matches the category names
+// already used elsewhere in the app: "Çap"/"Reklam" from prisma/seed.ts's
+// product seed, "Promo"/"Kataloq" from apps/client/data/products.js's
+// categoryGroups ("Kataloq" is also already a real, live portfolio category).
+const DEFAULT_CATEGORIES = ["Çap", "Reklam", "Promo", "Kataloq"];
+
 export default function AdminPortfolio() {
   const toast = useToast();
   const [items, setItems] = useState([]);
@@ -28,13 +35,15 @@ export default function AdminPortfolio() {
   const [uploading, setUploading] = useState(false);
   const objectUrlRef = useRef(null);
 
-  // The categories admins can pick from — the real, distinct values already
-  // used by existing portfolio records (captured from the unfiltered list so
-  // an active search doesn't shrink the options). Never a hardcoded/invented
-  // list: it only ever contains category strings that actually came from the API.
+  // The categories suggested in the datalist: a small bootstrap default set
+  // (see DEFAULT_CATEGORIES above) merged with the real, distinct values
+  // already used by existing portfolio records (captured from the
+  // unfiltered list so an active search doesn't shrink the options). The
+  // field itself is still free text — this list is suggestions, not a
+  // closed set of allowed values.
   const [knownCategories, setKnownCategories] = useState([]);
   const categoryOptions = useMemo(() => {
-    const set = new Set(knownCategories);
+    const set = new Set([...DEFAULT_CATEGORIES, ...knownCategories]);
     if (form.category) set.add(form.category);
     return [...set].sort((a, b) => a.localeCompare(b));
   }, [knownCategories, form.category]);
