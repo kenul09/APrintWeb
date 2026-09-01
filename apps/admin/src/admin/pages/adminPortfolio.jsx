@@ -54,6 +54,60 @@ export default function AdminPortfolio() {
     return [...set].sort((a, b) => a.localeCompare(b));
   }, [knownCategories, form.category]);
 
+  // Custom combobox for the category field: native <input list>+<datalist>
+  // can't be styled or positioned (it's browser/OS chrome), so this is a
+  // small self-contained open/filter/select state instead.
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const categoryBoxRef = useRef(null);
+  const filteredCategoryOptions = useMemo(() => {
+    const query = form.category.trim().toLowerCase();
+    if (!query) return categoryOptions;
+    return categoryOptions.filter((c) => c.toLowerCase().includes(query));
+  }, [categoryOptions, form.category]);
+
+  useEffect(() => {
+    setHighlightedIndex(0);
+  }, [filteredCategoryOptions]);
+
+  useEffect(() => {
+    if (!categoryMenuOpen) return;
+    const onClickOutside = (e) => {
+      if (categoryBoxRef.current && !categoryBoxRef.current.contains(e.target)) {
+        setCategoryMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [categoryMenuOpen]);
+
+  const selectCategory = (category) => {
+    setForm((prev) => ({ ...prev, category }));
+    setCategoryMenuOpen(false);
+  };
+
+  const handleCategoryKeyDown = (e) => {
+    if (!categoryMenuOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+      setCategoryMenuOpen(true);
+      return;
+    }
+    if (!categoryMenuOpen) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((i) => Math.min(i + 1, filteredCategoryOptions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === "Enter") {
+      if (filteredCategoryOptions[highlightedIndex]) {
+        e.preventDefault();
+        selectCategory(filteredCategoryOptions[highlightedIndex]);
+      }
+    } else if (e.key === "Escape") {
+      setCategoryMenuOpen(false);
+    }
+  };
+
   const releasePreview = () => {
     if (objectUrlRef.current) {
       URL.revokeObjectURL(objectUrlRef.current);
