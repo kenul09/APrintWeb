@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import AdminLogin from "./admin/adminLogin";
-import AdminRegister from "./admin/adminRegister";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/pages/dashboard";
 import AdminProducts from "./admin/pages/adminProducts";
@@ -16,7 +15,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/admin" replace />} />
       <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin/register" element={<AdminRegister />} />
+      <Route path="/admin/register" element={<Navigate to="/admin/login" replace />} />
       <Route
         path="/admin"
         element={

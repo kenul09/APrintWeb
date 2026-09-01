@@ -249,25 +249,6 @@ export default function AdminLogin() {
             >
               {submitting ? 'Yoxlanılır…' : 'Daxil ol →'}
             </button>
-
-            <button
-              type="button"
-              onClick={() => navigate('/admin/register')}
-              style={{
-                flex: 1,
-                background: 'rgba(255,255,255,0.03)',
-                color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '14px',
-                padding: '15px', fontWeight: 700,
-                cursor: 'pointer', fontSize: '0.85rem',
-                letterSpacing: '0.1em', textTransform: 'uppercase',
-                fontFamily: '"DM Sans", sans-serif',
-                transition: 'background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              Qeydiyyat
-            </button>
           </div>
         </div>
       </div>
