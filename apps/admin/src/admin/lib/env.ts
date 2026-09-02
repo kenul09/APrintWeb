@@ -26,13 +26,15 @@ if (!result.success) {
   throw new Error(`[env] Invalid environment configuration: ${details}`);
 }
 
-export const env = result.data;
+export type Env = z.infer<typeof envSchema>;
+
+export const env: Env = result.data;
 
 // Deployed anywhere but localhost while still pointing at a localhost URL
 // means the corresponding VITE_* var wasn't set when this build was made —
 // every request against it will fail. One shared check instead of the same
 // logic duplicated per service file.
-function warnIfLocalhostInProduction(name, url) {
+function warnIfLocalhostInProduction(name: string, url: string): void {
   if (typeof window === 'undefined') return;
   if (window.location.hostname === 'localhost') return;
   if (!url.includes('localhost')) return;
