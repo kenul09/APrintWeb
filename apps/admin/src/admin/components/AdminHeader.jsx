@@ -70,10 +70,16 @@ export default function AdminHeader({ onMenuClick }) {
         orderService.getAll({ search: q, limit: 4 }).then((r) => r.data).catch(() => []),
         customerService.getAll({ search: q, limit: 4 }).then((r) => r.data).catch(() => []),
         blogService.getAll({ search: q, limit: 4 }).then((r) => r.data).catch(() => []),
-      ]).then(([products, orders, customers, posts]) => {
-        setResults({ products, orders, customers, posts });
-        setSearching(false);
-      });
+      ])
+        .then(([products, orders, customers, posts]) => {
+          setResults({ products, orders, customers, posts });
+        })
+        .catch(() => {
+          setResults(null);
+        })
+        .finally(() => {
+          setSearching(false);
+        });
     }, 350);
     return () => clearTimeout(t);
   }, [query]);
