@@ -13,7 +13,7 @@ export default function Error({ error, retry }) {
         background: "var(--background)",
         minHeight: "60vh",
         color: "var(--foreground)",
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: "var(--font-dm-sans), sans-serif",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -22,14 +22,10 @@ export default function Error({ error, retry }) {
         padding: "120px 24px",
       }}
     >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-      `}</style>
-
       <h1
         className="display-text"
         style={{
-          fontFamily: "Oswald, sans-serif",
+          fontFamily: "var(--font-oswald), sans-serif",
           fontWeight: 500,
           lineHeight: 0.9,
           margin: 0,
@@ -67,7 +63,7 @@ export default function Error({ error, retry }) {
           cursor: "pointer",
           fontWeight: 700,
           fontSize: "1rem",
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: "var(--font-dm-sans), sans-serif",
         }}
       >
         Try again

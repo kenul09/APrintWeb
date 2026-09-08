@@ -14,12 +14,10 @@ export default function CategoriesCatalog() {
           "radial-gradient(circle at top left, rgba(139,92,246,0.14), transparent 24%), radial-gradient(circle at bottom right, rgba(236,72,153,0.10), transparent 24%), var(--background)",
         color: "var(--foreground)",
         padding: "110px 24px 90px",
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: "var(--font-dm-sans), sans-serif",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
         .catalog-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -73,7 +71,7 @@ export default function CategoriesCatalog() {
           <h1
             style={{
               margin: "0 0 16px",
-              fontFamily: '"Oswald", sans-serif',
+              fontFamily: "var(--font-oswald), sans-serif",
               fontSize: "clamp(3.4rem, 7vw, 6.2rem)",
               lineHeight: 0.92,
               fontWeight: 500,
@@ -108,7 +106,7 @@ export default function CategoriesCatalog() {
           <h2
             style={{
               margin: "0 0 22px",
-              fontFamily: '"Oswald", sans-serif',
+              fontFamily: "var(--font-oswald), sans-serif",
               fontSize: "1.6rem",
               fontWeight: 500,
               color: "var(--foreground)",

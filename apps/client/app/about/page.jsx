@@ -18,13 +18,13 @@ export default function About() {
         background: "var(--background)",
         minHeight: "100vh",
         color: "var(--foreground)",
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: "var(--font-dm-sans), sans-serif",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
         @keyframes shimmer {
           0% { background-position: -200% center; }

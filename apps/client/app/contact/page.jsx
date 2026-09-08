@@ -20,7 +20,7 @@ const inputBase = {
   fontSize: "0.88rem",
   outline: "none",
   boxSizing: "border-box",
-  fontFamily: '"DM Sans", sans-serif',
+  fontFamily: "var(--font-dm-sans), sans-serif",
   transition: "border-color 0.2s, background 0.2s, box-shadow 0.2s",
 };
 

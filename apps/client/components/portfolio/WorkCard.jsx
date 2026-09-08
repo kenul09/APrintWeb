@@ -82,7 +82,7 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
       <div style={{ padding: "14px 20px 16px" }}>
         <h3
           style={{
-            fontFamily: '"Oswald", sans-serif',
+            fontFamily: "var(--font-oswald), sans-serif",
             fontSize: "1.5rem",
             fontWeight: 500,
             letterSpacing: "0.03em",

@@ -90,7 +90,7 @@ export default function GroupCard({ group }) {
         <h2
           style={{
             margin: "0 0 10px",
-            fontFamily: '"Oswald", sans-serif',
+            fontFamily: "var(--font-oswald), sans-serif",
             fontSize: "2rem",
             fontWeight: 500,
             lineHeight: 1.02,

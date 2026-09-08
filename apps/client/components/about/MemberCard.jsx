@@ -49,7 +49,7 @@ export default function MemberCard({ m, delay = 0 }) {
 
       <div
         style={{
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: "var(--font-dm-sans), sans-serif",
           fontSize: "0.88rem",
           fontWeight: 500,
           color: "var(--foreground)",
@@ -61,7 +61,7 @@ export default function MemberCard({ m, delay = 0 }) {
 
       <div
         style={{
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: "var(--font-dm-sans), sans-serif",
           fontSize: "0.68rem",
           color: "rgba(var(--ink-rgb),0.3)",
           letterSpacing: "0.14em",

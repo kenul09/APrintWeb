@@ -89,14 +89,12 @@ export default function Portfolio() {
         background: "var(--background)",
         minHeight: "100vh",
         color: "var(--foreground)",
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: "var(--font-dm-sans), sans-serif",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
         @keyframes shimmer {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
@@ -139,7 +137,7 @@ export default function Portfolio() {
           border: 1px solid rgba(var(--ink-rgb),0.08);
           background: rgba(var(--ink-rgb),0.04);
           color: rgba(var(--ink-rgb),0.6);
-          font-family: "DM Sans", sans-serif;
+          font-family: var(--font-dm-sans), sans-serif;
           font-size: 0.85rem;
           font-weight: 600;
           cursor: pointer;
@@ -240,7 +238,7 @@ export default function Portfolio() {
 
           <h1
             style={{
-              fontFamily: '"Oswald", sans-serif',
+              fontFamily: "var(--font-oswald), sans-serif",
               fontSize: "clamp(4rem, 9vw, 7rem)",
               fontWeight: 500,
               lineHeight: 0.92,
@@ -310,7 +308,7 @@ export default function Portfolio() {
                 cursor: "pointer",
                 fontWeight: 600,
                 fontSize: "0.8rem",
-                fontFamily: '"DM Sans", sans-serif',
+                fontFamily: "var(--font-dm-sans), sans-serif",
                 letterSpacing: "0.05em",
                 transition: "all 0.2s",
                 backdropFilter: "blur(10px)",

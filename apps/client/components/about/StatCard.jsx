@@ -44,7 +44,7 @@ export default function StatCard({ n, l, delay = 0 }) {
       </div>
       <div
         style={{
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: "var(--font-dm-sans), sans-serif",
           fontSize: "0.72rem",
           color: "rgba(var(--ink-rgb),0.35)",
           letterSpacing: "0.18em",

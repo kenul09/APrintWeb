@@ -23,14 +23,12 @@ export default function Home() {
         background: "var(--background)",
         minHeight: "100vh",
         color: "var(--foreground)",
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: "var(--font-dm-sans), sans-serif",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,-20px); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -43,7 +41,6 @@ export default function Home() {
           background-image: radial-gradient(circle at 88% 30%, var(--hero-glow-a) 0%, transparent 62%);
         }
 
-        .display-text { font-family: "Oswald", sans-serif; font-weight: 500; line-height: 0.9; margin: 0; }
         .cursor { display: inline-block; width: 3px; height: 0.85em; background: #a78bfa; margin-left: 4px; animation: blink 0.9s infinite; }
 
         .marquee-shell { border-top: 1px solid rgba(var(--ink-rgb),0.06); border-bottom: 1px solid rgba(var(--ink-rgb),0.06); overflow: hidden; position: relative; background: rgba(var(--ink-rgb),0.01); max-width: 100%; }
@@ -91,9 +88,9 @@ export default function Home() {
 
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        .marquee-fallback { font-family: "Oswald", sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em; }
+        .marquee-fallback { font-family: var(--font-oswald), sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em; }
 
-        .marquee-name { font-family: "DM Sans", sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(var(--ink-rgb),0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
+        .marquee-name { font-family: var(--font-dm-sans), sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(var(--ink-rgb),0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
 
         @media (max-width: 980px) {
           .marquee-pill { padding: 28px 32px; gap: 12px; }
@@ -116,7 +113,7 @@ export default function Home() {
         .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(var(--ink-rgb),0.08); background: var(--stats-bg); transition: background-color 0.25s ease; }
         .stat-box { padding: 44px 40px; border-right: 1px solid rgba(var(--ink-rgb),0.08); min-width: 0; transition: background-color 0.2s ease; }
         .stat-box:hover { background: rgba(var(--ink-rgb),0.025); }
-        .stat-val { font-family: "Oswald", sans-serif; font-size: 3rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+        .stat-val { font-family: var(--font-oswald), sans-serif; font-size: 3rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
 
         @media (max-width: 900px) {
           .stat-grid { margin: 0 32px 72px; }
@@ -172,7 +169,7 @@ export default function Home() {
           </h1>
 
           <div style={{ marginTop: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
-            <div style={{ fontSize: "2rem", fontFamily: "Oswald" }}>
+            <div style={{ fontSize: "2rem", fontFamily: "var(--font-oswald)" }}>
               {typed}
               <span className="cursor" />
             </div>
@@ -198,7 +195,7 @@ export default function Home() {
           style={{ padding: "80px 0", opacity: partnersIn ? 1 : 0, transition: "1s" }}
         >
           <div style={{ padding: "0 56px", marginBottom: "40px" }}>
-            <h2 style={{ fontFamily: "Oswald", letterSpacing: "0.2em", textTransform: "uppercase" }}>
+            <h2 style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
               {t('partners.title')}
             </h2>
             <p style={{ color: "rgba(var(--ink-rgb),0.5)" }}>{t('partners.subtitle')}</p>
