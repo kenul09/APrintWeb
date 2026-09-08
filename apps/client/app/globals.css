@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   /* Generic "ink" channel — every hardcoded rgba(255,255,255,X) across the
      app (borders, muted text, subtle surfaces) has been rewritten to

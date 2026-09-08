@@ -18,7 +18,7 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, matches the backend upload limit
 const DEFAULT_CATEGORIES = [
   "Çap", "Reklam", "Promo", "Kataloq", "Vizitkart", "Banner", "Flayer",
   "Broşür", "Etiket", "Stiker", "Roll-up", "Kart", "Qutu",
-  "Təqvim", "Sertifikat", "Menu", "Poster",
+  "Təqvim", "Sertifikat", "Menu", "Poster", "Çanta",
 ];
 
 export default function AdminPortfolio() {
