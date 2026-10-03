@@ -1,13 +1,8 @@
-export const aboutStats = [
-  { n: "2003", l: "Quruluş ili" },
-  { n: "2000+", l: "Müştəri" },
-  { n: "15", l: "Komanda üzvü" },
-  { n: "50+", l: "Məhsul növü" },
-];
-
+// role → i18n key about.roles.<role>. Optional `photo`: a path in public/
+// (e.g. "/images/team/anar.jpg"); without it the initials avatar is shown.
 export const teamMembers = [
-  { name: "Anar Əsədov", role: "CEO", initials: "AƏ" },
-  { name: "Könül Səmədova", role: "Dizayner", initials: "KS" },
-  { name: "Murad Quliyev", role: "Texnik", initials: "MQ" },
-  { name: "Nigar Hüseynova", role: "Satış", initials: "NH" },
+  { name: "Anar Əsədov", role: "ceo", initials: "AƏ" },
+  { name: "Könül Səmədova", role: "designer", initials: "KS" },
+  { name: "Murad Quliyev", role: "technician", initials: "MQ" },
+  { name: "Nigar Hüseynova", role: "sales", initials: "NH" },
 ];

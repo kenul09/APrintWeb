@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export default function GroupCard({ group }) {
   const [hovered, setHovered] = useState(false);
+  const { t, lang } = useI18n();
+  const count = group.items.length;
+  const unit = t(`products.itemsUnit.${new Intl.PluralRules(lang).select(count)}`);
 
   return (
     <article
@@ -11,14 +16,15 @@ export default function GroupCard({ group }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
         borderRadius: 30,
         padding: 30,
-        minHeight: 390,
         overflow: "hidden",
         background: "var(--color-surface)",
         border: `1px solid ${hovered ? "var(--color-border-strong)" : "var(--color-border)"}`,
-        transform: hovered ? "translateY(-4px)" : "translateY(0)",
-        transition: "transform 0.32s ease, background-color 0.2s, color 0.2s, border-color 0.2s",
+        transition: "background-color 0.2s, color 0.2s, border-color 0.2s",
       }}
     >
       <div
@@ -34,15 +40,15 @@ export default function GroupCard({ group }) {
       >
         <div
           style={{
-            width: 58,
-            height: 58,
-            borderRadius: 18,
+            width: 44,
+            height: 44,
+            borderRadius: 12,
             display: "grid",
             placeItems: "center",
             background: "var(--color-accent-soft)",
             color: "var(--color-accent)",
             fontWeight: 600,
-            fontSize: "1rem",
+            fontSize: "0.9375rem",
             flexShrink: 0,
           }}
         >
@@ -60,7 +66,7 @@ export default function GroupCard({ group }) {
             whiteSpace: "nowrap",
           }}
         >
-          {group.items.length} istiqamət
+          {count} {unit}
         </div>
       </div>
 
@@ -90,32 +96,34 @@ export default function GroupCard({ group }) {
           {group.subtitle}
         </p>
 
-        <div className="group-items-grid">
+        {/* Items aren't links (no per-item pages), so they're a plain list —
+            no button-like borders or hover effects. */}
+        <ul className="group-items-grid">
           {group.items.map((item) => (
-            <div
-              key={item}
-              style={{
-                padding: "10px 12px",
-                borderRadius: 14,
-                background: "var(--color-bg)",
-                border: "1px solid var(--color-border)",
-                color: "var(--color-text)",
-                fontSize: "0.92rem",
-                lineHeight: 1.45,
-                transition: "transform 0.25s ease, background-color 0.2s, color 0.2s, border-color 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateX(4px)";
-                e.currentTarget.style.borderColor = "var(--color-border-strong)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateX(0)";
-                e.currentTarget.style.borderColor = "var(--color-border)";
-              }}
-            >
+            <li key={item} className="group-item">
               {item}
-            </div>
+            </li>
           ))}
+        </ul>
+      </div>
+
+      {/* The contact form has no category preselect (its service list
+          doesn't match these groups), so this links to /contact. */}
+      <div
+        style={{
+          marginTop: "auto",
+          paddingTop: 22,
+        }}
+      >
+        <div
+          style={{
+            borderTop: "1px solid var(--color-border)",
+            paddingTop: 18,
+          }}
+        >
+          <Link href="/contact" className="group-card-cta">
+            {t("products.cardCta")}
+          </Link>
         </div>
       </div>
     </article>

@@ -1,0 +1,30 @@
+/* All variants share one grid cell, so the slot is always as wide (and
+   tall) as the largest one — swapping words never moves or re-wraps
+   anything. If a variant is wider than the line, it wraps inside the slot
+   instead of overflowing. */
+.slot {
+  display: inline-grid;
+}
+
+/* Outgoing word fades out quickly; the incoming one waits for it, so the
+   two never visibly overlap. */
+.item {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(0.2em);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.active {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.35s ease 0.2s, transform 0.35s ease 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .active {
+    transition: none;
+    transform: none;
+  }
+}

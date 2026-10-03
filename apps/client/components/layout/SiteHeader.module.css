@@ -4,20 +4,23 @@
   left: 0;
   right: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  /* Solid on purpose: with a translucent + blurred background, page content
+     scrolling underneath (badges, photos) showed through as faint blurred
+     shapes next to the logo. */
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   transition: background-color 0.2s, border-color 0.2s;
 }
 
 .inner {
-  width: min(1200px, calc(100% - 32px));
+  width: 100%;
+  max-width: var(--container-max);
   margin: 0 auto;
+  padding-inline: var(--container-pad);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 76px;
+  min-height: var(--header-height);
 }
 
 .brand {
@@ -142,10 +145,6 @@
 }
 
 @media (max-width: 768px) {
-  .inner {
-    min-height: 68px;
-  }
-
   .nav {
     display: none;
   }
@@ -164,7 +163,7 @@
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    padding: 0 20px;
+    padding: 0 var(--container-pad);
     background: var(--color-bg);
     border-top: 1px solid var(--color-border);
     backdrop-filter: blur(18px);
@@ -175,7 +174,7 @@
   .mobileNavOpen {
     max-height: 480px;
     opacity: 1;
-    padding: 12px 20px 24px;
+    padding: 12px var(--container-pad) 24px;
   }
 
   .mobileLink {

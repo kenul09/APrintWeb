@@ -38,6 +38,27 @@
   color-scheme: light;
 }
 
+/* Layout — one container shared by the header, footer and every page
+   section so all content starts on the same left edge. */
+:root {
+  --container-max: 1280px;
+  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+  --header-height: 76px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 68px;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
 html {
   scroll-behavior: smooth;
 }

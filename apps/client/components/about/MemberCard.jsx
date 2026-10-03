@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
 import { glassStyle } from "@/components/ui/glassStyle";
 
-export default function MemberCard({ m, delay = 0 }) {
+// `role` is the already-translated role label.
+export default function MemberCard({ m, role, delay = 0 }) {
   const [ref, inView] = useInView();
   const [hovered, setHovered] = useState(false);
 
@@ -35,13 +37,19 @@ export default function MemberCard({ m, delay = 0 }) {
           alignItems: "center",
           justifyContent: "center",
           margin: "0 auto 18px",
+          position: "relative",
+          overflow: "hidden",
           fontSize: "1rem",
           fontWeight: 600,
           color: hovered ? "var(--color-accent)" : "var(--color-text)",
           transition: "background-color 0.2s, color 0.2s",
         }}
       >
-        {m.initials}
+        {m.photo ? (
+          <Image src={m.photo} alt={m.name} fill sizes="56px" style={{ objectFit: "cover" }} />
+        ) : (
+          m.initials
+        )}
       </div>
 
       <div
@@ -62,7 +70,7 @@ export default function MemberCard({ m, delay = 0 }) {
           fontWeight: 400,
         }}
       >
-        {m.role}
+        {role}
       </div>
     </div>
   );

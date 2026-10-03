@@ -1,0 +1,89 @@
+/* Decorative stack of product cards for the About hero. All cards share
+   one grid cell, so the deck is exactly as tall as a card's content; each
+   card's position in the stack is set inline (transform, opacity, z-index)
+   and CSS transitions animate every change. */
+.deck {
+  --card-w: 220px;
+  display: grid;
+  /* Room around the card for the up/right stack offsets and rotation. */
+  padding: 50px 50px 30px 30px;
+  justify-self: center;
+}
+
+@media (min-width: 1024px) {
+  .deck {
+    --card-w: clamp(220px, 20vw, 260px);
+  }
+}
+
+.card {
+  grid-area: 1 / 1;
+  position: relative;
+  width: var(--card-w);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transform-origin: 50% 60%;
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+:root:not([data-theme='light']) .card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.num {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.arrow {
+  color: var(--color-accent);
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.media .img {
+  object-fit: cover;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.spec {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+}

@@ -2,13 +2,47 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import styles from './SiteFooter.module.css';
 import { useI18n } from '@/components/i18n/I18nProvider';
-import { useEffect, useState } from 'react';
+import { CONTACT, SOCIAL } from '@/data/contactInfo';
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from './BrandIcons';
+import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from './ContactIcons';
+
+const PAGE_LINKS = [
+  { href: '/', key: 'nav.home' },
+  { href: '/about', key: 'nav.about' },
+  { href: '/products', key: 'nav.products' },
+  { href: '/portfolio', key: 'nav.portfolio' },
+  { href: '/contact', key: 'nav.contact' },
+];
+
+// Routes where the CTA block above the footer is hidden (/contact already is
+// the CTA). Compared without a locale prefix, so /en/about and /ru/about match.
+const HIDE_CTA_ROUTES = ['/contact', '/about'];
+const LOCALE_PREFIX = /^\/(az|en|ru)(?=\/|$)/;
+
+function stripLocale(pathname) {
+  return pathname.replace(LOCALE_PREFIX, '') || '/';
+}
+
+// Footer "Əlaqə" rows. Values come from data/contactInfo.js (shared with the
+// contact page); labels from i18n footer.labels.<key>. Rows without `href`
+// are plain text.
+const CONTACT_ROWS = [
+  { key: 'phone', Icon: PhoneIcon, value: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
+  { key: 'email', Icon: MailIcon, value: CONTACT.email, href: `mailto:${CONTACT.email}` },
+  { key: 'address', Icon: MapPinIcon, value: CONTACT.addressShort, href: CONTACT.mapsHref, external: true },
+  { key: 'hours', Icon: ClockIcon, i18nValue: 'contact.hours' },
+];
 
 export default function SiteFooter() {
   const { t } = useI18n();
+  const pathname = usePathname() || '/';
+  const showCta = !HIDE_CTA_ROUTES.includes(stripLocale(pathname));
   const [showTop, setShowTop] = useState(false);
+  const year = new Date().getFullYear();
 
   useEffect(() => {
     function onScroll() {
@@ -22,10 +56,34 @@ export default function SiteFooter() {
     try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0,0); }
   }
 
+  const socials = [
+    { href: SOCIAL.instagram, label: 'Instagram', Icon: InstagramIcon },
+    { href: CONTACT.whatsappHref, label: 'WhatsApp', Icon: WhatsAppIcon },
+    { href: SOCIAL.facebook, label: 'Facebook', Icon: FacebookIcon },
+  ];
+
   return (
-    <footer className={styles.footer} role="contentinfo">
-      <div className={styles.main}>
-        <div className={styles.container}>
+    <>
+      {/* CTA — on every page except HIDE_CTA_ROUTES. */}
+      {showCta && (
+        <section className={`container ${styles.ctaWrap}`} aria-labelledby="footer-cta-title">
+          <div className={styles.cta}>
+            <h2 id="footer-cta-title" className={styles.ctaTitle}>
+              <span>{t('footer.ctaLine1')}</span>
+              <span className="accent-text">{t('footer.ctaLine2')}</span>
+            </h2>
+            <div className={styles.ctaActions}>
+              <Link href="/contact" className="btn-primary">{t('footer.ctaOrder')}</Link>
+              <a href={CONTACT.whatsappHref} className="btn-secondary" target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <footer className={styles.footer} role="contentinfo">
+        <div className={`container ${styles.grid}`}>
           <div className={styles.colBrand}>
             <Link href="/" className={styles.brand} aria-label="A Print home">
               <Image
@@ -38,38 +96,82 @@ export default function SiteFooter() {
             </Link>
             <p className={styles.desc}>{t('footer.desc')}</p>
             <div className={styles.socialRow}>
-              <a className={styles.socialBtn} href="https://www.instagram.com/a_print_poliqrafiya/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
-              </a>
-              <a className={styles.socialBtn} href="https://wa.me/994557505533" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </a>
-              <a className={styles.socialBtn} href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </a>
+              {socials.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  className={styles.socialBtn}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                >
+                  <Icon />
+                </a>
+              ))}
             </div>
           </div>
-          {/* Empty div for spacing on the right side */}
-          <div />
+
+          <nav className={styles.colPages} aria-labelledby="footer-pages-title">
+            <h3 id="footer-pages-title" className={styles.colTitle}>{t('footer.pagesTitle')}</h3>
+            <ul className={styles.list}>
+              {PAGE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={styles.link}>{t(link.key)}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className={styles.colContact}>
+            <h3 className={styles.colTitle}>{t('footer.contactTitle')}</h3>
+            <ul className={styles.contactList}>
+              {CONTACT_ROWS.map(({ key, Icon, value, i18nValue, href, external }) => {
+                const content = (
+                  <>
+                    <span className={styles.contactIcon}><Icon /></span>
+                    <span>
+                      <span className={styles.contactLabel}>{t(`footer.labels.${key}`)}</span>
+                      <span className={styles.contactValue}>{i18nValue ? t(i18nValue) : value}</span>
+                    </span>
+                  </>
+                );
+                return (
+                  <li key={key}>
+                    {href ? (
+                      <a
+                        href={href}
+                        className={`${styles.contactRow} ${styles.contactLink}`}
+                        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div className={styles.contactRow}>{content}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
 
-        <div className={styles.divider} />
-
-        <div className={styles.bottom}>
-          <span className={styles.copyright}>{t('footer.copyright')}</span>
-          <span className={styles.madeBy}>{t('footer.madeBy')}</span>
+        <div className="container">
+          <div className={styles.bottom}>
+            <span>{t('footer.copyright', { year })}</span>
+            <span>{t('footer.madeBy')}</span>
+          </div>
         </div>
-      </div>
 
-      {/* Back to top */}
-      <button
-        className={`${styles.backToTop} ${showTop ? styles.visible : ''}`}
-        onClick={scrollTop}
-        aria-label={t('footer.backToTop')}
-        title={t('footer.backToTop')}
-      >
-        ↑
-      </button>
-    </footer>
+        {/* Back to top */}
+        <button
+          className={`${styles.backToTop} ${showTop ? styles.visible : ''}`}
+          onClick={scrollTop}
+          aria-label={t('footer.backToTop')}
+          title={t('footer.backToTop')}
+        >
+          ↑
+        </button>
+      </footer>
+    </>
   );
 }

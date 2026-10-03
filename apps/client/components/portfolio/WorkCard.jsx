@@ -10,7 +10,7 @@ import { glassStyle } from "@/components/ui/glassStyle";
 // empty, a bare filename with no leading slash, etc.) is bad data that would
 // make next/image throw "Failed to construct 'URL': Invalid URL" — guard
 // against it instead of crashing the whole Portfolio page over one record.
-function resolveImageSrc(image, title) {
+export function resolveImageSrc(image, title) {
   if (typeof image === "string") {
     const trimmed = image.trim();
     if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith("/")) {

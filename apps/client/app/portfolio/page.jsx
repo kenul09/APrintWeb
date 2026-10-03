@@ -97,16 +97,16 @@ export default function Portfolio() {
         .portfolio-wrap {
           position: relative;
           z-index: 1;
-          max-width: 1200px;
+          max-width: var(--container-max);
           margin: 0 auto;
-          padding: 0 40px;
+          padding: 0 var(--container-pad);
         }
 
         .portfolio-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 20px;
-          padding-bottom: 100px;
+          padding-bottom: 0;
         }
 
         .portfolio-grid-mobile {
@@ -120,7 +120,7 @@ export default function Portfolio() {
           flex-wrap: wrap;
           gap: 8px;
           margin-top: 8px;
-          padding-bottom: 72px;
+          padding-bottom: 0;
         }
 
         .portfolio-page-btn {
@@ -161,10 +161,6 @@ export default function Portfolio() {
         }
 
         @media (max-width: 768px) {
-          .portfolio-wrap {
-            padding: 0 20px;
-          }
-
           .portfolio-hero {
             padding: 112px 0 56px !important;
           }

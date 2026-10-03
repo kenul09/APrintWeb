@@ -1,4 +1,7 @@
 .pageShell {
+  /* Error color isn't part of the brand palette — a semantic red, lighter in
+     dark mode so it stays legible on the dark surface. */
+  --contact-error: #dc2626;
   background: var(--color-bg);
   min-height: 100vh;
   color: var(--color-text);
@@ -6,241 +9,328 @@
   overflow: hidden;
 }
 
+:global(:root:not([data-theme='light'])) .pageShell {
+  --contact-error: #f87171;
+}
+
 .contactWrap {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 var(--container-pad);
 }
 
+/* Header — same structure as the About hero. The fixed navbar overlays the
+   page, so its height is added to the top padding. */
 .contactHero {
-  padding: 120px 0 72px;
+  padding-top: calc(var(--header-height) + clamp(2rem, 4vw, 3.5rem));
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  transition: opacity 0.7s, transform 0.7s;
 }
 
-.inlineLabel {
+.badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 32px;
-}
-
-.inlineLabel span {
-  font-size: 0.8rem;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  line-height: 1.4;
 }
 
-.labelDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-accent);
+.badgeDot {
+  font-size: 0.6em;
 }
 
 .heroTitle {
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.05;
-  margin-bottom: 20px;
+}
+
+.heroTitle span {
+  display: block;
 }
 
 .heroText {
+  margin: 1.25rem 0 0;
+  max-width: 520px;
   color: var(--color-text-muted);
-  font-size: 1rem;
+  font-size: 1.125rem;
   line-height: 1.6;
-  max-width: 400px;
-  font-weight: 400;
 }
 
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  padding-bottom: 100px;
   align-items: start;
 }
 
-.contactFormBox,
-.contactInfoBox,
-.whatsappBox {
-  padding: 44px;
+.formCard,
+.sideColumn {
+  transition: opacity 0.9s, transform 0.9s;
 }
 
-.successWrap {
-  text-align: center;
-  padding: 60px 0;
-}
-
-.successBadge {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  margin: 0 auto 24px;
-  background: var(--color-accent-soft);
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
+.sideColumn {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.successTitle {
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
+.card {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
 }
 
-.successText {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-}
-
+/* Form */
 .fieldWrap {
   margin-bottom: 18px;
 }
 
-.fieldWrapMessage {
-  margin-bottom: 20px;
-}
-
 .fieldLabel {
   display: block;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
   margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.required {
+  color: var(--color-accent);
+}
+
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--contact-error);
+}
+
+.selectPlaceholder {
+  color: var(--color-text-muted);
+}
+
+.fieldError {
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  color: var(--contact-error);
 }
 
 .errorBox {
   margin-bottom: 18px;
   padding: 12px 14px;
   border-radius: 12px;
-  /* Error state keeps a semantic red (not part of the brand palette),
-     mixed against the theme tokens so it reads in both modes. */
-  background: color-mix(in srgb, #dc2626 8%, var(--color-surface));
-  border: 1px solid color-mix(in srgb, #dc2626 30%, var(--color-border));
-  color: #dc2626;
-  font-size: 0.82rem;
+  background: color-mix(in srgb, var(--contact-error) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--contact-error) 30%, var(--color-border));
+  color: var(--contact-error);
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .submitButton {
   width: 100%;
-  background: var(--color-btn-bg);
-  color: var(--color-btn-text);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+/* Success state */
+.successWrap {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.successBadge {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.successText {
+  max-width: 340px;
+  margin: 0 auto 20px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.newMessage {
+  padding: 0;
+  background: none;
   border: none;
-  border-radius: 999px;
-  padding: 16px;
+  color: var(--color-accent);
   font-weight: 500;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+  text-underline-offset: 4px;
 }
 
-.submitButton:hover:not(:disabled) {
-  background: var(--color-btn-hover);
+.newMessage:hover,
+.newMessage:focus-visible {
+  text-decoration: underline;
 }
 
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
+/* Contact info card */
 .infoTitle {
+  margin: 0 0 24px;
   font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: -0.02em;
-  margin-bottom: 28px;
   color: var(--color-text);
+}
+
+.infoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .infoRow {
   display: flex;
-  gap: 18px;
   align-items: flex-start;
-}
-
-.infoIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  flex-shrink: 0;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-}
-
-.infoLabel {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.infoValue {
-  font-size: 0.95rem;
+  gap: 14px;
   color: var(--color-text);
-}
-
-.whatsappTitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-.whatsappText {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  font-weight: 400;
-  margin-bottom: 20px;
-}
-
-.whatsappLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: var(--color-text);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  padding: 12px 24px;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
   text-decoration: none;
 }
 
-.whatsappLink:hover {
-  border-color: var(--color-text-muted);
+.infoIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-accent);
+  transition: border-color 0.2s;
+}
+
+.infoLabel {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.infoValue {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-text);
+  transition: color 0.2s;
+}
+
+.infoLink:hover .infoValue,
+.infoLink:focus-visible .infoValue {
+  color: var(--color-accent);
+}
+
+.infoLink:hover .infoIcon,
+.infoLink:focus-visible .infoIcon {
+  border-color: var(--color-accent);
+}
+
+.whatsappButton {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Map */
+.mapCard {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: var(--color-surface);
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: 300px;
+  border: 0;
+  filter: grayscale(0.3);
+}
+
+/* Dark theme: invert the light Google map so it sits on the dark page. */
+:global(:root:not([data-theme='light'])) .map {
+  filter: invert(0.9) hue-rotate(180deg) grayscale(0.3);
+}
+
+.whatsappTitle {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.whatsappText {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 @media (max-width: 900px) {
   .contactGrid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .contactWrap {
-    padding: 0 20px;
-  }
-
-  .contactHero {
-    padding: 120px 0 56px;
-  }
-
-  .contactFormBox,
-  .contactInfoBox,
-  .whatsappBox {
-    padding: 28px;
+    grid-template-columns: 1fr;
   }
 }
