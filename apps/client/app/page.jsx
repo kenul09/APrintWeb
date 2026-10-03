@@ -20,30 +20,27 @@ export default function Home() {
   return (
     <div
       style={{
-        background: "var(--background)",
+        background: "var(--color-bg)",
         minHeight: "100vh",
-        color: "var(--foreground)",
-        fontFamily: "var(--font-dm-sans), sans-serif",
+        color: "var(--color-text)",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,-20px); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .hero-section {
           padding: 120px 56px 80px;
-          border-bottom: 1px solid rgba(var(--ink-rgb),0.06);
+          border-bottom: 1px solid var(--color-border);
           position: relative;
-          background-color: var(--hero-bg);
-          background-image: radial-gradient(circle at 88% 30%, var(--hero-glow-a) 0%, transparent 62%);
+          background-color: var(--color-bg);
         }
 
-        .cursor { display: inline-block; width: 3px; height: 0.85em; background: #a78bfa; margin-left: 4px; animation: blink 0.9s infinite; }
+        .cursor { display: inline-block; width: 3px; height: 0.85em; background: var(--color-accent); margin-left: 4px; animation: blink 0.9s infinite; }
 
-        .marquee-shell { border-top: 1px solid rgba(var(--ink-rgb),0.06); border-bottom: 1px solid rgba(var(--ink-rgb),0.06); overflow: hidden; position: relative; background: rgba(var(--ink-rgb),0.01); max-width: 100%; }
+        .marquee-shell { border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); overflow: hidden; position: relative; background: var(--color-bg); max-width: 100%; }
         .marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
         .marquee-pill { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 36px 48px; }
@@ -60,10 +57,9 @@ export default function Home() {
           justify-content: center;
           overflow: hidden;
           padding: 26px;
-          background: rgba(var(--ink-rgb),0.06);
-          border: 1px solid rgba(var(--ink-rgb),0.12);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-          transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+          background: var(--color-surface);
+          border: 1px solid var(--color-border);
+          transition: transform 0.4s ease, border-color 0.2s, background-color 0.2s;
         }
 
         .marquee-logo-wrap img {
@@ -72,25 +68,22 @@ export default function Home() {
 
         .marquee-pill:hover .marquee-logo-wrap {
           transform: scale(1.08);
-          border-color: #a78bfa;
-          background: rgba(var(--ink-rgb),0.1);
-          box-shadow: 0 12px 32px rgba(139,92,246,0.25);
+          border-color: var(--color-border-strong);
         }
 
         .shimmer-load {
           position: absolute;
           inset: 0;
           border-radius: 50%;
-          background: linear-gradient(90deg, rgba(var(--ink-rgb),0.04) 25%, rgba(var(--ink-rgb),0.1) 50%, rgba(var(--ink-rgb),0.04) 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.4s ease-in-out infinite;
+          background: var(--color-border);
+          animation: pulse 1.4s ease-in-out infinite;
         }
 
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-        .marquee-fallback { font-family: var(--font-oswald), sans-serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em; }
+        .marquee-fallback { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
 
-        .marquee-name { font-family: var(--font-dm-sans), sans-serif; font-size: 0.95rem; font-weight: 500; color: rgba(var(--ink-rgb),0.65); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
+        .marquee-name { font-size: 0.95rem; font-weight: 500; color: var(--color-text-muted); text-align: center; max-width: 120px; white-space: normal; line-height: 1.3; }
 
         @media (max-width: 980px) {
           .marquee-pill { padding: 28px 32px; gap: 12px; }
@@ -110,10 +103,10 @@ export default function Home() {
           .marquee-name { font-size: 0.65rem; max-width: 70px; }
         }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid rgba(var(--ink-rgb),0.08); background: var(--stats-bg); transition: background-color 0.25s ease; }
-        .stat-box { padding: 44px 40px; border-right: 1px solid rgba(var(--ink-rgb),0.08); min-width: 0; transition: background-color 0.2s ease; }
-        .stat-box:hover { background: rgba(var(--ink-rgb),0.025); }
-        .stat-val { font-family: var(--font-oswald), sans-serif; font-size: 3rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 56px 96px; border: 1px solid var(--color-border); background: var(--color-surface); }
+        .stat-box { padding: 44px 40px; border-right: 1px solid var(--color-border); min-width: 0; }
+        .stat-box:last-child { border-right: none; }
+        .stat-val { font-size: 3rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; white-space: nowrap; }
 
         @media (max-width: 900px) {
           .stat-grid { margin: 0 32px 72px; }
@@ -123,9 +116,9 @@ export default function Home() {
 
         @media (max-width: 640px) {
           .stat-grid { grid-template-columns: repeat(2, 1fr); margin: 0 20px 56px; }
-          .stat-box { padding: 22px 12px; border-right: 1px solid rgba(var(--ink-rgb),0.08); border-bottom: none; }
+          .stat-box { padding: 22px 12px; border-right: 1px solid var(--color-border); border-bottom: none; }
           .stat-box:nth-child(2n) { border-right: none; }
-          .stat-box:nth-child(-n+2) { border-bottom: 1px solid rgba(var(--ink-rgb),0.08); }
+          .stat-box:nth-child(-n+2) { border-bottom: 1px solid var(--color-border); }
           .stat-val { font-size: 1.9rem; }
         }
 
@@ -134,42 +127,19 @@ export default function Home() {
           .stat-val { font-size: 1.5rem; }
         }
 
-        .btn-primary { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; padding: 16px 36px; border-radius: 12px; text-decoration: none; font-weight: 700; }
       `}</style>
-
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-        <div
-          style={{
-            position: "absolute",
-            width: 600,
-            height: 600,
-            top: "-10%",
-            left: "-10%",
-            background: "radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)",
-            animation: "float 10s infinite",
-          }}
-        />
-      </div>
 
       <div className="home-wrap">
         <section className="hero-section">
-          <h1 className="display-text" style={{ fontSize: "clamp(4rem, 12vw, 10rem)" }}>
+          <h1 className="display-text">
             {t('hero.line1')}
           </h1>
-          <h1
-            className="display-text"
-            style={{
-              fontSize: "clamp(4rem, 12vw, 10rem)",
-              background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
+          <h1 className="display-text accent-text">
             {t('hero.line2')}
           </h1>
 
           <div style={{ marginTop: "40px", display: "flex", gap: "20px", alignItems: "center" }}>
-            <div style={{ fontSize: "2rem", fontFamily: "var(--font-oswald)" }}>
+            <div style={{ fontSize: "2rem", fontWeight: 500, letterSpacing: "-0.02em" }}>
               {typed}
               <span className="cursor" />
             </div>
@@ -195,10 +165,10 @@ export default function Home() {
           style={{ padding: "80px 0", opacity: partnersIn ? 1 : 0, transition: "1s" }}
         >
           <div style={{ padding: "0 56px", marginBottom: "40px" }}>
-            <h2 style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
+            <h2>
               {t('partners.title')}
             </h2>
-            <p style={{ color: "rgba(var(--ink-rgb),0.5)" }}>{t('partners.subtitle')}</p>
+            <p style={{ color: "var(--color-text-muted)" }}>{t('partners.subtitle')}</p>
           </div>
 
           <div className="marquee-shell">

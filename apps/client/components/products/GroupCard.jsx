@@ -15,31 +15,12 @@ export default function GroupCard({ group }) {
         padding: 30,
         minHeight: 390,
         overflow: "hidden",
-        background: hovered
-          ? `linear-gradient(180deg, ${group.accent}18, rgba(var(--ink-rgb),0.04))`
-          : "linear-gradient(180deg, rgba(var(--ink-rgb),0.05), rgba(var(--ink-rgb),0.025))",
-        border: `1px solid ${hovered ? `${group.accent}66` : "rgba(var(--ink-rgb),0.08)"}`,
-        boxShadow: hovered
-          ? `0 28px 70px ${group.accent}20`
-          : "0 14px 34px rgba(0,0,0,0.22)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "all 0.32s ease",
+        background: "var(--color-surface)",
+        border: `1px solid ${hovered ? "var(--color-border-strong)" : "var(--color-border)"}`,
+        transform: hovered ? "translateY(-4px)" : "translateY(0)",
+        transition: "transform 0.32s ease, background-color 0.2s, color 0.2s, border-color 0.2s",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: -50,
-          right: -40,
-          width: 170,
-          height: 170,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${group.accent}35, transparent 70%)`,
-          filter: "blur(10px)",
-          pointerEvents: "none",
-        }}
-      />
-
       <div
         style={{
           display: "flex",
@@ -58,12 +39,10 @@ export default function GroupCard({ group }) {
             borderRadius: 18,
             display: "grid",
             placeItems: "center",
-            background: `${group.accent}18`,
-            color: group.accent,
-            fontWeight: 700,
+            background: "var(--color-accent-soft)",
+            color: "var(--color-accent)",
+            fontWeight: 600,
             fontSize: "1rem",
-            border: `1px solid ${group.accent}44`,
-            boxShadow: `0 10px 24px ${group.accent}18`,
             flexShrink: 0,
           }}
         >
@@ -74,11 +53,10 @@ export default function GroupCard({ group }) {
           style={{
             padding: "7px 12px",
             borderRadius: 999,
-            background: "rgba(var(--ink-rgb),0.05)",
-            color: "rgba(var(--ink-rgb),0.55)",
-            fontSize: "0.72rem",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
+            border: "1px solid var(--color-border)",
+            color: "var(--color-text-muted)",
+            fontSize: "0.8rem",
+            fontWeight: 500,
             whiteSpace: "nowrap",
           }}
         >
@@ -90,11 +68,11 @@ export default function GroupCard({ group }) {
         <h2
           style={{
             margin: "0 0 10px",
-            fontFamily: "var(--font-oswald), sans-serif",
-            fontSize: "2rem",
-            fontWeight: 500,
-            lineHeight: 1.02,
-            color: "var(--foreground)",
+            fontSize: "1.75rem",
+            fontWeight: 600,
+            letterSpacing: "-0.02em",
+            lineHeight: 1.15,
+            color: "var(--color-text)",
           }}
         >
           {group.title}
@@ -103,9 +81,9 @@ export default function GroupCard({ group }) {
         <p
           style={{
             margin: "0 0 22px",
-            color: "rgba(var(--ink-rgb),0.56)",
-            fontSize: "0.94rem",
-            lineHeight: 1.75,
+            color: "var(--color-text-muted)",
+            fontSize: "0.95rem",
+            lineHeight: 1.6,
             maxWidth: 320,
           }}
         >
@@ -119,28 +97,20 @@ export default function GroupCard({ group }) {
               style={{
                 padding: "10px 12px",
                 borderRadius: 14,
-                background: hovered
-                  ? "rgba(var(--ink-rgb),0.05)"
-                  : "rgba(var(--ink-rgb),0.025)",
-                border: "1px solid rgba(var(--ink-rgb),0.05)",
-                color: "rgba(var(--ink-rgb),0.74)",
+                background: "var(--color-bg)",
+                border: "1px solid var(--color-border)",
+                color: "var(--color-text)",
                 fontSize: "0.92rem",
                 lineHeight: 1.45,
-                transition: "all 0.25s ease",
+                transition: "transform 0.25s ease, background-color 0.2s, color 0.2s, border-color 0.2s",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateX(4px)";
-                e.currentTarget.style.borderColor = `${group.accent}55`;
-                e.currentTarget.style.color = "var(--foreground)";
-                e.currentTarget.style.background = `${group.accent}14`;
+                e.currentTarget.style.borderColor = "var(--color-border-strong)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateX(0)";
-                e.currentTarget.style.borderColor = "rgba(var(--ink-rgb),0.05)";
-                e.currentTarget.style.color = "rgba(var(--ink-rgb),0.74)";
-                e.currentTarget.style.background = hovered
-                  ? "rgba(var(--ink-rgb),0.05)"
-                  : "rgba(var(--ink-rgb),0.025)";
+                e.currentTarget.style.borderColor = "var(--color-border)";
               }}
             >
               {item}

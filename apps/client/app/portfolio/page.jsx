@@ -86,20 +86,14 @@ export default function Portfolio() {
   return (
     <div
       style={{
-        background: "var(--background)",
+        background: "var(--color-bg)",
         minHeight: "100vh",
-        color: "var(--foreground)",
-        fontFamily: "var(--font-dm-sans), sans-serif",
+        color: "var(--color-text)",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-
         .portfolio-wrap {
           position: relative;
           z-index: 1;
@@ -133,20 +127,19 @@ export default function Portfolio() {
           min-width: 36px;
           height: 36px;
           padding: 0 10px;
-          border-radius: 10px;
-          border: 1px solid rgba(var(--ink-rgb),0.08);
-          background: rgba(var(--ink-rgb),0.04);
-          color: rgba(var(--ink-rgb),0.6);
-          font-family: var(--font-dm-sans), sans-serif;
+          border-radius: 999px;
+          border: 1px solid var(--color-border);
+          background: var(--color-surface);
+          color: var(--color-text-muted);
           font-size: 0.85rem;
-          font-weight: 600;
+          font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         }
 
         .portfolio-page-btn:hover:not(:disabled) {
-          color: var(--foreground);
-          border-color: rgba(139,92,246,0.4);
+          color: var(--color-text);
+          border-color: var(--color-border-strong);
         }
 
         .portfolio-page-btn:disabled {
@@ -156,13 +149,13 @@ export default function Portfolio() {
 
         .portfolio-page-btn-active,
         .portfolio-page-btn-active:hover {
-          background: linear-gradient(135deg, #8b5cf6, #ec4899);
-          color: #fff;
-          border-color: transparent;
+          background: var(--color-btn-bg);
+          color: var(--color-btn-text);
+          border-color: var(--color-btn-bg);
         }
 
         .portfolio-page-dots {
-          color: rgba(var(--ink-rgb),0.3);
+          color: var(--color-text-muted);
           padding: 0 2px;
           font-size: 0.85rem;
         }
@@ -221,15 +214,14 @@ export default function Portfolio() {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
+                background: "var(--color-accent)",
               }}
             />
             <span
               style={{
-                fontSize: "0.7rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "rgba(var(--ink-rgb),0.4)",
+                fontSize: "0.8rem",
+                fontWeight: 500,
+                color: "var(--color-text-muted)",
               }}
             >
               {t('portfolio.badge')}
@@ -238,36 +230,26 @@ export default function Portfolio() {
 
           <h1
             style={{
-              fontFamily: "var(--font-oswald), sans-serif",
-              fontSize: "clamp(4rem, 9vw, 7rem)",
-              fontWeight: 500,
-              lineHeight: 0.92,
+              fontSize: "clamp(2.5rem, 7vw, 6rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.05,
               marginBottom: 24,
               transition: "opacity 0.9s 0.2s, transform 0.9s 0.2s",
               opacity: heroIn ? 1 : 0,
               transform: heroIn ? "translateY(0)" : "translateY(30px)",
             }}
           >
-              <span
-              style={{
-                background: "linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899)",
-                backgroundSize: "200% auto",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                animation: "shimmer 4s linear infinite",
-              }}
-            >
-              {t('portfolio.title')}
-            </span>
+            {t('portfolio.title')}
           </h1>
 
           <p
             style={{
-              color: "rgba(var(--ink-rgb),0.35)",
-              fontSize: "0.9rem",
-              lineHeight: 1.8,
+              color: "var(--color-text-muted)",
+              fontSize: "1rem",
+              lineHeight: 1.6,
               maxWidth: 400,
-              fontWeight: 300,
+              fontWeight: 400,
               transition: "opacity 0.9s 0.35s, transform 0.9s 0.35s",
               opacity: heroIn ? 1 : 0,
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
@@ -294,24 +276,18 @@ export default function Portfolio() {
               key={category}
               onClick={() => selectCategory(category)}
               style={{
-                background:
-                  filter === category
-                    ? "linear-gradient(135deg, #8b5cf6, #ec4899)"
-                    : "rgba(var(--ink-rgb),0.04)",
-                color: filter === category ? "#fff" : "rgba(var(--ink-rgb),0.4)",
+                background: filter === category ? "var(--color-btn-bg)" : "transparent",
+                color: filter === category ? "var(--color-btn-text)" : "var(--color-text)",
                 border:
                   filter === category
-                    ? "1px solid transparent"
-                    : "1px solid rgba(var(--ink-rgb),0.08)",
-                borderRadius: "10px",
+                    ? "1px solid var(--color-btn-bg)"
+                    : "1px solid var(--color-border-strong)",
+                borderRadius: "999px",
                 padding: "9px 22px",
                 cursor: "pointer",
-                fontWeight: 600,
-                fontSize: "0.8rem",
-                fontFamily: "var(--font-dm-sans), sans-serif",
-                letterSpacing: "0.05em",
-                transition: "all 0.2s",
-                backdropFilter: "blur(10px)",
+                fontWeight: 500,
+                fontSize: "0.85rem",
+                transition: "background-color 0.2s, color 0.2s, border-color 0.2s",
               }}
             >
               {category}
@@ -320,15 +296,15 @@ export default function Portfolio() {
         </div>
 
         {status === "loading" && (
-          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>Yüklənir…</p>
+          <p style={{ color: "var(--color-text-muted)", paddingBottom: 48 }}>Yüklənir…</p>
         )}
         {status === "error" && (
-          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>
+          <p style={{ color: "var(--color-text-muted)", paddingBottom: 48 }}>
             Portfolio yüklənə bilmədi. Bir az sonra yenidən cəhd edin.
           </p>
         )}
         {status === "empty" && (
-          <p style={{ color: "rgba(var(--ink-rgb),0.4)", paddingBottom: 48 }}>Hələ heç bir iş əlavə olunmayıb.</p>
+          <p style={{ color: "var(--color-text-muted)", paddingBottom: 48 }}>Hələ heç bir iş əlavə olunmayıb.</p>
         )}
 
         {status === "ready" && (

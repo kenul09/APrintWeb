@@ -10,10 +10,9 @@ export default function Error({ error, retry }) {
   return (
     <div
       style={{
-        background: "var(--background)",
+        background: "var(--color-bg)",
         minHeight: "60vh",
-        color: "var(--foreground)",
-        fontFamily: "var(--font-dm-sans), sans-serif",
+        color: "var(--color-text)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -24,16 +23,6 @@ export default function Error({ error, retry }) {
     >
       <h1
         className="display-text"
-        style={{
-          fontFamily: "var(--font-oswald), sans-serif",
-          fontWeight: 500,
-          lineHeight: 0.9,
-          margin: 0,
-          fontSize: "clamp(3rem, 8vw, 5rem)",
-          background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
       >
         Something went wrong
       </h1>
@@ -42,7 +31,7 @@ export default function Error({ error, retry }) {
         style={{
           marginTop: "24px",
           fontSize: "1.25rem",
-          color: "rgba(var(--ink-rgb),0.66)",
+          color: "var(--color-text-muted)",
           maxWidth: "480px",
         }}
       >
@@ -53,18 +42,7 @@ export default function Error({ error, retry }) {
         type="button"
         onClick={() => retry()}
         className="btn-primary"
-        style={{
-          marginTop: "40px",
-          background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-          color: "#fff",
-          padding: "16px 36px",
-          borderRadius: "12px",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: 700,
-          fontSize: "1rem",
-          fontFamily: "var(--font-dm-sans), sans-serif",
-        }}
+        style={{ marginTop: "40px" }}
       >
         Try again
       </button>

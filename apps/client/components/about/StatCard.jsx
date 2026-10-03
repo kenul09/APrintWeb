@@ -21,20 +21,11 @@ export default function StatCard({ n, l, delay = 0 }) {
     >
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(circle at 30% 30%, rgba(139,92,246,0.08), transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          fontFamily: '"Bebas Neue", sans-serif',
-          fontSize: "3.5rem",
-          color: "var(--foreground)",
-          lineHeight: 1,
-          letterSpacing: "0.02em",
+          fontSize: "3rem",
+          fontWeight: 600,
+          color: "var(--color-text)",
+          lineHeight: 1.1,
+          letterSpacing: "-0.03em",
           marginBottom: "10px",
           position: "relative",
           zIndex: 1,
@@ -44,12 +35,9 @@ export default function StatCard({ n, l, delay = 0 }) {
       </div>
       <div
         style={{
-          fontFamily: "var(--font-dm-sans), sans-serif",
-          fontSize: "0.72rem",
-          color: "rgba(var(--ink-rgb),0.35)",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          fontWeight: 300,
+          fontSize: "0.85rem",
+          color: "var(--color-text-muted)",
+          fontWeight: 500,
           position: "relative",
           zIndex: 1,
         }}

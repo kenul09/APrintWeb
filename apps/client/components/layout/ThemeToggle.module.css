@@ -7,19 +7,20 @@
   height: 28px;
   padding: 0 6px;
   border-radius: 999px;
-  border: 1px solid var(--control-border);
-  background: var(--control-bg);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .toggle:hover {
-  border-color: var(--control-hover-border);
+  border-color: var(--color-text-muted);
 }
 
 .toggle:focus-visible {
-  outline: 2px solid var(--accent-start, #8b5cf6);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -44,9 +45,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-start, #8b5cf6), var(--accent-end, #ec4899));
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.35);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--color-btn-bg);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
   transform: translateX(24px);
 }
 

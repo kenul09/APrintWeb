@@ -1,7 +1,5 @@
 export const glassStyle = {
-  background: "rgba(var(--ink-rgb),0.04)",
-  backdropFilter: "blur(20px)",
-  WebkitBackdropFilter: "blur(20px)",
-  border: "1px solid rgba(var(--ink-rgb),0.08)",
+  background: "var(--color-surface)",
+  border: "1px solid var(--color-border)",
   borderRadius: "24px",
 };

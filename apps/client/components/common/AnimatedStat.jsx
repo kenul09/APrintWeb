@@ -21,11 +21,10 @@ export default function AnimatedStat({ value, label, active }) {
       </div>
       <div
         style={{
-          color: "rgba(var(--ink-rgb),0.56)",
+          color: "var(--color-text-muted)",
           marginTop: "8px",
-          fontSize: "0.8rem",
+          fontSize: "0.85rem",
           fontWeight: 500,
-          letterSpacing: "0.04em",
         }}
       >
         {label}

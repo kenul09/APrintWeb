@@ -17,11 +17,10 @@ export default function MemberCard({ m, delay = 0 }) {
         ...glassStyle,
         padding: "36px 24px",
         textAlign: "center",
-        transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background 0.3s, border-color 0.3s`,
+        transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background-color 0.2s, border-color 0.2s, color 0.2s`,
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0) scale(1)" : "translateY(30px) scale(0.96)",
-        background: hovered ? "rgba(139,92,246,0.12)" : "rgba(var(--ink-rgb),0.04)",
-        borderColor: hovered ? "rgba(139,92,246,0.4)" : "rgba(var(--ink-rgb),0.08)",
+        borderColor: hovered ? "var(--color-border-strong)" : "var(--color-border)",
         cursor: "default",
       }}
     >
@@ -30,18 +29,16 @@ export default function MemberCard({ m, delay = 0 }) {
           width: 56,
           height: 56,
           borderRadius: "50%",
-          background: hovered
-            ? "linear-gradient(135deg, #8b5cf6, #a78bfa)"
-            : "rgba(var(--ink-rgb),0.06)",
-          border: "1px solid rgba(var(--ink-rgb),0.1)",
+          background: hovered ? "var(--color-accent-soft)" : "var(--color-bg)",
+          border: "1px solid var(--color-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           margin: "0 auto 18px",
-          fontFamily: '"Bebas Neue", sans-serif',
-          fontSize: "1.1rem",
-          color: "var(--foreground)",
-          transition: "background 0.3s",
+          fontSize: "1rem",
+          fontWeight: 600,
+          color: hovered ? "var(--color-accent)" : "var(--color-text)",
+          transition: "background-color 0.2s, color 0.2s",
         }}
       >
         {m.initials}
@@ -49,10 +46,9 @@ export default function MemberCard({ m, delay = 0 }) {
 
       <div
         style={{
-          fontFamily: "var(--font-dm-sans), sans-serif",
-          fontSize: "0.88rem",
+          fontSize: "0.95rem",
           fontWeight: 500,
-          color: "var(--foreground)",
+          color: "var(--color-text)",
           marginBottom: 6,
         }}
       >
@@ -61,12 +57,9 @@ export default function MemberCard({ m, delay = 0 }) {
 
       <div
         style={{
-          fontFamily: "var(--font-dm-sans), sans-serif",
-          fontSize: "0.68rem",
-          color: "rgba(var(--ink-rgb),0.3)",
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          fontWeight: 300,
+          fontSize: "0.8rem",
+          color: "var(--color-text-muted)",
+          fontWeight: 400,
         }}
       >
         {m.role}

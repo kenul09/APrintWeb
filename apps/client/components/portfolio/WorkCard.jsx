@@ -37,11 +37,10 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
       style={{
         ...glassStyle,
         overflow: "hidden",
-        transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background 0.3s, border-color 0.3s`,
+        transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background-color 0.2s, border-color 0.2s`,
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0) scale(1)" : "translateY(30px) scale(0.97)",
-        background: hovered ? "rgba(139,92,246,0.1)" : "rgba(var(--ink-rgb),0.04)",
-        borderColor: hovered ? "rgba(139,92,246,0.35)" : "rgba(var(--ink-rgb),0.08)",
+        borderColor: hovered ? "var(--color-border-strong)" : "var(--color-border)",
       }}
     >
       <div
@@ -49,7 +48,7 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
           height: 320,
           overflow: "hidden",
           position: "relative",
-          background: "#0d0d1a",
+          background: "var(--color-bg)",
         }}
       >
         {imageSrc && (
@@ -67,28 +66,17 @@ export default function WorkCard({ work, delay = 0, forceVisible = false }) {
             }}
           />
         )}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: hovered
-              ? "linear-gradient(to bottom, transparent 40%, rgba(139,92,246,0.4))"
-              : "linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.5))",
-            transition: "background 0.3s",
-          }}
-        />
       </div>
 
       <div style={{ padding: "14px 20px 16px" }}>
         <h3
           style={{
-            fontFamily: "var(--font-oswald), sans-serif",
-            fontSize: "1.5rem",
-            fontWeight: 500,
-            letterSpacing: "0.03em",
+            fontSize: "1.15rem",
+            fontWeight: 600,
+            letterSpacing: "-0.02em",
             margin: 0,
-            color: "var(--foreground)",
-            lineHeight: 1.2,
+            color: "var(--color-text)",
+            lineHeight: 1.3,
           }}
         >
           {work.title}

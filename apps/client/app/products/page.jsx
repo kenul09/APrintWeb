@@ -10,11 +10,9 @@ export default function CategoriesCatalog() {
     <section
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(circle at top left, rgba(139,92,246,0.14), transparent 24%), radial-gradient(circle at bottom right, rgba(236,72,153,0.10), transparent 24%), var(--background)",
-        color: "var(--foreground)",
+        background: "var(--color-bg)",
+        color: "var(--color-text)",
         padding: "110px 24px 90px",
-        fontFamily: "var(--font-dm-sans), sans-serif",
       }}
     >
       <style>{`
@@ -58,11 +56,10 @@ export default function CategoriesCatalog() {
               marginBottom: 16,
               padding: "8px 14px",
               borderRadius: 999,
-              background: "rgba(var(--ink-rgb),0.06)",
-              color: "rgba(var(--ink-rgb),0.6)",
-              fontSize: "0.72rem",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
+              background: "var(--color-accent-soft)",
+              color: "var(--color-accent)",
+              fontSize: "0.8rem",
+              fontWeight: 500,
             }}
             >
             {t('products.badge')}
@@ -71,13 +68,11 @@ export default function CategoriesCatalog() {
           <h1
             style={{
               margin: "0 0 16px",
-              fontFamily: "var(--font-oswald), sans-serif",
-              fontSize: "clamp(3.4rem, 7vw, 6.2rem)",
-              lineHeight: 0.92,
-              fontWeight: 500,
-              background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              fontSize: "clamp(2.5rem, 7vw, 6rem)",
+              lineHeight: 1.05,
+              fontWeight: 600,
+              letterSpacing: "-0.03em",
+              color: "var(--color-text)",
             }}
           >
             {t('products.title')}
@@ -86,9 +81,9 @@ export default function CategoriesCatalog() {
           <p
             style={{
               margin: 0,
-              color: "rgba(var(--ink-rgb),0.58)",
+              color: "var(--color-text-muted)",
               fontSize: "1rem",
-              lineHeight: 1.9,
+              lineHeight: 1.6,
               maxWidth: 760,
             }}
           >
@@ -106,10 +101,10 @@ export default function CategoriesCatalog() {
           <h2
             style={{
               margin: "0 0 22px",
-              fontFamily: "var(--font-oswald), sans-serif",
               fontSize: "1.6rem",
-              fontWeight: 500,
-              color: "var(--foreground)",
+              fontWeight: 600,
+              letterSpacing: "-0.02em",
+              color: "var(--color-text)",
             }}
           >
             {t('products.priceListTitle')}

@@ -15,22 +15,14 @@ export default function About() {
   return (
     <div
       style={{
-        background: "var(--background)",
+        background: "var(--color-bg)",
         minHeight: "100vh",
-        color: "var(--foreground)",
-        fontFamily: "var(--font-dm-sans), sans-serif",
+        color: "var(--color-text)",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-
         .about-container {
           position: relative;
           z-index: 1;
@@ -123,15 +115,14 @@ export default function About() {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
+                background: "var(--color-accent)",
               }}
             />
             <span
               style={{
-                fontSize: "0.7rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "rgba(var(--ink-rgb),0.4)",
+                fontSize: "0.8rem",
+                fontWeight: 500,
+                color: "var(--color-text-muted)",
               }}
             >
               {t('about.badge')}
@@ -140,48 +131,33 @@ export default function About() {
 
             <h1
             style={{
-              fontFamily: '"Bebas Neue", sans-serif',
-              fontSize: "clamp(4rem, 10vw, 8rem)",
-              fontWeight: 400,
-              lineHeight: 0.92,
-              letterSpacing: "0.01em",
+              fontSize: "clamp(2.5rem, 7vw, 6rem)",
+              fontWeight: 600,
+              lineHeight: 1.05,
+              letterSpacing: "-0.03em",
               marginBottom: 40,
               transition: "opacity 0.9s 0.25s, transform 0.9s 0.25s",
               opacity: heroIn ? 1 : 0,
               transform: heroIn ? "translateY(0)" : "translateY(40px)",
             }}
           >
-              <span
-              style={{
-                background: "linear-gradient(135deg, var(--foreground) 30%, rgba(var(--ink-rgb),0.5))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
+              <span>
                 {t('about.since')}
                 <br />
             </span>
             <br />
-            <span
-              style={{
-                background: "linear-gradient(135deg, #8b5cf6, #a78bfa, #ec4899)",
-                backgroundSize: "200% auto",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                animation: "shimmer 4s linear infinite",
-              }}
-            >
+            <span className="accent-text">
               {t('about.city')}
             </span>
           </h1>
 
           <p
             style={{
-              color: "rgba(var(--ink-rgb),0.4)",
-              fontSize: "0.95rem",
-              lineHeight: 1.9,
+              color: "var(--color-text-muted)",
+              fontSize: "1rem",
+              lineHeight: 1.6,
               maxWidth: 480,
-              fontWeight: 300,
+              fontWeight: 400,
               transition: "opacity 0.9s 0.4s, transform 0.9s 0.4s",
               opacity: heroIn ? 1 : 0,
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
@@ -207,14 +183,12 @@ export default function About() {
           >
             <h2
               style={{
-                fontFamily: '"Bebas Neue", sans-serif',
-                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-                fontWeight: 400,
-                lineHeight: 0.92,
+                fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+                fontWeight: 600,
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
                 marginBottom: 28,
-                background: "linear-gradient(135deg, var(--foreground), rgba(var(--ink-rgb),0.6))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                color: "var(--color-text)",
               }}
             >
               {t('about.storyTitle')}
@@ -224,7 +198,7 @@ export default function About() {
               style={{
                 width: 48,
                 height: 2,
-                background: "linear-gradient(90deg, #8b5cf6, transparent)",
+                background: "var(--color-accent)",
                 marginBottom: 28,
                 borderRadius: 2,
               }}
@@ -232,10 +206,10 @@ export default function About() {
 
             <p
               style={{
-                color: "rgba(var(--ink-rgb),0.4)",
-                fontSize: "0.88rem",
-                lineHeight: 1.9,
-                fontWeight: 300,
+                color: "var(--color-text-muted)",
+                fontSize: "0.95rem",
+                lineHeight: 1.6,
+                fontWeight: 400,
                 marginBottom: 16,
               }}
             >
@@ -244,10 +218,10 @@ export default function About() {
 
             <p
               style={{
-                color: "rgba(var(--ink-rgb),0.4)",
-                fontSize: "0.88rem",
-                lineHeight: 1.9,
-                fontWeight: 300,
+                color: "var(--color-text-muted)",
+                fontSize: "0.95rem",
+                lineHeight: 1.6,
+                fontWeight: 400,
               }}
             >
               {t('about.p2')}
@@ -262,24 +236,21 @@ export default function About() {
               transform: storyIn ? "translateX(0)" : "translateX(40px)",
             }}
           >
-            {t('about.features').map((feat, i) => (
+            {t('about.features').map((feat) => (
               <div
                 key={feat}
                 style={{
                   ...glassStyle,
                   padding: "36px 28px",
-                  background:
-                    i % 2 === 0
-                      ? "rgba(139,92,246,0.06)"
-                      : "rgba(var(--ink-rgb),0.03)",
                 }}
               >
                 <div
                   style={{
-                    fontFamily: '"Bebas Neue", sans-serif',
-                    fontSize: "1.8rem",
-                    color: "var(--foreground)",
-                    letterSpacing: "0.05em",
+                    fontSize: "1.35rem",
+                    fontWeight: 600,
+                    color: "var(--color-text)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
                     marginBottom: 10,
                   }}
                 >
@@ -290,7 +261,7 @@ export default function About() {
                   style={{
                     width: 24,
                     height: 2,
-                    background: "linear-gradient(90deg, #8b5cf6, #ec4899)",
+                    background: "var(--color-accent)",
                     borderRadius: 2,
                   }}
                 />
@@ -303,10 +274,9 @@ export default function About() {
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 48 }}>
             <span
               style={{
-                fontSize: "0.7rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "rgba(var(--ink-rgb),0.3)",
+                fontSize: "0.8rem",
+                fontWeight: 500,
+                color: "var(--color-text-muted)",
               }}
             >
               {t('about.teamTitle')}
@@ -315,7 +285,7 @@ export default function About() {
               style={{
                 flex: 1,
                 height: 1,
-                background: "linear-gradient(90deg, rgba(var(--ink-rgb),0.08), transparent)",
+                background: "var(--color-border)",
               }}
             />
           </div>

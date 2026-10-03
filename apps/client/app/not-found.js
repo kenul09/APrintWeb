@@ -4,10 +4,9 @@ export default function NotFound() {
   return (
     <div
       style={{
-        background: "var(--background)",
+        background: "var(--color-bg)",
         minHeight: "60vh",
-        color: "var(--foreground)",
-        fontFamily: "var(--font-dm-sans), sans-serif",
+        color: "var(--color-text)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -18,16 +17,6 @@ export default function NotFound() {
     >
       <h1
         className="display-text"
-        style={{
-          fontFamily: "var(--font-oswald), sans-serif",
-          fontWeight: 500,
-          lineHeight: 0.9,
-          margin: 0,
-          fontSize: "clamp(5rem, 16vw, 11rem)",
-          background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
       >
         404
       </h1>
@@ -36,7 +25,7 @@ export default function NotFound() {
         style={{
           marginTop: "24px",
           fontSize: "1.25rem",
-          color: "rgba(var(--ink-rgb),0.66)",
+          color: "var(--color-text-muted)",
           maxWidth: "480px",
         }}
       >
@@ -46,15 +35,7 @@ export default function NotFound() {
       <Link
         href="/"
         className="btn-primary"
-        style={{
-          marginTop: "40px",
-          background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
-          color: "#fff",
-          padding: "16px 36px",
-          borderRadius: "12px",
-          textDecoration: "none",
-          fontWeight: 700,
-        }}
+        style={{ marginTop: "40px" }}
       >
         Back to home
       </Link>

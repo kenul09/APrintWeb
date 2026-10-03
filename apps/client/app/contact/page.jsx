@@ -12,16 +12,15 @@ const MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(CONTAC
 
 const inputBase = {
   width: "100%",
-  background: "rgba(var(--ink-rgb),0.04)",
-  border: "1px solid rgba(var(--ink-rgb),0.08)",
+  background: "var(--color-bg)",
+  border: "1px solid var(--color-border)",
   borderRadius: "12px",
   padding: "14px 18px",
-  color: "var(--foreground)",
-  fontSize: "0.88rem",
+  color: "var(--color-text)",
+  fontSize: "0.95rem",
   outline: "none",
   boxSizing: "border-box",
-  fontFamily: "var(--font-dm-sans), sans-serif",
-  transition: "border-color 0.2s, background 0.2s, box-shadow 0.2s",
+  transition: "border-color 0.2s, background-color 0.2s, color 0.2s, box-shadow 0.2s",
 };
 
 export default function Contact() {
@@ -97,7 +96,7 @@ export default function Contact() {
             }}
             className={styles.heroTitle}
           >
-            <span className={styles.gradientText}>{t('contact.heroTitle')}</span>
+            {t('contact.heroTitle')}
           </h1>
 
           <p
@@ -148,11 +147,11 @@ export default function Contact() {
                       style={{
                         ...inputBase,
                         borderColor:
-                          focused === field.key ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
+                          focused === field.key ? "var(--color-accent)" : "var(--color-border)",
                         background:
-                          focused === field.key ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
+                          focused === field.key ? "var(--color-surface)" : "var(--color-bg)",
                         boxShadow:
-                          focused === field.key ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
+                          focused === field.key ? "0 0 0 3px var(--color-accent-soft)" : "none",
                       }}
                     />
                   </div>
@@ -167,13 +166,13 @@ export default function Contact() {
                     onBlur={() => setFocused("")}
                     style={{
                       ...inputBase,
-                      color: form.service ? "var(--foreground)" : "rgba(var(--ink-rgb),0.2)",
+                      color: form.service ? "var(--color-text)" : "var(--color-text-muted)",
                       borderColor:
-                        focused === "service" ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
+                        focused === "service" ? "var(--color-accent)" : "var(--color-border)",
                       background:
-                        focused === "service" ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
+                        focused === "service" ? "var(--color-surface)" : "var(--color-bg)",
                       boxShadow:
-                        focused === "service" ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
+                        focused === "service" ? "0 0 0 3px var(--color-accent-soft)" : "none",
                       cursor: "pointer",
                     }}
                   >
@@ -199,11 +198,11 @@ export default function Contact() {
                       ...inputBase,
                       resize: "none",
                       borderColor:
-                        focused === "message" ? "rgba(139,92,246,0.6)" : "rgba(var(--ink-rgb),0.08)",
+                        focused === "message" ? "var(--color-accent)" : "var(--color-border)",
                       background:
-                        focused === "message" ? "rgba(139,92,246,0.08)" : "rgba(var(--ink-rgb),0.04)",
+                        focused === "message" ? "var(--color-surface)" : "var(--color-bg)",
                       boxShadow:
-                        focused === "message" ? "0 0 0 3px rgba(139,92,246,0.1)" : "none",
+                        focused === "message" ? "0 0 0 3px var(--color-accent-soft)" : "none",
                     }}
                   />
                 </div>
@@ -214,15 +213,12 @@ export default function Contact() {
                   type="submit"
                   className={styles.submitButton}
                   disabled={submitting}
-                  style={{ opacity: submitting ? 0.7 : 1 }}
                   onMouseEnter={(e) => {
                     if (submitting) return;
-                    e.currentTarget.style.opacity = "0.85";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
                     if (submitting) return;
-                    e.currentTarget.style.opacity = "1";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
@@ -253,7 +249,7 @@ export default function Contact() {
                   key={item.title}
                   className={styles.infoRow}
                   style={{
-                    borderBottom: i < 3 ? "1px solid rgba(var(--ink-rgb),0.05)" : "none",
+                    borderBottom: i < 3 ? "1px solid var(--color-border)" : "none",
                     paddingBottom: i < 3 ? 24 : 0,
                     marginBottom: i < 3 ? 24 : 0,
                   }}
@@ -287,8 +283,6 @@ export default function Contact() {
               className={styles.whatsappBox}
               style={{
                 ...glassStyle,
-                background: "rgba(37,211,102,0.05)",
-                borderColor: "rgba(37,211,102,0.15)",
               }}
             >
               <h4 className={styles.whatsappTitle}>{t('contact.quickReplyTitle')}</h4>
@@ -299,11 +293,9 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className={styles.whatsappLink}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "0.85";
                   e.currentTarget.style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "1";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >

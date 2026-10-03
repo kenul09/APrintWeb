@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
   z-index: 50;
-  background: var(--header-bg);
-  border-bottom: 1px solid var(--header-border);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  border-bottom: 1px solid var(--color-border);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 .inner {
@@ -24,7 +23,7 @@
 .brand {
   display: flex;
   align-items: center;
-  color: var(--foreground);
+  color: var(--color-text);
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -61,9 +60,8 @@
 .controlsDivider {
   width: 1px;
   height: 22px;
-  background: var(--control-border);
+  background: var(--color-border-strong);
   flex-shrink: 0;
-  transition: background-color 0.25s ease;
 }
 
 @media (min-width: 1280px) {
@@ -73,34 +71,32 @@
 }
 
 .link {
-  color: var(--nav-link);
+  color: var(--color-text-muted);
   text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 0.2s ease;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
   white-space: nowrap;
 }
 
 .link:hover,
 .link:focus-visible {
-  color: var(--nav-link-hover);
+  color: var(--color-text);
 }
 
 .link.active {
   position: relative;
+  color: var(--color-text);
 }
 .link.active::after {
   content: '';
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: -10px;
+  left: 0;
+  right: 0;
+  bottom: -8px;
   height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #8b5cf6, #ec4899);
-  box-shadow: 0 0 8px rgba(139, 92, 246, 0.35);
-  transform-origin: center;
+  background: var(--color-accent);
 }
 
 .menuToggle {
@@ -112,12 +108,12 @@
   width: 42px;
   height: 42px;
   padding: 0;
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--color-border-strong);
   border-radius: 10px;
-  background: var(--control-bg);
+  background: var(--color-surface);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 .menuBar {
@@ -125,8 +121,8 @@
   width: 20px;
   height: 2px;
   border-radius: 2px;
-  background: var(--control-text);
-  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.25s ease;
+  background: var(--color-text);
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.2s;
 }
 
 .menuToggle[aria-expanded="true"] .menuBar:nth-child(1) {
@@ -169,11 +165,11 @@
     overflow: hidden;
     opacity: 0;
     padding: 0 20px;
-    background: var(--header-scrim);
-    border-top: 1px solid var(--header-border);
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease, background-color 0.25s ease, border-color 0.25s ease;
+    transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease, background-color 0.2s, border-color 0.2s;
   }
 
   .mobileNavOpen {
@@ -183,26 +179,24 @@
   }
 
   .mobileLink {
-    color: var(--nav-link);
+    color: var(--color-text-muted);
     text-decoration: none;
-    font-size: 0.95rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 500;
     padding: 14px 4px;
-    border-bottom: 1px solid var(--header-border);
-    transition: color 0.2s ease;
+    border-bottom: 1px solid var(--color-border);
+    transition: color 0.2s, border-color 0.2s;
   }
 
   .mobileLink:hover,
   .mobileLink:focus-visible {
-    color: var(--nav-link-hover);
+    color: var(--color-text);
   }
 
   .mobileLink.mobileLinkActive {
-    color: var(--nav-link-hover);
+    color: var(--color-text);
     padding-left: 14px;
-    border-image: linear-gradient(180deg, #8b5cf6, #ec4899) 1;
-    border-left: 3px solid;
+    box-shadow: inset 2px 0 0 var(--color-accent);
   }
 
   .mobileControls {

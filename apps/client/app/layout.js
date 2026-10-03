@@ -1,5 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
-import { Oswald, DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import SiteHeader from "@/components/layout/SiteHeader";
 import "./globals.css";
 import SiteFooter from '@/components/layout/SiteFooter';
@@ -11,16 +11,11 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 // theme on first paint. Kept in sync with apps/client/lib/themeStore.js.
 const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
 
-const oswald = Oswald({
-  variable: "--font-oswald",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+// Variable font — covers every weight. latin-ext carries the Azerbaijani
+// glyphs (ə, ğ, ı, İ, ş, ç, ö, ü).
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata = {
@@ -32,7 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${oswald.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="app-shell">
