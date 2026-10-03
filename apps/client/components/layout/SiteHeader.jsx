@@ -7,7 +7,6 @@ import styles from "./SiteHeader.module.css";
 import { useI18n } from '@/components/i18n/I18nProvider';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
-import AdminLoginButton from './AdminLoginButton';
 import { usePathname } from 'next/navigation';
 
 export default function SiteHeader() {
@@ -49,8 +48,6 @@ export default function SiteHeader() {
           <div className={styles.controls}>
             <LanguageSelector />
             <ThemeToggle />
-            <span className={styles.controlsDivider} aria-hidden="true" />
-            <AdminLoginButton />
           </div>
         </nav>
 
@@ -90,7 +87,6 @@ export default function SiteHeader() {
         <div className={styles.mobileControls}>
           <LanguageSelector />
           <ThemeToggle />
-          <AdminLoginButton />
         </div>
       </nav>
     </header>

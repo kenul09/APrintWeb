@@ -45,6 +45,17 @@ const nextConfig = {
     // https://nextjs.org/docs/app/api-reference/components/image#dangerouslyallowlocalip
     dangerouslyAllowLocalIP: true,
   },
+  // /admin -> apps/admin (separate Vite app, port 5178 in dev — see
+  // apps/admin/vite.config.ts). Same env var lib/adminUrl.js prefers.
+  async redirects() {
+    return [
+      {
+        source: '/admin',
+        destination: process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:5178',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
