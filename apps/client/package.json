@@ -9,7 +9,8 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.9.1",
@@ -28,6 +29,7 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
+    "sharp": "^0.35.3",
     "tsx": "^4.23.12",
     "typescript": "^6.0.3"
   },
