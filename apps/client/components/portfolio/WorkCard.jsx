@@ -5,7 +5,9 @@ import { ExpandIcon } from "@/components/icons/Icons";
 
 // Portfolio card: image, title, category. Either a link (`href`, homepage
 // preview) or a button that opens the lightbox (`onOpen`, portfolio page).
-export default function WorkCard({ work, href, onOpen, openLabel, sizes, headingLevel = "h3" }) {
+// `eager`: above-the-fold cards (first row) skip lazy loading — one of them
+// is usually the page's LCP image.
+export default function WorkCard({ work, href, onOpen, openLabel, sizes, headingLevel = "h3", eager = false }) {
   const Heading = headingLevel;
   const trigger = href ? (
     <Link href={href} className={styles.trigger}>
@@ -24,6 +26,8 @@ export default function WorkCard({ work, href, onOpen, openLabel, sizes, heading
           src={work.src}
           alt={work.description || work.title}
           fill
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : undefined}
           sizes={sizes ?? "(min-width: 1280px) 400px, (min-width: 640px) 45vw, 92vw"}
           className={styles.img}
         />

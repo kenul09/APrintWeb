@@ -75,7 +75,7 @@ export function PortfolioGallery({ initial, category = ALL }) {
       <ul ref={gridRef} className={styles.grid}>
         {visible.map((work, i) => (
           <li key={work.id}>
-            <WorkCard work={work} headingLevel="h2" onOpen={() => setOpenIndex(i)} openLabel={t("portfolio.openImage", { title: work.title })} />
+            <WorkCard work={work} eager={i < 3} headingLevel="h2" onOpen={() => setOpenIndex(i)} openLabel={t("portfolio.openImage", { title: work.title })} />
           </li>
         ))}
       </ul>

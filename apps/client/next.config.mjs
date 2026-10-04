@@ -23,6 +23,8 @@ const nextConfig = {
   experimental: {
     // app/global-not-found.js — the root layout lives under app/[lang].
     globalNotFound: true,
+    // All CSS is ~10 KB; inlining it removes three render-blocking requests.
+    inlineCss: true,
   },
   images: {
     formats: ["image/avif", "image/webp"],
