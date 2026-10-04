@@ -27,6 +27,7 @@ const az = {
     opensInNewTab: "(yeni pəncərədə açılır)",
     pauseAnimation: "Animasiyanı dayandır",
     playAnimation: "Animasiyanı başlat",
+    unavailableHelp: "Bu arada bizə WhatsApp-da yazın və ya əlaqə səhifəsindən müraciət edin.",
   },
   nav: { home: "Ana səhifə", about: "Haqqımızda", products: "Məhsullar", portfolio: "Portfolio", contact: "Əlaqə" },
   meta: {
@@ -86,7 +87,7 @@ const az = {
   works: {
     title: "Son işlərimiz",
     viewAll: "Hamısına bax",
-    error: "Son işləri yükləmək mümkün olmadı.",
+    error: "Son işlər müvəqqəti olaraq göstərilə bilmir.",
     empty: "Hələ heç bir iş əlavə olunmayıb.",
   },
   partners: {
@@ -110,7 +111,7 @@ const az = {
     otherCategories: "Digər istiqamətlər",
     priceListTitle: "Qiymətlər",
     priceListIntro: "Aktual qiymətlər. Dəqiq qiymət tiraj və materialdan asılıdır.",
-    priceError: "Qiymətləri yükləmək mümkün olmadı.",
+    priceError: "Qiymətlər müvəqqəti olaraq əlçatan deyil.",
     priceEmpty: "Hazırda qiymət siyahısı boşdur. Qiymət üçün bizimlə əlaqə saxlayın.",
     priceOnRequest: "Qiymət sorğu ilə",
     categories: {
@@ -208,7 +209,7 @@ const az = {
     intro: "Müştərilərimiz üçün hazırladığımız işlərin seçmələri.",
     all: "Hamısı",
     filterLabel: "Kateqoriyaya görə filtr",
-    error: "Portfolio yüklənə bilmədi.",
+    error: "Portfolio müvəqqəti olaraq əlçatan deyil.",
     empty: "Hələ heç bir iş əlavə olunmayıb.",
     openImage: "Böyüt: {title}",
     lightboxLabel: "İşə baxış",

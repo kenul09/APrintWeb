@@ -27,6 +27,7 @@ const en = {
     opensInNewTab: "(opens in a new tab)",
     pauseAnimation: "Pause animation",
     playAnimation: "Play animation",
+    unavailableHelp: "In the meantime, message us on WhatsApp or use the contact page.",
   },
   nav: { home: "Home", about: "About", products: "Products", portfolio: "Portfolio", contact: "Contact" },
   meta: {
@@ -86,7 +87,7 @@ const en = {
   works: {
     title: "Recent work",
     viewAll: "View all",
-    error: "We couldn’t load our recent work.",
+    error: "Our recent work is temporarily unavailable.",
     empty: "No work has been added yet.",
   },
   partners: {
@@ -110,7 +111,7 @@ const en = {
     otherCategories: "Other categories",
     priceListTitle: "Pricing",
     priceListIntro: "Current prices. The exact price depends on run size and materials.",
-    priceError: "We couldn’t load the price list.",
+    priceError: "Prices are temporarily unavailable.",
     priceEmpty: "The price list is empty right now. Contact us for a quote.",
     priceOnRequest: "Price on request",
     categories: {
@@ -208,7 +209,7 @@ const en = {
     intro: "Selected samples of work we produced for our clients.",
     all: "All",
     filterLabel: "Filter by category",
-    error: "We couldn’t load the portfolio.",
+    error: "The portfolio is temporarily unavailable.",
     empty: "No work has been added yet.",
     openImage: "Enlarge: {title}",
     lightboxLabel: "Work preview",

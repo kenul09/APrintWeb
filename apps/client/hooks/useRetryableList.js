@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-// Server-loaded list ({ items, error }) that can be re-fetched from the
-// browser when the visitor presses "Try again". `load` returns the new
-// items or throws.
+// Server-loaded list — an array, or null when the API was unavailable —
+// that can be re-fetched from the browser when the visitor presses "Try
+// again". `load` returns the new items or throws.
 export function useRetryableList(initial, load) {
-  const [state, setState] = useState({ items: initial.items, error: initial.error, loading: false });
+  const [state, setState] = useState({ items: initial ?? [], error: initial === null, loading: false });
 
   async function retry() {
     setState((s) => ({ ...s, loading: true }));
