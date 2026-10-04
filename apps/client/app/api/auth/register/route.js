@@ -3,7 +3,16 @@ import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
 import { corsHeaders, preflight } from "@/lib/cors";
 
+// Registration is off unless explicitly enabled. In production that means
+// ALLOW_ADMIN_REGISTRATION=true must be set; in development it is allowed
+// by default so the first admin can be created locally.
+function registrationEnabled() {
+  if (process.env.ALLOW_ADMIN_REGISTRATION === "true") return true;
+  return process.env.NODE_ENV !== "production";
+}
+
 async function registrationAvailable() {
+  if (!registrationEnabled()) return false;
   if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD_HASH) return false;
   const existing = await prisma.admin.findFirst({ select: { id: true } });
   return !existing;
