@@ -28,7 +28,7 @@ export default async function Products({ params }) {
       </section>
 
       <section className="container" aria-label={t("services.title")}>
-        <ServiceCards lang={lang} t={t} headingLevel="h2" />
+        <ServiceCards lang={lang} t={t} headingLevel="h2" eager />
       </section>
 
       <section className="container section reveal" aria-labelledby="calculator-title">

@@ -8,7 +8,8 @@ import { ArrowRightIcon } from "@/components/icons/Icons";
 
 // Visual category cards (image + title + subtitle), linking to
 // /products/<slug>. Used on the homepage and the products page.
-export default function ServiceCards({ lang, t, headingLevel = "h3", exclude }) {
+// `eager`: the cards are above the fold (products page) — skip lazy loading.
+export default function ServiceCards({ lang, t, headingLevel = "h3", exclude, eager = false }) {
   const Heading = headingLevel;
   return (
     <ul className={styles.grid}>
@@ -22,6 +23,7 @@ export default function ServiceCards({ lang, t, headingLevel = "h3", exclude }) 
                   src={optimizedSrc(group.image)}
                   alt=""
                   fill
+                  loading={eager ? "eager" : "lazy"}
                   sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 90vw"
                   className={styles.img}
                 />

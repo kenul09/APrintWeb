@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useId, useState } from "react";
 import styles from "./PriceCalculator.module.css";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import { intlLocales } from "@/i18n/config";
-import { CURRENCY, estimatePrice, priceTable } from "@/data/priceTable";
+import { estimatePrice, priceTable } from "@/data/priceTable";
+import { formatManat, formatNumber } from "@/lib/format";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 
 const PRODUCTS = Object.keys(priceTable);
@@ -28,8 +28,6 @@ export default function PriceCalculator({ initialProduct = PRODUCTS[0], serviceS
   const [state, setState] = useState(() => defaultsFor(PRODUCTS.includes(initialProduct) ? initialProduct : PRODUCTS[0]));
   const entry = priceTable[state.product];
   const result = estimatePrice(state);
-  const money = new Intl.NumberFormat(intlLocales[lang], { style: "currency", currency: CURRENCY, maximumFractionDigits: 2 });
-  const count = new Intl.NumberFormat(intlLocales[lang]);
   const contactHref = `${href("/contact")}${serviceSlug ? `?service=${serviceSlug}` : ""}`;
 
   const select = (key, options, labelKey) => (
@@ -47,7 +45,7 @@ export default function PriceCalculator({ initialProduct = PRODUCTS[0], serviceS
       >
         {options.map((value) => (
           <option key={value} value={value}>
-            {labelKey ? t(`${labelKey}.${value}`) : `${count.format(value)} ${t("calculator.quantityUnit")}`}
+            {labelKey ? t(`${labelKey}.${value}`) : `${formatNumber(value, lang)} ${t("calculator.quantityUnit")}`}
           </option>
         ))}
       </select>
@@ -66,9 +64,9 @@ export default function PriceCalculator({ initialProduct = PRODUCTS[0], serviceS
       <div className={styles.result}>
         <p className={styles.resultLabel}>{t("calculator.estimate")}</p>
         <output className={styles.total} aria-live="polite" htmlFor={`${id}-product ${id}-size ${id}-paper ${id}-quantity`}>
-          ≈ {money.format(result.total)}
+          ≈ {formatManat(result.total, lang)}
         </output>
-        <p className={styles.unit}>{t("calculator.perUnit", { price: money.format(result.unit) })}</p>
+        <p className={styles.unit}>{t("calculator.perUnit", { price: formatManat(result.unit, lang) })}</p>
         <p className={styles.note}>{t("calculator.note")}</p>
         <Link href={contactHref} className="btn-primary">
           {t("calculator.cta")}
