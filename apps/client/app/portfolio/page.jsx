@@ -7,6 +7,9 @@ import { useI18n } from '@/components/i18n/I18nProvider';
 import { portfolioService } from "@/lib/api/portfolioService";
 
 const MOBILE_PAGE_SIZE = 4;
+// Stable filter value for "every category" — never the translated label,
+// so switching language doesn't leave the filter pointing at a stale label.
+const ALL = "all";
 
 function getPaginationRange(current, total) {
   const delta = 1;
@@ -36,7 +39,7 @@ export default function Portfolio() {
   const { t } = useI18n();
   const [works, setWorks] = useState([]);
   const [status, setStatus] = useState("loading");
-  const [filter, setFilter] = useState(t('portfolio.all'));
+  const [filter, setFilter] = useState(ALL);
   const [page, setPage] = useState(1);
   const [heroRef, heroIn] = useInView(0.1);
   const gridRef = useRef(null);
@@ -60,10 +63,10 @@ export default function Portfolio() {
 
   const categories = useMemo(() => {
     const unique = [...new Set(works.map((w) => w.category))];
-    return [t('portfolio.all'), ...unique];
-  }, [t, works]);
+    return [ALL, ...unique];
+  }, [works]);
 
-  const filteredWorks = filter === t('portfolio.all') ? works : works.filter((w) => w.category === filter);
+  const filteredWorks = filter === ALL ? works : works.filter((w) => w.category === filter);
 
   const totalPages = Math.max(1, Math.ceil(filteredWorks.length / MOBILE_PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
@@ -286,7 +289,7 @@ export default function Portfolio() {
                 transition: "background-color 0.2s, color 0.2s, border-color 0.2s",
               }}
             >
-              {category}
+              {category === ALL ? t('portfolio.all') : category}
             </button>
           ))}
         </div>
