@@ -20,7 +20,7 @@ export default function GlobalNotFound() {
   return (
     <html lang="az" className={inter.variable} suppressHydrationWarning>
       <body>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <main className={`container ${styles.wrap}`}>
           <p className={styles.code} aria-hidden="true">
             404

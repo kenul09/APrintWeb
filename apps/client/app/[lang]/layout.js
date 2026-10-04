@@ -53,11 +53,16 @@ export default async function LocaleLayout({ children, params }) {
   const jsonLd = await localBusinessJsonLd(lang);
 
   return (
-    <html lang={lang} className={inter.variable} suppressHydrationWarning>
+    <html lang={lang} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
-        {/* Plain inline script (not next/script): must run before first
-            paint so an explicit light/dark choice never flashes. */}
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Plain inline script, deliberately not next/script: with
+            strategy="beforeInteractive" the App Router only queues inline
+            code and runs it after its runtime loads — measured ~120 ms after
+            first paint, i.e. a theme flash. This runs while the HTML is
+            parsed. It is never re-rendered on the client because the root
+            layout only changes on a language switch, which is a full
+            document navigation (see LanguageSwitcher). */}
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <a id="top" href="#main" className="skip-link">
           {t("common.skipToContent")}
         </a>

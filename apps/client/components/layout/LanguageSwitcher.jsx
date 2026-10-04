@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import styles from "./LanguageSwitcher.module.css";
@@ -23,19 +22,23 @@ export default function LanguageSwitcher({ variant = "dropdown" }) {
 
   const options = locales.map((code) => (
     <li key={code}>
-      <Link
+      {/* A plain <a> on purpose: switching language changes the root
+          layout's [lang] param, and a client-side transition would
+          re-render <html>/<head> scripts (theme init, JSON-LD) on the client,
+          which React warns about. A document navigation also resets every
+          translated string and the metadata in one go. */}
+      <a
         href={localizePath(code, path)}
         hrefLang={code}
         lang={code}
         aria-current={code === lang ? "true" : undefined}
         className={styles.option}
-        onClick={() => setOpen(false)}
       >
         <span>{names[code]}</span>
         <span className={styles.code} aria-hidden="true">
           {code.toUpperCase()}
         </span>
-      </Link>
+      </a>
     </li>
   ));
 
