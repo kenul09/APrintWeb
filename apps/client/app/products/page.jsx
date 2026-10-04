@@ -12,7 +12,7 @@ export default function CategoriesCatalog() {
         minHeight: "100vh",
         background: "var(--color-bg)",
         color: "var(--color-text)",
-        padding: "110px 0 0",
+        padding: "calc(var(--header-height) + clamp(2rem, 4vw, 3.5rem)) 0 0",
       }}
     >
       <style>{`
@@ -85,7 +85,6 @@ export default function CategoriesCatalog() {
             maxWidth: 760,
             margin: "0 auto 56px",
             textAlign: "center",
-            paddingTop: 120,
           }}
         >
           <h1
