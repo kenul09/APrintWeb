@@ -4,6 +4,15 @@ import { cookies } from "next/headers";
 
 const COOKIE_NAME = "session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8; // 8h
+const SAME_SITE_VALUES = ["lax", "strict", "none"];
+
+// SESSION_SAMESITE=lax|strict|none (default "lax"). "none" is only needed
+// when the admin SPA calls these routes from another site, and browsers
+// require Secure with it, so it is forced on in that case.
+function getSameSite() {
+  const value = (process.env.SESSION_SAMESITE || "lax").toLowerCase();
+  return SAME_SITE_VALUES.includes(value) ? value : "lax";
+}
 
 function getSecretKey() {
   const secret = process.env.SESSION_SECRET;
@@ -36,10 +45,11 @@ async function decrypt(token) {
 export async function createSession(email) {
   const token = await encrypt({ email });
   const cookieStore = await cookies();
+  const sameSite = getSameSite();
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production" || sameSite === "none",
+    sameSite,
     maxAge: SESSION_TTL_SECONDS,
     path: "/",
   });
