@@ -1,3 +1,5 @@
+import path from "node:path";
+
 // Portfolio images uploaded via the admin panel are served by apps/backend
 // itself (POST /api/portfolio/upload -> GET /uploads/portfolio/<file>), so
 // next/image needs that origin allow-listed too. Derived from the same
@@ -20,6 +22,12 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  // The repo has lockfiles at the root and in each app (not a workspace);
+  // pin Turbopack's root to the monorepo root explicitly, which is what it
+  // inferred anyway, so the "multiple lockfiles" warning goes away.
+  turbopack: {
+    root: path.join(import.meta.dirname, "..", ".."),
+  },
   experimental: {
     // app/global-not-found.js — the root layout lives under app/[lang].
     globalNotFound: true,
