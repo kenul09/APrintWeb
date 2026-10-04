@@ -11,12 +11,14 @@ export function languageAlternates(path) {
 }
 
 // Shared generateMetadata body: title, description, canonical, hreflang,
-// OpenGraph and Twitter for one page in one language. The OG image comes
-// from app/[lang]/opengraph-image.js automatically.
+// OpenGraph and Twitter for one page in one language.
 export async function buildMetadata({ lang, path, title, description, absoluteTitle = false }) {
   const { t } = await getTranslator(lang);
   const url = localizePath(lang, path);
   const fullTitle = absoluteTitle ? title : t("meta.titleTemplate").replace("%s", title);
+  // Listed explicitly: a page-level openGraph object replaces (not merges
+  // with) the one inherited from app/[lang]/opengraph-image.js.
+  const image = { url: localizePath(lang, "/opengraph-image"), width: 1200, height: 630, alt: t("meta.siteName") };
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
@@ -30,8 +32,9 @@ export async function buildMetadata({ lang, path, title, description, absoluteTi
       url,
       locale: ogLocales[lang],
       alternateLocale: locales.filter((l) => l !== lang).map((l) => ogLocales[l]),
+      images: [image],
     },
-    twitter: { card: "summary_large_image", title: fullTitle, description },
+    twitter: { card: "summary_large_image", title: fullTitle, description, images: [image.url] },
   };
 }
 
