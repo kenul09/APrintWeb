@@ -19,9 +19,13 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
+  experimental: {
+    // app/global-not-found.js — the root layout lives under app/[lang].
+    globalNotFound: true,
+  },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: 'https',
@@ -46,7 +50,7 @@ const nextConfig = {
     dangerouslyAllowLocalIP: true,
   },
   // /admin -> apps/admin (separate Vite app, port 5178 in dev — see
-  // apps/admin/vite.config.ts). Same env var lib/adminUrl.js prefers.
+  // apps/admin/vite.config.ts).
   async redirects() {
     return [
       {

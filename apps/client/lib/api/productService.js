@@ -1,9 +1,9 @@
 import { apiRequest } from "./client";
 
 export const productService = {
-  async getAll({ activeOnly } = {}) {
+  async getAll({ activeOnly } = {}, fetchOptions) {
     const query = activeOnly ? "?active=true" : "";
-    const { data } = await apiRequest(`/products${query}`);
+    const { data } = await apiRequest(`/products${query}`, fetchOptions);
     return data;
   },
   async getById(id) {

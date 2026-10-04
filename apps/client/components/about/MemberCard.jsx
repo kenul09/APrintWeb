@@ -1,77 +1,19 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
-import { useInView } from "@/hooks/useInView";
-import { glassStyle } from "@/components/ui/glassStyle";
+import styles from "./MemberCard.module.css";
 
 // `role` is the already-translated role label.
-export default function MemberCard({ m, role, delay = 0 }) {
-  const [ref, inView] = useInView();
-  const [hovered, setHovered] = useState(false);
-
+export default function MemberCard({ member, role }) {
   return (
-    <div
-      ref={ref}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        ...glassStyle,
-        padding: "36px 24px",
-        textAlign: "center",
-        transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s, background-color 0.2s, border-color 0.2s, color 0.2s`,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "translateY(0) scale(1)" : "translateY(30px) scale(0.96)",
-        borderColor: hovered ? "var(--color-border-strong)" : "var(--color-border)",
-        cursor: "default",
-      }}
-    >
-      <div
-        style={{
-          width: 56,
-          height: 56,
-          borderRadius: "50%",
-          background: hovered ? "var(--color-accent-soft)" : "var(--color-bg)",
-          border: "1px solid var(--color-border)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "0 auto 18px",
-          position: "relative",
-          overflow: "hidden",
-          fontSize: "1rem",
-          fontWeight: 600,
-          color: hovered ? "var(--color-accent)" : "var(--color-text)",
-          transition: "background-color 0.2s, color 0.2s",
-        }}
-      >
-        {m.photo ? (
-          <Image src={m.photo} alt={m.name} fill sizes="56px" style={{ objectFit: "cover" }} />
+    <article className={styles.card}>
+      <div className={styles.avatar}>
+        {member.photo ? (
+          <Image src={member.photo} alt="" fill sizes="64px" className={styles.photo} />
         ) : (
-          m.initials
+          <span aria-hidden="true">{member.initials}</span>
         )}
       </div>
-
-      <div
-        style={{
-          fontSize: "0.95rem",
-          fontWeight: 500,
-          color: "var(--color-text)",
-          marginBottom: 6,
-        }}
-      >
-        {m.name}
-      </div>
-
-      <div
-        style={{
-          fontSize: "0.8rem",
-          color: "var(--color-text-muted)",
-          fontWeight: 400,
-        }}
-      >
-        {role}
-      </div>
-    </div>
+      <h3 className={styles.name}>{member.name}</h3>
+      <p className={styles.role}>{role}</p>
+    </article>
   );
 }

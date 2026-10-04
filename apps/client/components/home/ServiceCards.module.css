@@ -1,0 +1,116 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  container-type: inline-size;
+}
+
+/* Whole card is clickable via the heading link's ::after overlay, so there
+   is one link per card for screen readers. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-base);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.card:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.card:hover .img {
+  transform: scale(1.04);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  padding: var(--space-5);
+}
+
+.title {
+  font-size: var(--text-h3);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  color: var(--color-accent);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.card:hover :global(.icon-arrow) {
+  transform: translateX(3px);
+}
+
+/* Wide card (e.g. two per row on tablets): image beside the text. */
+@container (min-width: 30rem) {
+  .card {
+    flex-direction: row;
+  }
+
+  .media {
+    flex: 0 0 45%;
+    aspect-ratio: auto;
+    min-height: 13rem;
+  }
+}
+
+.more :global(.icon-arrow) {
+  transition: transform var(--duration-fast) var(--ease-out);
+}

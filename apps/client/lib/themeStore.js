@@ -1,40 +1,30 @@
-const STORAGE_KEY = 'theme';
-const DEFAULT_THEME = 'dark';
+// Theme preference: "light", "dark" or "system" (follow the OS). Stored in
+// localStorage; applied as data-theme on <html> for explicit choices and
+// removed for "system", so CSS color-scheme falls back to the OS setting.
+// The init script in app/[lang]/layout.js applies it before first paint.
+export const THEMES = ["system", "light", "dark"];
+const STORAGE_KEY = "theme";
+const DEFAULT_THEME = "system";
 
-function applyTheme(theme) {
-  if (typeof document === 'undefined') return;
-  document.documentElement.setAttribute('data-theme', theme);
-}
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
 
-// The inline script in app/layout.js already sets data-theme on <html>
-// synchronously before hydration (to avoid a flash of the wrong theme), so
-// on the client we just read that attribute back rather than recomputing it.
-function readInitialTheme() {
-  if (typeof window === 'undefined') return DEFAULT_THEME;
-  const attr = document.documentElement.getAttribute('data-theme');
-  if (attr === 'light' || attr === 'dark') return attr;
+function readStoredTheme() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    return THEMES.includes(saved) ? saved : DEFAULT_THEME;
   } catch {
-    // ignore (private browsing, storage disabled, etc.)
+    return DEFAULT_THEME;
   }
-  try {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
-  } catch {
-    // ignore
-  }
-  return DEFAULT_THEME;
 }
 
-let currentTheme = readInitialTheme();
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if (theme === "system") root.removeAttribute("data-theme");
+  else root.setAttribute("data-theme", theme);
+}
+
+let currentTheme = typeof window === "undefined" ? DEFAULT_THEME : readStoredTheme();
 const listeners = new Set();
-
-if (typeof window !== 'undefined') {
-  applyTheme(currentTheme);
-}
 
 export function getSnapshot() {
   return currentTheme;
@@ -50,18 +40,26 @@ export function subscribe(listener) {
 }
 
 export function setTheme(next) {
-  if (next !== 'light' && next !== 'dark') return;
-  if (next === currentTheme) return;
+  if (!THEMES.includes(next) || next === currentTheme) return;
   currentTheme = next;
-  applyTheme(next);
   try {
     localStorage.setItem(STORAGE_KEY, next);
   } catch {
-    // ignore
+    // Storage unavailable (private mode) — the choice lasts for this page.
   }
-  listeners.forEach((listener) => listener());
+
+  const commit = () => {
+    applyTheme(next);
+    listeners.forEach((listener) => listener());
+  };
+
+  // Crossfade the whole page with the View Transitions API; fall back to an
+  // instant switch where unsupported or when the user prefers less motion.
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (document.startViewTransition && !reduceMotion) document.startViewTransition(commit);
+  else commit();
 }
 
-export function toggleTheme() {
-  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+export function cycleTheme() {
+  setTheme(THEMES[(THEMES.indexOf(currentTheme) + 1) % THEMES.length]);
 }

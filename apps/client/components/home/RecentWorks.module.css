@@ -1,0 +1,30 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Below 768px: a swipeable strip that bleeds to the screen edges. */
+@media (max-width: 767px) {
+  .grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--container-pad));
+    padding-inline: var(--container-pad);
+    scroll-padding-inline: var(--container-pad);
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .grid > li {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+  }
+}

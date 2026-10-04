@@ -1,0 +1,23 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-block: var(--space-page-top) var(--space-16);
+}
+
+.code {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.text {
+  max-width: 30rem;
+  margin: var(--space-5) auto var(--space-8);
+  color: var(--color-text-muted);
+  font-size: var(--text-lead);
+}

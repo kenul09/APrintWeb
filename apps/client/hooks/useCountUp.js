@@ -4,30 +4,47 @@ function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
 }
 
-export function useCountUp(target, active, duration = 1500) {
-  const [value, setValue] = useState(0);
-  const startedRef = useRef(false);
+// Counts from 0 to `target` the first time the element scrolls into view.
+// The server (and no-JS) render shows the final value. Nothing animates if
+// the element is already on screen at load (no flash from target to 0) or
+// if the visitor prefers reduced motion.
+export function useCountUp(target, { enabled = true, duration = 1500 } = {}) {
+  const ref = useRef(null);
+  const [value, setValue] = useState(target);
 
   useEffect(() => {
-    if (!active || startedRef.current) return undefined;
-    startedRef.current = true;
+    const node = ref.current;
+    if (!node || !enabled || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
-    const start = performance.now();
     let frame;
-
-    function tick(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      setValue(target * easeOutCubic(progress));
-      if (progress < 1) {
-        frame = requestAnimationFrame(tick);
-      } else {
-        setValue(target);
+    let armed = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!armed) {
+        armed = true;
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          return;
+        }
+        setValue(0); // off-screen, so the reset is never seen
+        return;
       }
-    }
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      const start = performance.now();
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        setValue(target * easeOutCubic(progress));
+        if (progress < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    });
+    observer.observe(node);
 
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [active, target, duration]);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [target, enabled, duration]);
 
-  return value;
+  return [ref, value];
 }

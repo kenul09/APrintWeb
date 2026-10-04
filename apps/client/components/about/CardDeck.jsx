@@ -3,38 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { ArrowRightIcon } from "@/components/icons/Icons";
 import styles from "./CardDeck.module.css";
+import { optimizedSrc } from "@/lib/images";
 
 const HOLD_MS = 2400; // time a card stays on top
 const MOVE_MS = 700; // must match the transition duration in the CSS
-const OFFSET_PX = 14;
-const ROTATE_DEG = 3;
-const VISIBLE_CARDS = 3;
 
 // Static photos from public/portfolio — the same files the homepage hero
 // uses. The portfolio API isn't used here: its image files live on the
 // backend and aren't reliably available (they 404 in local development).
 // Texts (name/spec) come from i18n: about.deck.<key>.
 const DECK_CARDS = [
-  { key: "businessCard", src: "/portfolio/Ab8b38d0f0d1b48f78286655b1a0e1b25i.png" }, // Fusion Club
-  { key: "rollup", src: "/portfolio/4c42233b-2f06-468c-b8c8-b1d6d8783487.png" }, // Star Kosmetoloji
-  { key: "menu", src: "/portfolio/872aba5f-4a70-4725-ad73-85576ea36f3c.png" }, // Xəngəl Məngəl
-  { key: "sticker", src: "/portfolio/4095ae57-3e5a-4451-8e9b-418c179f01f7.png" }, // Hilal Restoran
+  { key: "businessCard", src: optimizedSrc("/portfolio/Ab8b38d0f0d1b48f78286655b1a0e1b25i.png") }, // Fusion Club
+  { key: "rollup", src: optimizedSrc("/portfolio/4c42233b-2f06-468c-b8c8-b1d6d8783487.png") }, // Star Kosmetoloji
+  { key: "menu", src: optimizedSrc("/portfolio/872aba5f-4a70-4725-ad73-85576ea36f3c.png") }, // Xəngəl Məngəl
+  { key: "sticker", src: optimizedSrc("/portfolio/4095ae57-3e5a-4451-8e9b-418c179f01f7.png") }, // Hilal Restoran
 ];
-
-// Transform for a card at stack position `pos` (0 = top).
-function stackStyle(pos, count) {
-  return {
-    transform: `translate(${pos * OFFSET_PX}px, ${-pos * OFFSET_PX}px) rotate(${pos * ROTATE_DEG}deg)`,
-    opacity: pos < VISIBLE_CARDS ? 1 : 0,
-    zIndex: count - pos,
-  };
-}
-
-const EXIT_STYLE = {
-  transform: "translate(-60px, 40px) rotate(-12deg)",
-  opacity: 0,
-};
 
 // Decorative product deck for the About hero: every HOLD_MS the top card
 // slides out while the rest move up, then it rejoins at the back.
@@ -102,18 +87,17 @@ export default function CardDeck() {
       onPointerLeave={() => setHovered(false)}
     >
       {cards.map((card, i) => {
+        // Stack position (0 = top) drives the transform via data-pos in
+        // CardDeck.module.css; the leaving top card gets data-exit.
         const pos = (((i - step) % count) + count) % count;
-        const style = leaving
-          ? pos === 0
-            ? { ...EXIT_STYLE, zIndex: count + 1 }
-            : stackStyle(pos - 1, count)
-          : stackStyle(pos, count);
+        const exiting = leaving && pos === 0;
+        const shown = leaving ? pos - 1 : pos;
 
         return (
-          <div key={card.key} className={styles.card} style={style}>
+          <div key={card.key} className={styles.card} data-pos={exiting ? undefined : shown} data-exit={exiting || undefined}>
             <div className={styles.top}>
               <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
-              <span className={styles.arrow}>→</span>
+              <ArrowRightIcon size={16} className={styles.arrow} />
             </div>
             <div className={styles.media}>
               {/* Decorative (the whole deck is aria-hidden), so empty alt. */}

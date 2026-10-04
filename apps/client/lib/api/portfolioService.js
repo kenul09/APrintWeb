@@ -1,8 +1,8 @@
 import { apiRequest } from "./client";
 
 export const portfolioService = {
-  async getAll() {
-    const { data } = await apiRequest("/portfolio");
+  async getAll(fetchOptions) {
+    const { data } = await apiRequest("/portfolio", fetchOptions);
     return data;
   },
   async getById(id) {

@@ -24,6 +24,8 @@ export class ApiRequestError extends Error {
   }
 }
 
+// `options` is passed straight to fetch(), so server callers can add
+// Next.js caching hints, e.g. { next: { revalidate: 300 } }.
 export async function apiRequest(path, options = {}) {
   let response;
   try {

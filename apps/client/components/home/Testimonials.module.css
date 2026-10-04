@@ -1,0 +1,49 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  container-type: inline-size;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+  margin: 0;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.icon {
+  color: var(--color-accent);
+}
+
+.quote {
+  margin: 0;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.company {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}

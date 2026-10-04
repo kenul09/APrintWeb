@@ -1,149 +1,103 @@
-/* CTA block above the footer */
-.ctaWrap {
-  padding-top: clamp(3rem, 6vw, 5rem);
-}
-
-.cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 24px;
-}
-
-.ctaTitle {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.ctaTitle span {
-  display: block;
-}
-
-.ctaActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-/* Footer */
 .footer {
-  margin-top: clamp(3rem, 5vw, 4rem);
-  padding-top: clamp(3rem, 6vw, 5rem);
+  margin-top: var(--space-section);
+  padding-top: clamp(var(--space-12), 6vw, var(--space-20));
   border-top: 1px solid var(--color-border);
-  background: var(--color-bg);
-  color: var(--color-text);
-  position: relative;
-  z-index: 50;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1.4fr 0.8fr 1.4fr;
-  gap: 2.5rem;
-  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  gap: var(--space-10);
+  padding-bottom: clamp(var(--space-10), 5vw, var(--space-16));
 }
 
 .brand {
   display: inline-flex;
+  min-height: var(--tap-target);
+  align-items: center;
   color: var(--color-text);
-  text-decoration: none;
 }
 
 .logo {
-  width: 140px;
+  width: 8.75rem;
   height: auto;
-  max-width: 100%;
-  transition: filter 0.25s ease;
-}
-
-/* The logo asset itself is white artwork — invert it in light mode rather
-   than shipping a second logo file. */
-:global([data-theme='light']) .logo {
-  filter: invert(1);
 }
 
 .desc {
-  max-width: 320px;
-  margin: 1rem 0 0;
+  max-width: 20rem;
+  margin-top: var(--space-4);
   color: var(--color-text-muted);
   font-size: 0.9375rem;
-  line-height: 1.6;
 }
 
 .socialRow {
   display: flex;
-  gap: 8px;
-  margin-top: 1.5rem;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
 }
 
 .socialBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-md);
   color: var(--color-text);
-  text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color var(--duration-fast), color var(--duration-fast);
 }
 
-.socialBtn:hover,
-.socialBtn:focus-visible {
+.socialBtn:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
 }
 
 .colTitle {
-  margin: 0 0 1rem;
+  margin-bottom: var(--space-3);
   font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: normal;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .list {
-  list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.9375rem;
-  line-height: 2;
+  list-style: none;
 }
 
 .link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
   color: var(--color-text);
   text-decoration: none;
-  transition: color 0.2s;
+  font-size: 0.9375rem;
+  transition: color var(--duration-fast);
 }
 
-.link:hover,
-.link:focus-visible {
+.link:hover {
   color: var(--color-accent);
 }
 
-/* "Əlaqə" column: icon box + label/value rows */
 .contactList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .contactRow {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-target);
   color: var(--color-text);
   text-decoration: none;
 }
@@ -153,12 +107,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   color: var(--color-accent);
-  transition: border-color 0.2s;
+  transition: border-color var(--duration-fast);
 }
 
 .contactLabel {
@@ -173,71 +127,67 @@
   font-size: 0.9375rem;
   font-weight: 500;
   line-height: 1.4;
-  color: var(--color-text);
-  transition: color 0.2s;
+  transition: color var(--duration-fast);
 }
 
-.contactLink:hover .contactValue,
-.contactLink:focus-visible .contactValue {
+.contactLink:hover .contactValue {
   color: var(--color-accent);
 }
 
-.contactLink:hover .contactIcon,
-.contactLink:focus-visible .contactIcon {
+.contactLink:hover .contactIcon {
   border-color: var(--color-accent);
 }
 
-/* Bottom bar: the line spans the container content width, so both texts
-   sit exactly on the container edges. The bottom padding keeps the text
-   clear of the fixed back-to-top button (18px + 44px + gap). */
+/* The bottom padding keeps the text clear of the back-to-top button. */
 .bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: 1.5rem 0 calc(18px + 44px + 1rem);
+  gap: var(--space-4);
+  padding: var(--space-6) 0 calc(var(--space-4) + var(--tap-target) + var(--space-4));
   border-top: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--text-small);
 }
 
-/* Back to top */
 .backToTop {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: var(--color-surface);
-  color: var(--color-text);
-  border: 1px solid var(--color-border-strong);
-  display: flex;
+  right: var(--space-4);
+  bottom: calc(var(--mobile-bar-height) + var(--space-4));
+  z-index: 55;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-control);
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   opacity: 0;
-  pointer-events: none;
+  visibility: hidden;
   transform: translateY(8px);
-  transition: opacity 180ms ease, transform 180ms ease, background-color 0.2s, border-color 0.2s, color 0.2s;
-  z-index: 60;
+  transition:
+    opacity var(--duration-base),
+    transform var(--duration-base),
+    visibility var(--duration-base),
+    background-color var(--duration-fast);
 }
 
-.backToTop.visible {
+.visible {
   opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+  visibility: visible;
+  transform: none;
 }
 
 .backToTop:hover {
-  transform: translateY(-2px);
   background: var(--color-btn-bg);
   border-color: var(--color-btn-bg);
   color: var(--color-btn-text);
 }
 
-/* Tablet: brand on top, then Səhifələr and Əlaqə side by side */
 @media (max-width: 1023px) {
   .grid {
     grid-template-columns: 1fr 1fr;
@@ -248,13 +198,7 @@
   }
 }
 
-/* Mobile: single column */
-@media (max-width: 767px) {
-  .cta {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
   }
@@ -262,6 +206,6 @@
   .bottom {
     flex-direction: column;
     text-align: center;
-    gap: 0.25rem;
+    gap: var(--space-1);
   }
 }

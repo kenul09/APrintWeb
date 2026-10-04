@@ -26,18 +26,35 @@
   padding: 24px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   transform-origin: 50% 60%;
+  --p: 0;
+  transform: translate(calc(var(--p) * 14px), calc(var(--p) * -14px)) rotate(calc(var(--p) * 3deg));
+  z-index: calc(10 - var(--p));
   transition:
-    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-    background-color 0.2s,
-    border-color 0.2s;
+    transform 0.7s var(--ease-out),
+    opacity 0.7s var(--ease-out);
 }
 
-:root:not([data-theme='light']) .card {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+.card[data-pos="1"] {
+  --p: 1;
+}
+
+.card[data-pos="2"] {
+  --p: 2;
+}
+
+/* Fourth card waits, invisible, at the back of the stack. */
+.card[data-pos="3"] {
+  --p: 3;
+  opacity: 0;
+}
+
+.card[data-exit] {
+  transform: translate(-60px, 40px) rotate(-12deg);
+  opacity: 0;
+  z-index: 20;
 }
 
 .top {
@@ -84,6 +101,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card {
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: none;
   }
 }

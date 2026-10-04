@@ -1,29 +1,11 @@
 "use client";
 
-import { createContext, useContext, useSyncExternalStore } from 'react';
-import {
-  getSnapshot,
-  getServerSnapshot,
-  subscribe,
-  setTheme as setStoredTheme,
-  toggleTheme as toggleStoredTheme,
-} from '@/lib/themeStore';
+import { useSyncExternalStore } from "react";
+import { cycleTheme, getServerSnapshot, getSnapshot, setTheme, subscribe } from "@/lib/themeStore";
 
-const ThemeContext = createContext();
-
-export function ThemeProvider({ children }) {
-  // Mirrors I18nProvider: reads the persisted theme from an external store
-  // (localStorage + the data-theme attribute set by the anti-flash inline
-  // script in app/layout.js) via useSyncExternalStore.
-  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme: setStoredTheme, toggleTheme: toggleStoredTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
+// Reads the persisted theme from lib/themeStore via useSyncExternalStore —
+// no context provider is needed, any client component can call this.
 export function useTheme() {
-  return useContext(ThemeContext);
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return { theme, setTheme, cycleTheme };
 }

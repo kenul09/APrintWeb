@@ -1,33 +1,33 @@
 "use client";
 
 import { useCountUp } from "@/hooks/useCountUp";
+import styles from "./StatGrid.module.css";
 
 const VALUE_PATTERN = /^(\d+(?:\.\d+)?)(.*)$/;
 
-// countUp={false} shows the value as-is (e.g. a founding year, where
-// counting up from 0 would read oddly).
-export default function AnimatedStat({ value, label, active, countUp = true, classNames }) {
-  const match = value.match(VALUE_PATTERN);
+// "2000+" counts up to 2000 and keeps the "+"; non-numeric values
+// ("24 saat", "5.0★" handled as 5.0 + "★") are split the same way.
+// countUp={false} shows the value as-is.
+export default function AnimatedStat({ value, label, countUp = true }) {
+  const match = String(value).match(VALUE_PATTERN);
   const target = match ? parseFloat(match[1]) : 0;
-  const suffix = match ? match[2] : value;
-  const isDecimal = match ? match[1].includes(".") : false;
-
-  const current = useCountUp(target, active && countUp);
-  const display = isDecimal ? current.toFixed(1) : Math.round(current);
+  const suffix = match ? match[2] : "";
+  const decimals = match?.[1].includes(".") ? match[1].split(".")[1].length : 0;
+  const [ref, current] = useCountUp(target, { enabled: countUp && Boolean(match) });
 
   return (
-    <div className={classNames.box}>
-      <div className={classNames.value}>
-        {countUp && match ? (
+    <div className={styles.box}>
+      <dt className={styles.label}>{label}</dt>
+      <dd className={styles.value} ref={ref}>
+        {match ? (
           <>
-            {display}
+            {current.toFixed(decimals)}
             {suffix}
           </>
         ) : (
           value
         )}
-      </div>
-      <div className={classNames.label}>{label}</div>
+      </dd>
     </div>
   );
 }

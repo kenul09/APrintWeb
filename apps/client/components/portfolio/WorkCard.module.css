@@ -1,0 +1,102 @@
+.card {
+  position: relative;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-base);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.card:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.card:hover .img {
+  transform: scale(1.04);
+}
+
+.expand {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background: color-mix(in oklch, var(--color-surface) 85%, transparent);
+  color: var(--color-text);
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+}
+
+.card:hover .expand,
+.card:focus-within .expand {
+  opacity: 1;
+}
+
+.body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.title {
+  font-size: 1.0625rem;
+  line-height: 1.35;
+}
+
+/* The trigger's ::after covers the whole card, so the card is one target. */
+.trigger {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.trigger:focus-visible {
+  outline: none;
+}
+
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.category {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+@container (min-width: 26rem) {
+  .media {
+    aspect-ratio: 4 / 3;
+  }
+}

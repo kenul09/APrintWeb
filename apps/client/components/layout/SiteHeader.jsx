@@ -1,119 +1,95 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { useEffect, useRef, useState } from 'react';
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import styles from "./SiteHeader.module.css";
-import { useI18n } from '@/components/i18n/I18nProvider';
-import LanguageSelector from './LanguageSelector';
-import ThemeToggle from './ThemeToggle';
-import { usePathname } from 'next/navigation';
+import { useI18n } from "@/components/i18n/I18nProvider";
+import { stripLocale } from "@/i18n/config";
+import Logo from "@/components/brand/Logo";
+import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
+import { NAV_ITEMS, isActivePath } from "./navItems";
+import { CloseIcon, MenuIcon } from "@/components/icons/Icons";
 
 export default function SiteHeader() {
-  const { t, lang, setLang } = useI18n();
-  const pathname = usePathname() || '/';
+  const { t, href } = useI18n();
+  const pathname = usePathname() || "/";
+  const current = stripLocale(pathname);
+
   // The menu remembers the path it was opened on, so any route change
   // closes it without a setState-in-effect.
   const [openPath, setOpenPath] = useState(null);
   const menuOpen = openPath === pathname;
-  const setMenuOpen = (open) => setOpenPath(open ? pathname : null);
   const toggleRef = useRef(null);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
     const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     function onKey(e) {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setOpenPath(null);
         toggleRef.current?.focus();
       }
     }
-    document.addEventListener('keydown', onKey);
+    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = overflow;
-      document.removeEventListener('keydown', onKey);
+      document.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
-  const navItems = [
-    { href: "/", label: t('nav.home') },
-    { href: "/about", label: t('nav.about') },
-    { href: "/products", label: t('nav.products') },
-    { href: "/portfolio", label: t('nav.portfolio') },
-    { href: "/contact", label: t('nav.contact') },
-  ];
+
+  const links = (className) =>
+    NAV_ITEMS.map((item) => {
+      const active = isActivePath(current, item.path);
+      return (
+        <li key={item.path}>
+          <Link href={href(item.path)} className={className} aria-current={active ? "page" : undefined}>
+            {t(item.key)}
+          </Link>
+        </li>
+      );
+    });
 
   return (
     <header className={styles.header}>
-      <div className={styles.inner}>
-        <Link href="/" className={styles.brand} aria-label="A Print home">
-          <Image
-            src="/logos/aprint-logo.png"
-            alt="APrint"
-            width={140}
-            height={47}
-            className={styles.logo}
-            preload
-          />
+      <div className={`container ${styles.inner}`}>
+        <Link href={href("/")} className={styles.brand} aria-label={t("common.homeLabel")}>
+          <Logo className={styles.logo} />
         </Link>
 
-        <nav className={styles.nav} aria-label="Main navigation">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
-            return (
-              <Link key={item.href} href={item.href} className={`${styles.link} ${isActive?styles.active:''}`}>
-                {item.label}
-              </Link>
-            );
-          })}
-
-          <div className={styles.controls}>
-            <LanguageSelector />
-            <ThemeToggle />
-          </div>
+        <nav className={styles.nav} aria-label={t("common.mainNav")}>
+          <ul className={styles.navList}>{links(styles.link)}</ul>
         </nav>
+
+        <div className={styles.controls}>
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
 
         <button
           ref={toggleRef}
           type="button"
           className={styles.menuToggle}
-          aria-label={menuOpen ? "Menyunu bağla" : "Menyunu aç"}
+          aria-label={menuOpen ? t("common.menuClose") : t("common.menuOpen")}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setOpenPath(menuOpen ? null : pathname)}
         >
-          <span className={styles.menuBar} />
-          <span className={styles.menuBar} />
-          <span className={styles.menuBar} />
+          {menuOpen ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
         </button>
       </div>
 
-      <nav
-        id="mobile-nav"
-        className={styles.mobileNav}
-        aria-label="Mobil naviqasiya"
-        hidden={!menuOpen}
-        inert={!menuOpen}
-      >
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-
+      <div id="mobile-nav" className={styles.mobilePanel} hidden={!menuOpen} inert={!menuOpen}>
+        <nav aria-label={t("common.mobileNav")}>
+          <ul className={styles.mobileList}>{links(styles.mobileLink)}</ul>
+        </nav>
         <div className={styles.mobileControls}>
-          <LanguageSelector />
+          <LanguageSwitcher variant="inline" />
           <ThemeToggle />
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
