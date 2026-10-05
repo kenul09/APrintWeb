@@ -119,11 +119,6 @@ const en = {
     itemsUnit: { one: "item", other: "items" },
     backToProducts: "All products",
     otherCategories: "Other categories",
-    priceListTitle: "Pricing",
-    priceListIntro: "Current prices. The exact price depends on run size and materials.",
-    priceError: "Prices are temporarily unavailable.",
-    priceEmpty: "The price list is empty right now. Contact us for a quote.",
-    priceOnRequest: "Price on request",
     categories: {
       print: {
         title: "Commercial print",

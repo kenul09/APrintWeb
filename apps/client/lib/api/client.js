@@ -1,5 +1,5 @@
 // Thin fetch wrapper around the standalone backend (apps/backend). Every
-// resource-specific service (productService, portfolioService, ...) goes
+// resource-specific service (portfolioService, contactService) goes
 // through this instead of calling fetch() directly, so the base URL, JSON
 // handling and error shape only live in one place.
 

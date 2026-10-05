@@ -1,10 +1,10 @@
 import "server-only";
 import { API_BASE_URL } from "@/lib/api/client";
-import { fetchProducts, fetchWorks } from "@/lib/api/fetchers";
+import { fetchWorks } from "@/lib/api/fetchers";
 
-// Server-side loaders for API data, cached for 5 minutes (ISR). They never
-// throw: when the backend can't be loaded they log a warning and return
-// null, and the page shows a friendly "temporarily unavailable" notice with
+// Server-side loader for portfolio data, cached for 5 minutes (ISR). It
+// never throws: when the backend can't be loaded it logs a warning and
+// returns null, and the page shows a friendly "temporarily unavailable" notice with
 // a retry button and WhatsApp/contact links instead of breaking.
 const REVALIDATE_SECONDS = 300;
 const cache = { next: { revalidate: REVALIDATE_SECONDS } };
@@ -56,15 +56,6 @@ export async function loadWorks() {
     return await withExistingUploads(await fetchWorks(cache));
   } catch (error) {
     warn("Portfolio", error);
-    return null;
-  }
-}
-
-export async function loadProducts() {
-  try {
-    return await fetchProducts(cache);
-  } catch (error) {
-    warn("Products", error);
     return null;
   }
 }

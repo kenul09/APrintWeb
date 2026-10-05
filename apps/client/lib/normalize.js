@@ -16,7 +16,3 @@ export function normalizeWorks(data) {
     .filter((work) => work.src)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
-
-export function normalizeProducts(data) {
-  return Array.isArray(data) ? data.map(({ id, name, price, category }) => ({ id, name, price, category })) : [];
-}

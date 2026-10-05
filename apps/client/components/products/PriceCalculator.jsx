@@ -54,24 +54,26 @@ export default function PriceCalculator({ initialProduct = PRODUCTS[0], serviceS
 
   return (
     <div className={styles.calculator}>
-      <form className={styles.fields} onSubmit={(e) => e.preventDefault()}>
-        {select("product", PRODUCTS, "calculator.products")}
-        {select("size", Object.keys(entry.sizes), "calculator.sizes")}
-        {select("paper", Object.keys(entry.papers), "calculator.papers")}
-        {select("quantity", entry.quantities)}
-      </form>
+      <div className={styles.layout}>
+        <form className={styles.fields} onSubmit={(e) => e.preventDefault()}>
+          {select("product", PRODUCTS, "calculator.products")}
+          {select("size", Object.keys(entry.sizes), "calculator.sizes")}
+          {select("paper", Object.keys(entry.papers), "calculator.papers")}
+          {select("quantity", entry.quantities)}
+        </form>
 
-      <div className={styles.result}>
-        <p className={styles.resultLabel}>{t("calculator.estimate")}</p>
-        <output className={styles.total} aria-live="polite" htmlFor={`${id}-product ${id}-size ${id}-paper ${id}-quantity`}>
-          ≈ {formatManat(result.total, lang)}
-        </output>
-        <p className={styles.unit}>{t("calculator.perUnit", { price: formatManat(result.unit, lang) })}</p>
-        <p className={styles.note}>{t("calculator.note")}</p>
-        <Link href={contactHref} className="btn-primary">
-          {t("calculator.cta")}
-          <ArrowRightIcon size={18} />
-        </Link>
+        <div className={styles.result}>
+          <p className={styles.resultLabel}>{t("calculator.estimate")}</p>
+          <output className={styles.total} aria-live="polite" htmlFor={`${id}-product ${id}-size ${id}-paper ${id}-quantity`}>
+            <span className={styles.approx}>≈</span> {formatManat(result.total, lang)}
+          </output>
+          <p className={styles.unit}>{t("calculator.perUnit", { price: formatManat(result.unit, lang) })}</p>
+          <p className={styles.note}>{t("calculator.note")}</p>
+          <Link href={contactHref} className="btn-primary">
+            {t("calculator.cta")}
+            <ArrowRightIcon size={18} />
+          </Link>
+        </div>
       </div>
     </div>
   );

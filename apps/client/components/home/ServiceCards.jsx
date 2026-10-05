@@ -1,16 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./ServiceCards.module.css";
+import defaultStyles from "./ServiceCards.module.css";
+import minimalStyles from "./ServiceCardsMinimal.module.css";
 import { categoryGroups } from "@/data/products";
 import { optimizedSrc } from "@/lib/images";
 import { localizePath } from "@/i18n/config";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 
 // Visual category cards (image + title + subtitle), linking to
-// /products/<slug>. Used on the homepage and the products page.
-// `eager`: the cards are above the fold (products page) — skip lazy loading.
-export default function ServiceCards({ lang, t, headingLevel = "h3", exclude, eager = false }) {
+// /products/<slug>. Used on the homepage, the products page and category
+// pages. `variant="minimal"` (products page) swaps in a stylesheet with the
+// same class names: image-led, borderless cards. `eager`: the cards are
+// above the fold — skip lazy loading.
+export default function ServiceCards({ lang, t, headingLevel = "h3", exclude, eager = false, variant = "default" }) {
   const Heading = headingLevel;
+  const styles = variant === "minimal" ? minimalStyles : defaultStyles;
+  const sizes =
+    variant === "minimal"
+      ? "(min-width: 1100px) 290px, (min-width: 560px) 46vw, 92vw"
+      : "(min-width: 1024px) 300px, (min-width: 640px) 45vw, 90vw";
   return (
     <ul className={styles.grid}>
       {categoryGroups.filter((group) => group.slug !== exclude).map((group) => {
@@ -24,7 +32,7 @@ export default function ServiceCards({ lang, t, headingLevel = "h3", exclude, ea
                   alt=""
                   fill
                   loading={eager ? "eager" : "lazy"}
-                  sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 90vw"
+                  sizes={sizes}
                   className={styles.img}
                 />
               </div>
@@ -36,7 +44,7 @@ export default function ServiceCards({ lang, t, headingLevel = "h3", exclude, ea
                 </Heading>
                 <p className={styles.subtitle}>{t(`${base}.subtitle`)}</p>
                 <span className={styles.more} aria-hidden="true">
-                  {t("products.cardCta")}
+                  <span className={styles.moreText}>{t("products.cardCta")}</span>
                   <ArrowRightIcon size={16} />
                 </span>
               </div>

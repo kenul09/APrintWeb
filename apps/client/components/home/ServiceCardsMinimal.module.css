@@ -1,0 +1,130 @@
+/* Minimal category cards (products page): the image carries the card —
+   no border, no shadow, no surface. Title + subtitle sit underneath with a
+   small arrow that slides on hover. Same class names as
+   ServiceCards.module.css so the markup is shared. */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+}
+
+/* Single column on phones: a wider crop keeps the four cards scannable. */
+@media (max-width: 559px) {
+  .media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.card:hover .img {
+  transform: scale(1.04);
+}
+
+/* Keyboard focus outlines the image (the link overlay covers the card). */
+.card:focus-within .media {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Title + subtitle on the left, arrow on the right of the title. */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+  padding-top: var(--space-4);
+}
+
+.title {
+  grid-column: 1;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.subtitle {
+  grid-column: 1;
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
+.more {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  transition: background-color var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+}
+
+/* The label is for the default variant; here the arrow says it. */
+.moreText {
+  display: none;
+}
+
+.more :global(.icon-arrow) {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.card:hover .more {
+  background: var(--color-btn-bg);
+  border-color: var(--color-btn-bg);
+  color: var(--color-btn-text);
+}
+
+.card:hover .more :global(.icon-arrow) {
+  transform: translateX(2px);
+}

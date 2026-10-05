@@ -119,11 +119,6 @@ const az = {
     itemsUnit: { one: "məhsul", other: "məhsul" },
     backToProducts: "Bütün məhsullar",
     otherCategories: "Digər istiqamətlər",
-    priceListTitle: "Qiymətlər",
-    priceListIntro: "Aktual qiymətlər. Dəqiq qiymət tiraj və materialdan asılıdır.",
-    priceError: "Qiymətlər müvəqqəti olaraq əlçatan deyil.",
-    priceEmpty: "Hazırda qiymət siyahısı boşdur. Qiymət üçün bizimlə əlaqə saxlayın.",
-    priceOnRequest: "Qiymət sorğu ilə",
     categories: {
       print: {
         title: "Mətbəə",

@@ -119,11 +119,6 @@ const ru = {
     itemsUnit: { one: "позиция", few: "позиции", many: "позиций", other: "позиции" },
     backToProducts: "Вся продукция",
     otherCategories: "Другие направления",
-    priceListTitle: "Цены",
-    priceListIntro: "Актуальные цены. Точная стоимость зависит от тиража и материалов.",
-    priceError: "Цены временно недоступны.",
-    priceEmpty: "Прайс-лист сейчас пуст. Свяжитесь с нами, чтобы узнать цену.",
-    priceOnRequest: "Цена по запросу",
     categories: {
       print: {
         title: "Полиграфия",
