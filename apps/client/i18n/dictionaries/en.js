@@ -173,6 +173,8 @@ const en = {
     quantity: "Quantity",
     quantityUnit: "pcs",
     estimate: "Estimated price",
+    liveEstimate: "Estimated price: {price}",
+    summaryLabel: "Your selection",
     perUnit: "Per unit: {price}",
     note: "This is an estimate. The exact price depends on design, finishing and delivery.",
     cta: "Order at this price",

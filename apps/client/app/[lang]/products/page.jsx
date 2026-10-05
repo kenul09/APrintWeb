@@ -3,6 +3,7 @@ import { metadataFor } from "@/lib/seo";
 import ServiceCards from "@/components/home/ServiceCards";
 import PriceCalculator from "@/components/products/PriceCalculator";
 import SectionHead from "@/components/common/SectionHead";
+import styles from "./page.module.css";
 
 export const generateMetadata = metadataFor("products", "/products");
 
@@ -22,7 +23,7 @@ export default async function Products({ params }) {
         <ServiceCards lang={lang} t={t} headingLevel="h2" eager variant="minimal" />
       </section>
 
-      <section className="container section reveal" aria-labelledby="calculator-title">
+      <section className={`container section reveal ${styles.calculatorSection}`} aria-labelledby="calculator-title">
         <SectionHead id="calculator-title" title={t("calculator.title")} subtitle={t("calculator.intro")} />
         <PriceCalculator />
       </section>

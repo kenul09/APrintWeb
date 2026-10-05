@@ -173,6 +173,8 @@ const az = {
     quantity: "Tiraj",
     quantityUnit: "ədəd",
     estimate: "Təxmini qiymət",
+    liveEstimate: "Təxmini qiymət: {price}",
+    summaryLabel: "Seçiminiz",
     perUnit: "Bir ədədi: {price}",
     note: "Bu təxmini qiymətdir. Dəqiq qiymət dizayn, son emal və çatdırılmadan asılıdır.",
     cta: "Bu qiymətə sifariş ver",

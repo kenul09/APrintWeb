@@ -1,0 +1,8 @@
+/* More breathing room around the calculator than a regular section. */
+:global(.section).calculatorSection {
+  margin-top: calc(var(--space-section) * 1.25);
+}
+
+.calculatorSection :global(.section-head) {
+  margin-bottom: var(--space-10);
+}
