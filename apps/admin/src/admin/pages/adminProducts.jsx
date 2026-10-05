@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/adminProducts.module.css";
 import { productService } from "../lib/productService";
+import { env } from "../lib/env";
 import { useToast } from "../lib/ToastContext";
 import ConfirmDialog from "../components/ConfirmDialog";
 
@@ -32,7 +33,16 @@ export default function AdminProducts() {
     productService
       .getAll({ search })
       .then(setProducts)
-      .catch(() => setError("Serverlə əlaqə qurmaq mümkün olmadı."))
+      .catch((err) => {
+        // Keep the real cause visible: HTTP errors carry the backend's
+        // message + status; status 0 means the API wasn't reachable at all.
+        console.error("[admin/products] Məhsullar yüklənmədi:", err);
+        setError(
+          err?.status
+            ? `${err.message} (HTTP ${err.status})`
+            : `Serverə qoşulmaq mümkün olmadı (${env.backendUrl}). Backend işləyirmi?`
+        );
+      })
       .finally(() => setLoading(false));
   };
 
@@ -197,7 +207,12 @@ export default function AdminProducts() {
         {loading ? (
           <div className={styles.stateBox}>Yüklənir...</div>
         ) : error ? (
-          <div className={styles.errorBox}>{error}</div>
+          <div className={styles.errorBox} role="alert">
+            <p>{error}</p>
+            <button type="button" className={styles.secondaryButton} onClick={load}>
+              Yenidən cəhd et
+            </button>
+          </div>
         ) : products.length === 0 ? (
           <div className={styles.stateBox}>Məhsul yoxdur</div>
         ) : (
