@@ -6,7 +6,7 @@ import styles from "./PartnersMarquee.module.css";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { partners } from "@/data/partners";
 import { optimizedSrc } from "@/lib/images";
-import { PauseIcon, PlayIcon } from "@/components/icons/Icons";
+import PlayPauseButton from "@/components/common/PlayPauseButton";
 
 function LogoList({ duplicate = false, t }) {
   return (
@@ -44,16 +44,13 @@ export default function PartnersMarquee() {
           <LogoList t={t} duplicate />
         </div>
       </div>
-      <button
-        type="button"
+      <PlayPauseButton
+        paused={paused}
+        onToggle={() => setPaused((p) => !p)}
+        playLabel={t("common.playAnimation")}
+        pauseLabel={t("common.pauseAnimation")}
         className={styles.toggle}
-        onClick={() => setPaused((p) => !p)}
-        aria-pressed={paused}
-        aria-label={paused ? t("common.playAnimation") : t("common.pauseAnimation")}
-        title={paused ? t("common.playAnimation") : t("common.pauseAnimation")}
-      >
-        {paused ? <PlayIcon size={16} /> : <PauseIcon size={16} />}
-      </button>
+      />
     </div>
   );
 }

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./RotatingWord.module.css";
+import { useActiveInView } from "@/hooks/useActiveInView";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // Cycles through `words`, rendering each as `${word}${after}` with the word
 // styled by `wordClassName`. Keeping the trailing text inside the slot means
@@ -15,31 +17,9 @@ import styles from "./RotatingWord.module.css";
 export default function RotatingWord({ words, after = "", wordClassName = "", interval = 2600 }) {
   const ref = useRef(null);
   const [index, setIndex] = useState(0);
-  const [running, setRunning] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let onScreen = false;
-
-    const update = () => setRunning(onScreen && !document.hidden && !motionQuery.matches);
-
-    const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      update();
-    });
-    observer.observe(el);
-    document.addEventListener("visibilitychange", update);
-    motionQuery.addEventListener("change", update);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", update);
-      motionQuery.removeEventListener("change", update);
-    };
-  }, []);
+  const active = useActiveInView(ref);
+  const reduceMotion = useReducedMotion();
+  const running = active && !reduceMotion;
 
   useEffect(() => {
     if (!running || words.length < 2) return undefined;
@@ -47,12 +27,12 @@ export default function RotatingWord({ words, after = "", wordClassName = "", in
     return () => clearInterval(id);
   }, [running, words.length, interval]);
 
-  const active = words.length ? index % words.length : 0;
+  const current = words.length ? index % words.length : 0;
 
   return (
     <span ref={ref} className={styles.slot} aria-hidden="true">
       {words.map((word, i) => (
-        <span key={word} className={`${styles.item} ${i === active ? styles.active : ""}`}>
+        <span key={word} className={`${styles.item} ${i === current ? styles.active : ""}`}>
           <span className={wordClassName}>{word}</span>
           {after}
         </span>

@@ -208,23 +208,6 @@
   animation: progress 6s linear forwards;
 }
 
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap-target);
-  height: var(--tap-target);
-  border: 1px solid var(--color-border-control);
-  border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--color-text);
-  cursor: pointer;
-}
-
-.toggle:hover {
-  border-color: var(--color-text);
-}
-
 .root[data-paused] .fill,
 .root[data-paused] .kenburns {
   animation-play-state: paused;

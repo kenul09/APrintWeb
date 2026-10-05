@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useEffect, useReducer, useRef, useState } from "react";
 import styles from "./HeroCollage.module.css";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import { useActiveInView } from "@/hooks/useActiveInView";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { PauseIcon, PlayIcon } from "@/components/icons/Icons";
+import PlayPauseButton from "@/components/common/PlayPauseButton";
 
 const VALUE_PATTERN = /^(\d+)(.*)$/;
 const PARALLAX_EASE = 0.12;
@@ -65,12 +66,12 @@ export default function HeroCollage({ slides, stat }) {
   const [userPaused, setUserPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
-  const [onScreen, setOnScreen] = useState(true);
-  const [tabHidden, setTabHidden] = useState(false);
 
   const rootRef = useRef(null);
   const visualRef = useRef(null);
-  const running = autoplay && !userPaused && !hovered && !focused && onScreen && !tabHidden;
+  // Pause while offscreen or while the tab is hidden.
+  const inView = useActiveInView(rootRef, { threshold: 0.15, initial: true });
+  const running = autoplay && !userPaused && !hovered && !focused && inView;
 
   const goTo = (i) => dispatch({ type: "goto", index: i });
   // Decode before the slide can be shown, so the crossfade never reveals a
@@ -96,19 +97,6 @@ export default function HeroCollage({ slides, stat }) {
     };
   }, [count]);
 
-  // Pause while offscreen or while the tab is hidden.
-  useEffect(() => {
-    const node = rootRef.current;
-    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), { threshold: 0.15 });
-    observer.observe(node);
-    const onVisibility = () => setTabHidden(document.hidden);
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, []);
-
   // Pointer parallax — fine pointers only, eased with rAF. Writes two CSS
   // variables on the visual; the layers turn them into transforms.
   useEffect(() => {
@@ -117,6 +105,10 @@ export default function HeroCollage({ slides, stat }) {
     const target = { x: 0, y: 0 };
     const current = { x: 0, y: 0 };
     let frame = 0;
+    // Measured once per hover and re-measured only after scroll/resize, so
+    // pointermove never forces a layout right after a CSS-variable write.
+    let rect = null;
+    const invalidate = () => (rect = null);
 
     const tick = () => {
       const settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
@@ -130,21 +122,26 @@ export default function HeroCollage({ slides, stat }) {
       if (!frame) frame = requestAnimationFrame(tick);
     };
     const onMove = (e) => {
-      const rect = visual.getBoundingClientRect();
+      rect ??= visual.getBoundingClientRect();
       target.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       target.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
       kick();
     };
     const onLeave = () => {
+      invalidate();
       target.x = 0;
       target.y = 0;
       kick();
     };
     visual.addEventListener("pointermove", onMove);
     visual.addEventListener("pointerleave", onLeave);
+    window.addEventListener("scroll", invalidate, { passive: true });
+    window.addEventListener("resize", invalidate);
     return () => {
       visual.removeEventListener("pointermove", onMove);
       visual.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", invalidate);
+      window.removeEventListener("resize", invalidate);
       cancelAnimationFrame(frame);
     };
   }, [reduceMotion]);
@@ -259,16 +256,12 @@ export default function HeroCollage({ slides, stat }) {
             ))}
           </div>
           {autoplay && (
-            <button
-              type="button"
-              className={styles.toggle}
-              onClick={() => setUserPaused((p) => !p)}
-              aria-pressed={userPaused}
-              aria-label={userPaused ? t("hero.collage.play") : t("hero.collage.pause")}
-              title={userPaused ? t("hero.collage.play") : t("hero.collage.pause")}
-            >
-              {userPaused ? <PlayIcon size={16} /> : <PauseIcon size={16} />}
-            </button>
+            <PlayPauseButton
+              paused={userPaused}
+              onToggle={() => setUserPaused((p) => !p)}
+              playLabel={t("hero.collage.play")}
+              pauseLabel={t("hero.collage.pause")}
+            />
           )}
         </div>
       )}

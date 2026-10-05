@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 import styles from "./CardDeck.module.css";
+import { useActiveInView } from "@/hooks/useActiveInView";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { optimizedSrc } from "@/lib/images";
 
 const HOLD_MS = 2400; // time a card stays on top
@@ -35,33 +37,11 @@ export default function CardDeck() {
   const ref = useRef(null);
   const [step, setStep] = useState(0); // completed rotations
   const [leaving, setLeaving] = useState(false); // top card is mid-exit
-  const [canAnimate, setCanAnimate] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let onScreen = false;
-    const update = () => setCanAnimate(onScreen && !document.hidden && !motionQuery.matches);
-
-    const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      update();
-    });
-    observer.observe(el);
-    document.addEventListener("visibilitychange", update);
-    motionQuery.addEventListener("change", update);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", update);
-      motionQuery.removeEventListener("change", update);
-    };
-  }, []);
-
-  const running = canAnimate && !hovered && count > 1;
+  const active = useActiveInView(ref);
+  const reduceMotion = useReducedMotion();
+  const running = active && !reduceMotion && !hovered && count > 1;
 
   useEffect(() => {
     // A started exit always finishes, even if the deck pauses meanwhile,
