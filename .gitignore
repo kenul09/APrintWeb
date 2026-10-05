@@ -27,3 +27,4 @@ client.zip
 
 # local backups that should never live inside the working tree
 .git-backup-*/
+*.zip
