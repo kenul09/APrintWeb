@@ -5,6 +5,7 @@ import { localizePath } from "@/i18n/config";
 import { CONTACT, SOCIAL } from "@/data/contactInfo";
 import Logo from "@/components/brand/Logo";
 import BackToTop from "./BackToTop";
+import ContactInfoList from "@/components/common/ContactInfoList";
 import { NAV_ITEMS } from "./navItems";
 import { FacebookIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons/BrandIcons";
 import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from "@/components/icons/Icons";
@@ -64,37 +65,15 @@ export default async function SiteFooter({ lang }) {
 
         <div>
           <h2 className={styles.colTitle}>{t("footer.contactTitle")}</h2>
-          <ul className={styles.contactList}>
-            {CONTACT_ROWS.map(({ key, Icon, value, i18nValue, href, external }) => {
-              const content = (
-                <>
-                  <span className={styles.contactIcon}>
-                    <Icon size={18} />
-                  </span>
-                  <span>
-                    <span className={styles.contactLabel}>{t(`footer.labels.${key}`)}</span>
-                    <span className={styles.contactValue}>{i18nValue ? t(i18nValue) : value}</span>
-                  </span>
-                </>
-              );
-              return (
-                <li key={key}>
-                  {href ? (
-                    <a
-                      href={href}
-                      className={`${styles.contactRow} ${styles.contactLink}`}
-                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    >
-                      {content}
-                      {external && <span className="sr-only">{newTab}</span>}
-                    </a>
-                  ) : (
-                    <div className={styles.contactRow}>{content}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+          <ContactInfoList
+            compact
+            newTabLabel={newTab}
+            rows={CONTACT_ROWS.map(({ i18nValue, ...row }) => ({
+              ...row,
+              label: t(`footer.labels.${row.key}`),
+              value: i18nValue ? t(i18nValue) : row.value,
+            }))}
+          />
         </div>
       </div>
 

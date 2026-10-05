@@ -38,6 +38,16 @@ export async function buildMetadata({ lang, path, title, description, absoluteTi
   };
 }
 
+// generateMetadata for a page whose title/description live under
+// meta.<key> in the dictionaries: export const generateMetadata = metadataFor("about", "/about")
+export function metadataFor(key, path) {
+  return async function generateMetadata({ params }) {
+    const { lang } = await params;
+    const { t } = await getTranslator(lang);
+    return buildMetadata({ lang, path, title: t(`meta.${key}.title`), description: t(`meta.${key}.description`) });
+  };
+}
+
 export async function localBusinessJsonLd(lang) {
   const { t } = await getTranslator(lang);
   const data = {

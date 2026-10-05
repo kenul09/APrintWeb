@@ -1,6 +1,6 @@
 import { resolveImageSrc } from "@/lib/images";
 
-// Shared by the server loaders (lib/data.js) and client-side retries.
+// Used via lib/api/fetchers.js (server loaders and client-side retries).
 // Shape portfolio records for the UI: valid image only, newest first.
 export function normalizeWorks(data) {
   if (!Array.isArray(data)) return [];

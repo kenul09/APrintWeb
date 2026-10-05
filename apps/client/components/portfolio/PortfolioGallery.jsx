@@ -5,8 +5,7 @@ import { useRef, useState } from "react";
 import styles from "./PortfolioGallery.module.css";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRetryableList } from "@/hooks/useRetryableList";
-import { portfolioService } from "@/lib/api/portfolioService";
-import { normalizeWorks } from "@/lib/normalize";
+import { fetchWorks } from "@/lib/api/fetchers";
 import DataState from "@/components/common/DataState";
 import WorkCard from "./WorkCard";
 import Lightbox from "./Lightbox";
@@ -19,9 +18,7 @@ const ALL = "all";
 // size) and a lightbox. `category` comes from the URL via the wrapper below.
 export function PortfolioGallery({ initial, category = ALL }) {
   const { t } = useI18n();
-  const { items, error, loading, retry } = useRetryableList(initial, async () =>
-    normalizeWorks(await portfolioService.getAll())
-  );
+  const { items, error, loading, retry } = useRetryableList(initial, () => fetchWorks());
   const [shown, setShown] = useState({ category, count: PAGE_SIZE });
   const [openIndex, setOpenIndex] = useState(null);
   const gridRef = useRef(null);

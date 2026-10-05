@@ -1,18 +1,15 @@
 import { Suspense } from "react";
 import styles from "@/components/contact/ContactForm.module.css";
 import { getTranslator } from "@/i18n/getDictionary";
-import { buildMetadata } from "@/lib/seo";
+import { metadataFor } from "@/lib/seo";
 import { CONTACT } from "@/data/contactInfo";
 import { ContactForm, ContactFormFromUrl } from "@/components/contact/ContactForm";
 import MapFacade from "@/components/contact/MapFacade";
+import ContactInfoList from "@/components/common/ContactInfoList";
 import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from "@/components/icons/Icons";
 import { WhatsAppIcon } from "@/components/icons/BrandIcons";
 
-export async function generateMetadata({ params }) {
-  const { lang } = await params;
-  const { t } = await getTranslator(lang);
-  return buildMetadata({ lang, path: "/contact", title: t("meta.contact.title"), description: t("meta.contact.description") });
-}
+export const generateMetadata = metadataFor("contact", "/contact");
 
 export default async function Contact({ params }) {
   const { lang } = await params;
@@ -49,37 +46,10 @@ export default async function Contact({ params }) {
             <h2 id="contact-info-title" className={styles.infoTitle}>
               {t("contact.contactInfoTitle")}
             </h2>
-            <ul className={styles.infoList}>
-              {infoRows.map(({ key, Icon, value, href, external }) => {
-                const content = (
-                  <>
-                    <span className={styles.infoIcon}>
-                      <Icon />
-                    </span>
-                    <span>
-                      <span className={styles.infoLabel}>{t(`footer.labels.${key}`)}</span>
-                      <span className={styles.infoValue}>{value}</span>
-                    </span>
-                  </>
-                );
-                return (
-                  <li key={key}>
-                    {href ? (
-                      <a
-                        href={href}
-                        className={`${styles.infoRow} ${styles.infoLink}`}
-                        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      >
-                        {content}
-                        {external && <span className="sr-only">{newTab}</span>}
-                      </a>
-                    ) : (
-                      <div className={styles.infoRow}>{content}</div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            <ContactInfoList
+              newTabLabel={newTab}
+              rows={infoRows.map((row) => ({ ...row, label: t(`footer.labels.${row.key}`) }))}
+            />
             <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className={`btn-secondary ${styles.whatsappButton}`}>
               <WhatsAppIcon />
               {t("contact.whatsappCta")}

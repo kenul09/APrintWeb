@@ -1,6 +1,7 @@
 import styles from "./Testimonials.module.css";
 import { testimonials } from "@/data/testimonials";
 import { QuoteIcon } from "@/components/icons/Icons";
+import SectionHead from "@/components/common/SectionHead";
 
 // Renders nothing until data/testimonials.js has real entries.
 export default function Testimonials({ lang, t }) {
@@ -8,12 +9,7 @@ export default function Testimonials({ lang, t }) {
 
   return (
     <section className="container section reveal" aria-labelledby="testimonials-title">
-      <div className="section-head">
-        <div>
-          <h2 id="testimonials-title">{t("testimonials.title")}</h2>
-          <p className="section-subtitle">{t("testimonials.subtitle")}</p>
-        </div>
-      </div>
+      <SectionHead id="testimonials-title" title={t("testimonials.title")} subtitle={t("testimonials.subtitle")} />
       <ul className={styles.grid}>
         {testimonials.map((item) => (
           <li key={item.id} className={styles.item}>

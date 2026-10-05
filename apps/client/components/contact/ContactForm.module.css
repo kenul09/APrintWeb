@@ -190,59 +190,6 @@
   font-size: var(--text-h3);
 }
 
-.infoList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.infoRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  min-height: var(--tap-target);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.infoIcon {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-accent);
-  transition: border-color var(--duration-fast);
-}
-
-.infoLabel {
-  display: block;
-  font-size: 0.8125rem;
-  line-height: 1.4;
-  color: var(--color-text-muted);
-}
-
-.infoValue {
-  display: block;
-  font-weight: 500;
-  line-height: 1.45;
-  transition: color var(--duration-fast);
-}
-
-.infoLink:hover .infoValue {
-  color: var(--color-accent);
-}
-
-.infoLink:hover .infoIcon {
-  border-color: var(--color-accent);
-}
-
 .whatsappButton {
   width: 100%;
   margin-top: var(--space-6);

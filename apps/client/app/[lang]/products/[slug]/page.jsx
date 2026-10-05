@@ -11,6 +11,7 @@ import ServiceCards from "@/components/home/ServiceCards";
 import PriceCalculator from "@/components/products/PriceCalculator";
 import CtaBlock from "@/components/layout/CtaBlock";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons/Icons";
+import SectionHead from "@/components/common/SectionHead";
 
 export const dynamicParams = false;
 
@@ -74,11 +75,14 @@ export default async function ProductCategory({ params }) {
       </section>
 
       <section className="container section reveal" aria-labelledby="items-title">
-        <div className="section-head">
-          <h2 id="items-title">
-            {t("products.itemsTitle")} <span className="accent-text">· {items.length} {unit}</span>
-          </h2>
-        </div>
+        <SectionHead
+          id="items-title"
+          title={
+            <>
+              {t("products.itemsTitle")} <span className="accent-text">· {items.length} {unit}</span>
+            </>
+          }
+        />
         <ul className={styles.items}>
           {items.map((item) => (
             <li key={item} className={styles.item}>
@@ -89,19 +93,12 @@ export default async function ProductCategory({ params }) {
       </section>
 
       <section className="container section reveal" aria-labelledby="calculator-title">
-        <div className="section-head">
-          <div>
-            <h2 id="calculator-title">{t("calculator.title")}</h2>
-            <p className="section-subtitle">{t("calculator.intro")}</p>
-          </div>
-        </div>
+        <SectionHead id="calculator-title" title={t("calculator.title")} subtitle={t("calculator.intro")} />
         <PriceCalculator initialProduct={group.calculator} serviceSlug={slug} />
       </section>
 
       <section className="container section reveal" aria-labelledby="other-title">
-        <div className="section-head">
-          <h2 id="other-title">{t("products.otherCategories")}</h2>
-        </div>
+        <SectionHead id="other-title" title={t("products.otherCategories")} />
         <ServiceCards lang={lang} t={t} exclude={slug} />
       </section>
 

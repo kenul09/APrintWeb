@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
 import { getTranslator } from "@/i18n/getDictionary";
 import { intlLocales } from "@/i18n/config";
-import { buildMetadata } from "@/lib/seo";
+import { metadataFor } from "@/lib/seo";
 import { teamMembers } from "@/data/about";
 import { CUSTOMER_COUNT, FOUNDED_YEAR, PRODUCT_COUNT, TEAM_SIZE, yearsInBusiness } from "@/data/siteStats";
 import StatGrid from "@/components/common/StatGrid";
@@ -10,11 +10,7 @@ import MemberCard from "@/components/about/MemberCard";
 import CardDeck from "@/components/about/CardDeck";
 import CtaBlock from "@/components/layout/CtaBlock";
 
-export async function generateMetadata({ params }) {
-  const { lang } = await params;
-  const { t } = await getTranslator(lang);
-  return buildMetadata({ lang, path: "/about", title: t("meta.about.title"), description: t("meta.about.description") });
-}
+export const generateMetadata = metadataFor("about", "/about");
 
 export default async function About({ params }) {
   const { lang } = await params;

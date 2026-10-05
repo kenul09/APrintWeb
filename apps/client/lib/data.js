@@ -1,14 +1,12 @@
 import "server-only";
 import { API_BASE_URL } from "@/lib/api/client";
-import { portfolioService } from "@/lib/api/portfolioService";
-import { productService } from "@/lib/api/productService";
-import { normalizeProducts, normalizeWorks } from "@/lib/normalize";
+import { fetchProducts, fetchWorks } from "@/lib/api/fetchers";
 
 // Server-side loaders for API data, cached for 5 minutes (ISR). They never
 // throw: when the backend can't be loaded they log a warning and return
 // null, and the page shows a friendly "temporarily unavailable" notice with
 // a retry button and WhatsApp/contact links instead of breaking.
-export const REVALIDATE_SECONDS = 300;
+const REVALIDATE_SECONDS = 300;
 const cache = { next: { revalidate: REVALIDATE_SECONDS } };
 const API_ORIGIN = new URL(API_BASE_URL).origin;
 
@@ -21,19 +19,29 @@ function warn(what, error) {
 // backend itself (/uploads/...). A record whose file is gone (e.g. a
 // database copied without its uploads folder) would render as a broken
 // image, so such records are skipped — and listed in the server log.
+// Results are memoized per URL for REVALIDATE_SECONDS, so the HEAD checks
+// don't repeat on every render (fetch() caching doesn't cover HEAD).
+const uploadChecks = new Map(); // url -> { ok, at }
+
+async function uploadExists(url) {
+  const hit = uploadChecks.get(url);
+  if (hit && Date.now() - hit.at < REVALIDATE_SECONDS * 1000) return hit.ok;
+  let ok = false;
+  try {
+    ok = (await fetch(url, { method: "HEAD", signal: AbortSignal.timeout(3000), ...cache })).ok;
+  } catch {
+    ok = false;
+  }
+  uploadChecks.set(url, { ok, at: Date.now() });
+  return ok;
+}
+
 async function withExistingUploads(works) {
   const checks = await Promise.all(
-    works.map(async (work) => {
+    works.map((work) => {
       if (!work.src.startsWith("http")) return true;
-      const url = new URL(work.src);
-      if (!url.pathname.startsWith("/uploads/")) return true;
-      try {
-        const target = `${API_ORIGIN}${url.pathname}`;
-        const res = await fetch(target, { method: "HEAD", signal: AbortSignal.timeout(3000), ...cache });
-        return res.ok;
-      } catch {
-        return false;
-      }
+      const { pathname } = new URL(work.src);
+      return pathname.startsWith("/uploads/") ? uploadExists(`${API_ORIGIN}${pathname}`) : true;
     })
   );
   const missing = works.filter((_, i) => !checks[i]);
@@ -45,7 +53,7 @@ async function withExistingUploads(works) {
 
 export async function loadWorks() {
   try {
-    return await withExistingUploads(normalizeWorks(await portfolioService.getAll(cache)));
+    return await withExistingUploads(await fetchWorks(cache));
   } catch (error) {
     warn("Portfolio", error);
     return null;
@@ -54,7 +62,7 @@ export async function loadWorks() {
 
 export async function loadProducts() {
   try {
-    return normalizeProducts(await productService.getAll({ activeOnly: true }, cache));
+    return await fetchProducts(cache);
   } catch (error) {
     warn("Products", error);
     return null;

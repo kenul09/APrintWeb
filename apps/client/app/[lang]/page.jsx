@@ -15,6 +15,7 @@ import PartnersMarquee from "@/components/home/PartnersMarquee";
 import Testimonials from "@/components/home/Testimonials";
 import CtaBlock from "@/components/layout/CtaBlock";
 import { ArrowRightIcon } from "@/components/icons/Icons";
+import SectionHead from "@/components/common/SectionHead";
 
 export const revalidate = 300;
 
@@ -68,27 +69,31 @@ export default async function Home({ params }) {
       </section>
 
       <section className="container section reveal" aria-labelledby="services-title">
-        <div className="section-head">
-          <div>
-            <h2 id="services-title">{t("services.title")}</h2>
-            <p className="section-subtitle">{t("services.subtitle")}</p>
-          </div>
-          <Link href={localizePath(lang, "/products")} className="btn-ghost">
-            {t("services.viewAll")}
-            <ArrowRightIcon size={16} />
-          </Link>
-        </div>
+        <SectionHead
+          id="services-title"
+          title={t("services.title")}
+          subtitle={t("services.subtitle")}
+          action={
+            <Link href={localizePath(lang, "/products")} className="btn-ghost">
+              {t("services.viewAll")}
+              <ArrowRightIcon size={16} />
+            </Link>
+          }
+        />
         <ServiceCards lang={lang} t={t} />
       </section>
 
       <section className="container section reveal" aria-labelledby="works-title">
-        <div className="section-head">
-          <h2 id="works-title">{t("works.title")}</h2>
-          <Link href={localizePath(lang, "/portfolio")} className="btn-ghost">
-            {t("works.viewAll")}
-            <ArrowRightIcon size={16} />
-          </Link>
-        </div>
+        <SectionHead
+          id="works-title"
+          title={t("works.title")}
+          action={
+            <Link href={localizePath(lang, "/portfolio")} className="btn-ghost">
+              {t("works.viewAll")}
+              <ArrowRightIcon size={16} />
+            </Link>
+          }
+        />
         <RecentWorks initial={works} />
       </section>
 

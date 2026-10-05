@@ -1,17 +1,13 @@
 import { Suspense } from "react";
 import { getTranslator } from "@/i18n/getDictionary";
-import { buildMetadata } from "@/lib/seo";
+import { metadataFor } from "@/lib/seo";
 import { loadWorks } from "@/lib/data";
 import { PortfolioGallery, PortfolioGalleryFromUrl } from "@/components/portfolio/PortfolioGallery";
 import CtaBlock from "@/components/layout/CtaBlock";
 
 export const revalidate = 300;
 
-export async function generateMetadata({ params }) {
-  const { lang } = await params;
-  const { t } = await getTranslator(lang);
-  return buildMetadata({ lang, path: "/portfolio", title: t("meta.portfolio.title"), description: t("meta.portfolio.description") });
-}
+export const generateMetadata = metadataFor("portfolio", "/portfolio");
 
 export default async function Portfolio({ params }) {
   const { lang } = await params;
