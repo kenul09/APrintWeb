@@ -13,7 +13,7 @@ import ServiceCards from "@/components/home/ServiceCards";
 import RecentWorks from "@/components/home/RecentWorks";
 import PartnersMarquee from "@/components/home/PartnersMarquee";
 import Testimonials from "@/components/home/Testimonials";
-import CtaBlock from "@/components/layout/CtaBlock";
+import CtaBlock from "@/components/home/CtaBlock";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 import SectionHead from "@/components/common/SectionHead";
 

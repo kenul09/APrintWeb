@@ -4,7 +4,6 @@ import { loadProducts } from "@/lib/data";
 import ServiceCards from "@/components/home/ServiceCards";
 import PriceCalculator from "@/components/products/PriceCalculator";
 import PriceList from "@/components/products/PriceList";
-import CtaBlock from "@/components/layout/CtaBlock";
 import SectionHead from "@/components/common/SectionHead";
 
 export const revalidate = 300;
@@ -37,8 +36,6 @@ export default async function Products({ params }) {
         <SectionHead id="prices-title" title={t("products.priceListTitle")} subtitle={t("products.priceListIntro")} />
         <PriceList initial={products} />
       </section>
-
-      <CtaBlock lang={lang} />
     </>
   );
 }

@@ -9,7 +9,6 @@ import { optimizedSrc } from "@/lib/images";
 import { categoryGroups, findCategory } from "@/data/products";
 import ServiceCards from "@/components/home/ServiceCards";
 import PriceCalculator from "@/components/products/PriceCalculator";
-import CtaBlock from "@/components/layout/CtaBlock";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons/Icons";
 import SectionHead from "@/components/common/SectionHead";
 
@@ -101,8 +100,6 @@ export default async function ProductCategory({ params }) {
         <SectionHead id="other-title" title={t("products.otherCategories")} />
         <ServiceCards lang={lang} t={t} exclude={slug} />
       </section>
-
-      <CtaBlock lang={lang} />
     </>
   );
 }

@@ -3,7 +3,6 @@ import { getTranslator } from "@/i18n/getDictionary";
 import { metadataFor } from "@/lib/seo";
 import { loadWorks } from "@/lib/data";
 import { PortfolioGallery, PortfolioGalleryFromUrl } from "@/components/portfolio/PortfolioGallery";
-import CtaBlock from "@/components/layout/CtaBlock";
 
 export const revalidate = 300;
 
@@ -29,8 +28,6 @@ export default async function Portfolio({ params }) {
           <PortfolioGalleryFromUrl initial={works} />
         </Suspense>
       </section>
-
-      <CtaBlock lang={lang} />
     </>
   );
 }

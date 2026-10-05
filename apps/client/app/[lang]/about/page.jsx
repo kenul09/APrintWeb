@@ -8,7 +8,6 @@ import StatGrid from "@/components/common/StatGrid";
 import RotatingWord from "@/components/common/RotatingWord";
 import MemberCard from "@/components/about/MemberCard";
 import CardDeck from "@/components/about/CardDeck";
-import CtaBlock from "@/components/layout/CtaBlock";
 
 export const generateMetadata = metadataFor("about", "/about");
 
@@ -88,8 +87,6 @@ export default async function About({ params }) {
           ))}
         </ul>
       </section>
-
-      <CtaBlock lang={lang} />
     </>
   );
 }

@@ -6,8 +6,8 @@ import { CONTACT } from "@/data/contactInfo";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 import { WhatsAppIcon } from "@/components/icons/BrandIcons";
 
-// "Have a project? Let's talk." block shown above the footer on every page
-// except /contact (which already is the call to action).
+// "Have a project? Let's talk." block — shown only at the end of the home
+// page (app/[lang]/page.jsx).
 export default async function CtaBlock({ lang }) {
   const { t } = await getTranslator(lang);
 
