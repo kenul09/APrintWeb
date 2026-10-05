@@ -1,14 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { getTranslator } from "@/i18n/getDictionary";
 import { localizePath } from "@/i18n/config";
 import { buildMetadata } from "@/lib/seo";
 import { loadWorks } from "@/lib/data";
-import { optimizedSrc } from "@/lib/images";
+import { buildHeroSlides } from "@/lib/heroSlides";
 import { CUSTOMER_COUNT, PRODUCT_COUNT, RATING } from "@/data/siteStats";
 import Typewriter from "@/components/common/Typewriter";
 import StatGrid from "@/components/common/StatGrid";
+import HeroCollage from "@/components/home/HeroCollage";
 import ServiceCards from "@/components/home/ServiceCards";
 import RecentWorks from "@/components/home/RecentWorks";
 import PartnersMarquee from "@/components/home/PartnersMarquee";
@@ -17,10 +17,6 @@ import CtaBlock from "@/components/layout/CtaBlock";
 import { ArrowRightIcon } from "@/components/icons/Icons";
 
 export const revalidate = 300;
-
-// Real work from public/portfolio.
-const HERO_MAIN = "/portfolio/4c42233b-2f06-468c-b8c8-b1d6d8783487.png";
-const HERO_SMALL = "/portfolio/Ab8b38d0f0d1b48f78286655b1a0e1b25i.png";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
@@ -56,31 +52,7 @@ export default async function Home({ params }) {
           </div>
         </div>
 
-        <div className={styles.visual}>
-          <div className={styles.main}>
-            <Image
-              src={optimizedSrc(HERO_MAIN)}
-              alt={t("hero.mainImageAlt")}
-              fill
-              preload
-              sizes="(min-width: 1024px) 400px, 72vw"
-              className={styles.img}
-            />
-          </div>
-          <div className={styles.small}>
-            <Image
-              src={optimizedSrc(HERO_SMALL)}
-              alt={t("hero.smallImageAlt")}
-              fill
-              sizes="(min-width: 1024px) 240px, 44vw"
-              className={styles.img}
-            />
-          </div>
-          <div className={styles.stat}>
-            <div className={styles.statNum}>{CUSTOMER_COUNT}</div>
-            <div className={styles.statLabel}>{t("hero.statLabel")}</div>
-          </div>
-        </div>
+        <HeroCollage slides={buildHeroSlides(t, works)} stat={{ value: CUSTOMER_COUNT, label: t("hero.statLabel") }} />
       </section>
 
       <section className={`container ${styles.stats}`} aria-label={t("stats.label")}>

@@ -67,6 +67,18 @@ const en = {
     statLabel: "happy customers",
     mainImageAlt: "Roll-up stand at the entrance of the Star Kosmetoloji salon",
     smallImageAlt: "Business cards produced for Fusion Club",
+    collage: {
+      label: "Selected recent work",
+      pause: "Pause slideshow",
+      play: "Play slideshow",
+      goTo: "Slide {n}: {caption}",
+      mainAlt: "{product} made for {client}",
+      smallAlt: "Business cards for {client}",
+      products: {
+        rollup: { label: "Roll-up stand", alt: "Roll-up stand" },
+        menu: { label: "Menu", alt: "Menu" },
+      },
+    },
   },
   stats: {
     label: "A Print in numbers",

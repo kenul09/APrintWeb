@@ -67,6 +67,18 @@ const ru = {
     statLabel: "довольных клиентов",
     mainImageAlt: "Ролл-ап у входа в салон Star Kosmetoloji",
     smallImageAlt: "Визитки, изготовленные для Fusion Club",
+    collage: {
+      label: "Избранные работы",
+      pause: "Остановить слайд-шоу",
+      play: "Запустить слайд-шоу",
+      goTo: "Слайд {n}: {caption}",
+      mainAlt: "{product} для {client}",
+      smallAlt: "Визитки для {client}",
+      products: {
+        rollup: { label: "Ролл-ап", alt: "Ролл-ап" },
+        menu: { label: "Меню", alt: "Меню" },
+      },
+    },
   },
   stats: {
     label: "A Print в цифрах",

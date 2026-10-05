@@ -67,6 +67,18 @@ const az = {
     statLabel: "məmnun müştəri",
     mainImageAlt: "Star Kosmetoloji salonunun girişində roll-up stend",
     smallImageAlt: "Fusion Club üçün hazırlanmış vizit kartlar",
+    collage: {
+      label: "Son işlərimizdən seçmələr",
+      pause: "Slayd şousunu dayandır",
+      play: "Slayd şousunu başlat",
+      goTo: "Slayd {n}: {caption}",
+      mainAlt: "{client} üçün hazırlanmış {product}",
+      smallAlt: "{client} üçün vizit kartlar",
+      products: {
+        rollup: { label: "Roll-up stend", alt: "roll-up stend" },
+        menu: { label: "Menyu", alt: "menyu" },
+      },
+    },
   },
   stats: {
     label: "Rəqəmlərlə A Print",

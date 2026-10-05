@@ -1,0 +1,336 @@
+/* Hero collage. Every layer has a fixed position/aspect ratio inside the
+   1:1.05 box, so nothing can shift layout (CLS 0). Only transform and
+   opacity are animated. Nesting keeps animations from fighting:
+   .layer (scroll-driven exit) > .depth (pointer parallax) > content
+   (crossfade / Ken Burns / float). */
+.root {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 34rem;
+  justify-self: center;
+}
+
+@media (min-width: 1024px) {
+  .root {
+    justify-self: end;
+  }
+}
+
+.visual {
+  --px: 0;
+  --py: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+}
+
+.layer {
+  position: absolute;
+}
+
+.mainLayer {
+  --d: 6;
+  inset: 0 28% 12% 0;
+}
+
+.smallLayer {
+  --d: 12;
+  right: 0;
+  bottom: 0;
+  width: 44%;
+  aspect-ratio: 4 / 3;
+  z-index: 2;
+}
+
+.statLayer {
+  --d: 16;
+  top: 9%;
+  right: 4%;
+  z-index: 3;
+}
+
+/* Parallax: --px/--py (-1…1) are eased in JS and written on .visual; the
+   depth (6/12/16px) and a ≤3deg tilt are applied here. */
+.depth {
+  width: 100%;
+  height: 100%;
+  transform: perspective(900px) translate3d(calc(var(--px) * var(--d) * 1px), calc(var(--py) * var(--d) * 1px), 0)
+    rotateX(calc(var(--py) * -3deg)) rotateY(calc(var(--px) * 3deg));
+}
+
+@media (pointer: fine) {
+  .depth {
+    will-change: transform;
+  }
+}
+
+.main,
+.small {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+.main {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.small {
+  border: 6px solid var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* Crossfade: the incoming slide fades in on top while the previous one
+   stays fully opaque underneath — no dip to the background. The first
+   slide is server-rendered active, so it never fades in (LCP). */
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.slide[data-prev] {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide[data-active] {
+  opacity: 1;
+  z-index: 2;
+  transition: opacity 700ms ease;
+}
+
+.kenburns {
+  position: absolute;
+  inset: 0;
+}
+
+.img {
+  object-fit: cover;
+}
+
+.caption {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  /* Stops before the small card, which overlaps the main image's
+     bottom-right corner; long names wrap instead of hiding under it. */
+  max-width: 70%;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--color-surface) 90%, transparent);
+  color: var(--color-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.45;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.statNum {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+/* Controls: one progress bar per slide (also the slide clock) + pause. */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.dots {
+  display: flex;
+}
+
+.dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: var(--tap-target);
+  padding: 0 var(--space-1);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--color-border-strong);
+  transition: height var(--duration-fast);
+}
+
+.dot:hover .bar {
+  background: var(--color-text-muted);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.dot[aria-current="true"] .fill {
+  transform: scaleX(1);
+}
+
+.fill[data-run] {
+  animation: progress 6s linear forwards;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  border-color: var(--color-text);
+}
+
+.root[data-paused] .fill,
+.root[data-paused] .kenburns {
+  animation-play-state: paused;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Ken Burns runs on the active slide and keeps running on the outgoing
+     one during the crossfade (same animation name, so it doesn't restart). */
+  .slide[data-active] .kenburns,
+  .slide[data-prev] .kenburns {
+    animation: kenburns 6.7s linear both;
+  }
+
+  .stat {
+    animation: float 6s ease-in-out 1.5s infinite;
+  }
+
+  /* Scroll-driven exit: starts when the collage's top reaches the top of the
+     viewport, ends when it has left. Static where unsupported. */
+  @supports (animation-timeline: view()) {
+    .visual {
+      view-timeline: --hero-collage block;
+    }
+
+    .mainLayer,
+    .smallLayer,
+    .statLayer {
+      animation-timeline: --hero-collage;
+      animation-range: exit 0% exit 100%;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+
+    .mainLayer {
+      animation-name: exit-main;
+    }
+
+    .smallLayer {
+      animation-name: exit-small;
+    }
+
+    .statLayer {
+      animation-name: exit-stat;
+    }
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes exit-main {
+  to {
+    transform: scale(0.96);
+  }
+}
+
+@keyframes exit-small {
+  to {
+    transform: translateY(-40px);
+  }
+}
+
+@keyframes exit-stat {
+  to {
+    transform: translateX(24px);
+  }
+}
+
+@media (max-width: 767px) {
+  .stat {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .statNum {
+    font-size: 1.25rem;
+  }
+}
+
+/* Reduced motion: instant swaps, no zoom/float/parallax/scroll effects. */
+@media (prefers-reduced-motion: reduce) {
+  .slide[data-active] {
+    transition: none;
+  }
+
+  .depth {
+    transform: none;
+  }
+}
