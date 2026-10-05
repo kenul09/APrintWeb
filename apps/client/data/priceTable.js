@@ -5,9 +5,9 @@
 // before launch. The UI labels the result as an estimate.
 //
 // estimate = unitPrice(quantity tier) × size factor × material factor × quantity
-// Labels for products / sizes / materials are in the dictionaries under
-// calculator.products / calculator.sizes / calculator.papers.
-export const CURRENCY = "AZN";
+// Prices are in AZN (formatted by lib/format.js). Labels for products /
+// sizes / materials are in the dictionaries under calculator.products /
+// calculator.sizes / calculator.papers.
 
 export const priceTable = {
   businessCard: {

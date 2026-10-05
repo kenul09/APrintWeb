@@ -2,7 +2,6 @@ const az = {
   common: {
     skipToContent: "Əsas məzmuna keç",
     homeLabel: "A Print — ana səhifə",
-    logoAlt: "A Print",
     mainNav: "Əsas naviqasiya",
     mobileNav: "Mobil naviqasiya",
     menuOpen: "Menyunu aç",
@@ -53,7 +52,6 @@ const az = {
       title: "Əlaqə",
       description: "Sifariş və ya sual üçün bizə yazın: telefon, WhatsApp, e-poçt və ya əlaqə forması. Əlövsət Quliyev küçəsi 140, Bakı.",
     },
-    notFound: { title: "Səhifə tapılmadı" },
     ogTagline: "Bakıda çap və brendinq",
   },
   hero: {
@@ -224,7 +222,6 @@ const az = {
     error: "Portfolio müvəqqəti olaraq əlçatan deyil.",
     empty: "Hələ heç bir iş əlavə olunmayıb.",
     openImage: "Böyüt: {title}",
-    lightboxLabel: "İşə baxış",
     counter: "{current} / {total}",
   },
   about: {

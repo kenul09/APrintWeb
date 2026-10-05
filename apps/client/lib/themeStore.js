@@ -2,7 +2,7 @@
 // localStorage; applied as data-theme on <html> for explicit choices and
 // removed for "system", so CSS color-scheme falls back to the OS setting.
 // The init script in app/[lang]/layout.js applies it before first paint.
-export const THEMES = ["system", "light", "dark"];
+const THEMES = ["system", "light", "dark"];
 const STORAGE_KEY = "theme";
 const DEFAULT_THEME = "system";
 

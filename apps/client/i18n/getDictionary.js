@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createTranslator } from "./translate";
 import { defaultLocale, hasLocale } from "./config";
 
@@ -13,7 +14,8 @@ export async function getDictionary(lang) {
 }
 
 // Convenience for Server Components: { dict, t, tList } in one call.
-export async function getTranslator(lang) {
+// Memoized per request — layout, page, footer, CTA and metadata all ask.
+export const getTranslator = cache(async (lang) => {
   const dict = await getDictionary(lang);
   return { dict, ...createTranslator(dict) };
-}
+});

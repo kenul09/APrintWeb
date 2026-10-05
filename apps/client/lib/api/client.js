@@ -30,16 +30,12 @@ if (!isServer && window.location.hostname !== "localhost" && API_BASE_URL.includ
   );
 }
 
-export class ApiRequestError extends Error {
+class ApiRequestError extends Error {
   // status 0 = no HTTP response at all (connection refused, DNS, timeout).
   constructor(message, status, options) {
     super(message, options);
     this.name = "ApiRequestError";
     this.status = status;
-  }
-
-  get unreachable() {
-    return this.status === 0;
   }
 }
 

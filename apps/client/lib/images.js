@@ -6,11 +6,6 @@ export function optimizedSrc(src) {
   return manifest[src]?.webp ?? src;
 }
 
-export function imageSize(src) {
-  const entry = manifest[src];
-  return entry ? { width: entry.width, height: entry.height } : null;
-}
-
 // The API stores `image` as either an absolute URL (http/https) or a path
 // into apps/client/public (e.g. "/portfolio/xxx.png"). Anything else (null,
 // empty, a bare filename, …) is bad data that would make next/image throw —

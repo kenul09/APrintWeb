@@ -2,7 +2,6 @@ const en = {
   common: {
     skipToContent: "Skip to main content",
     homeLabel: "A Print — home",
-    logoAlt: "A Print",
     mainNav: "Main navigation",
     mobileNav: "Mobile navigation",
     menuOpen: "Open menu",
@@ -53,7 +52,6 @@ const en = {
       title: "Contact",
       description: "Get in touch for an order or a question: phone, WhatsApp, email or the contact form. 140 Alovsat Guliyev St, Baku.",
     },
-    notFound: { title: "Page not found" },
     ogTagline: "Printing and branding in Baku",
   },
   hero: {
@@ -224,7 +222,6 @@ const en = {
     error: "The portfolio is temporarily unavailable.",
     empty: "No work has been added yet.",
     openImage: "Enlarge: {title}",
-    lightboxLabel: "Work preview",
     counter: "{current} / {total}",
   },
   about: {

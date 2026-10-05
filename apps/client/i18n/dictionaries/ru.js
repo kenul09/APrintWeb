@@ -2,7 +2,6 @@ const ru = {
   common: {
     skipToContent: "Перейти к основному содержимому",
     homeLabel: "A Print — главная",
-    logoAlt: "A Print",
     mainNav: "Основная навигация",
     mobileNav: "Мобильная навигация",
     menuOpen: "Открыть меню",
@@ -53,7 +52,6 @@ const ru = {
       title: "Контакты",
       description: "Свяжитесь с нами по поводу заказа или вопроса: телефон, WhatsApp, эл. почта или форма. Ул. Алевсата Гулиева 140, Баку.",
     },
-    notFound: { title: "Страница не найдена" },
     ogTagline: "Печать и брендинг в Баку",
   },
   hero: {
@@ -224,7 +222,6 @@ const ru = {
     error: "Портфолио временно недоступно.",
     empty: "Работы пока не добавлены.",
     openImage: "Увеличить: {title}",
-    lightboxLabel: "Просмотр работы",
     counter: "{current} / {total}",
   },
   about: {

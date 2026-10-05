@@ -18,7 +18,7 @@ const EMPTY_FORM = { name: "", email: "", phone: PHONE_PREFIX, service: null, me
 // Numbers without a country code are read as Azerbaijani: 0XX XXX XX XX,
 // XX XXX XX XX or 994XXXXXXXXX. Spaces, dashes, dots and brackets are
 // ignored. Returns the normalized number or null.
-export function normalizePhone(value) {
+function normalizePhone(value) {
   const compact = value.replace(/[\s\-().]/g, "").replace(/^00/, "+");
   // Local number typed after the prefilled +994 ("+994 050 …"): drop the 0.
   if (/^\+9940\d{9}$/.test(compact)) return `+994${compact.slice(5)}`;
