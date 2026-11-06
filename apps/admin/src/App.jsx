@@ -32,6 +32,9 @@ export default function App() {
         <Route path="blog" element={<AdminBlog />} />
         <Route path="messages" element={<AdminMessages />} />
       </Route>
+      {/* Every page lives under /admin. Anything else (e.g. /products, typos,
+          stale links) would otherwise match nothing and render a blank page. */}
+      <Route path="*" element={<Navigate to="/admin" replace />} />
     </Routes>
   );
 }
