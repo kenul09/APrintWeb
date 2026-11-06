@@ -249,8 +249,6 @@ const az = {
       { title: "Çatdırılma", text: "Bakı daxili 24 saat ərzində çatdırılma." },
       { title: "Keyfiyyət", text: "Hər sifariş çapdan əvvəl yoxlanılır." },
     ],
-    teamTitle: "Komandamız",
-    roles: { ceo: "CEO", designer: "Dizayner", technician: "Texnik", sales: "Satış" },
   },
   cta: {
     line1: "Layihəniz var?",

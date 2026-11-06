@@ -245,8 +245,6 @@ const en = {
       { title: "Delivery", text: "24-hour delivery within Baku." },
       { title: "Quality", text: "Every order is checked before printing." },
     ],
-    teamTitle: "Our team",
-    roles: { ceo: "CEO", designer: "Designer", technician: "Technician", sales: "Sales" },
   },
   cta: {
     line1: "Have a project?",
