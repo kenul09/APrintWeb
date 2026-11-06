@@ -24,6 +24,13 @@ function applyTheme(theme) {
 }
 
 let currentTheme = typeof window === "undefined" ? DEFAULT_THEME : readStoredTheme();
+
+// Client-side equivalent of themeInitScript, for when the document was not
+// server-rendered with it (e.g. dev-mode 404 pages are rendered entirely on
+// the client). Idempotent.
+export function applyCurrentTheme() {
+  applyTheme(currentTheme);
+}
 const listeners = new Set();
 
 export function getSnapshot() {

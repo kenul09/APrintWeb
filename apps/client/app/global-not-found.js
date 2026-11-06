@@ -5,7 +5,7 @@ import styles from "./[lang]/status.module.css";
 import az from "@/i18n/dictionaries/az";
 import en from "@/i18n/dictionaries/en";
 import ru from "@/i18n/dictionaries/ru";
-import { themeInitScript } from "@/lib/themeStore";
+import ThemeInitScript from "@/components/theme/ThemeInitScript";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin", "latin-ext", "cyrillic"], display: "swap" });
 
@@ -20,7 +20,7 @@ export default function GlobalNotFound() {
   return (
     <html lang="az" className={inter.variable} suppressHydrationWarning>
       <body>
-        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <ThemeInitScript />
         <main className={`container ${styles.wrap}`}>
           <p className={styles.code} aria-hidden="true">
             404

@@ -9,7 +9,7 @@ import MobileContactBar from "@/components/layout/MobileContactBar";
 import { getDictionary } from "@/i18n/getDictionary";
 import { createTranslator } from "@/i18n/translate";
 import { hasLocale, locales } from "@/i18n/config";
-import { themeInitScript } from "@/lib/themeStore";
+import ThemeInitScript from "@/components/theme/ThemeInitScript";
 import { localBusinessJsonLd, serializeJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
@@ -55,14 +55,8 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <html lang={lang} className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
-        {/* Plain inline script, deliberately not next/script: with
-            strategy="beforeInteractive" the App Router only queues inline
-            code and runs it after its runtime loads — measured ~120 ms after
-            first paint, i.e. a theme flash. This runs while the HTML is
-            parsed. It is never re-rendered on the client because the root
-            layout only changes on a language switch, which is a full
-            document navigation (see LanguageSwitcher). */}
-        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Must stay first in <body> so it runs before anything paints. */}
+        <ThemeInitScript />
         <a id="top" href="#main" className="skip-link">
           {t("common.skipToContent")}
         </a>
