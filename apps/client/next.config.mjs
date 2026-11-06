@@ -59,13 +59,22 @@ const nextConfig = {
     // https://nextjs.org/docs/app/api-reference/components/image#dangerouslyallowlocalip
     dangerouslyAllowLocalIP: true,
   },
-  // /admin -> apps/admin (separate Vite app, port 5178 in dev — see
-  // apps/admin/vite.config.ts).
+  // /admin and /admin/* -> apps/admin (separate Vite app, port 5178 in dev —
+  // see apps/admin/vite.config.ts). The admin's routes themselves live under
+  // /admin, so deep links keep their path (/admin/products -> <admin>/admin/products).
   async redirects() {
+    const adminUrl = (process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:5178').replace(/\/+$/, '');
     return [
       {
-        source: '/admin',
-        destination: process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:5178',
+        source: '/admin/:path*',
+        destination: `${adminUrl}/admin/:path*`,
+        permanent: false,
+      },
+      // A locale-prefixed admin URL (typed, autocompleted from history, or an
+      // old link) would otherwise hit [lang]/[...rest] and 404.
+      {
+        source: '/:lang(az|en|ru)/admin/:path*',
+        destination: `${adminUrl}/admin/:path*`,
         permanent: false,
       },
     ];

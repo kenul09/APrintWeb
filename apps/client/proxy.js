@@ -46,9 +46,11 @@ export function proxy(request) {
 
 export const config = {
   // Everything except API routes, Next internals, metadata files and
-  // anything with a file extension (public/ assets). /admin is redirected
-  // in next.config.mjs before the proxy runs.
+  // anything with a file extension (public/ assets). /admin and /admin/* (and
+  // /<lang>/admin/*) are redirected to apps/admin in next.config.mjs before
+  // the proxy runs; the admin exclusion here is a second guard so they are
+  // never locale-prefixed. `admin(?:/|$)` keeps e.g. /administration localized.
   matcher: [
-    "/((?!api|_next|admin|sitemap.xml|robots.txt|favicon.ico|icon|apple-icon|manifest.webmanifest|.*\\..*).*)",
+    "/((?!api|_next|admin(?:/|$)|sitemap.xml|robots.txt|favicon.ico|icon|apple-icon|manifest.webmanifest|.*\\..*).*)",
   ],
 };
